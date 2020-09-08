@@ -7,9 +7,5 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan(basePackages = {"com.jeerigger.security"})
 public class SecurityAutoConfiguration {
 
-  /*  @Bean
-    public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
-    }*/
 
 }

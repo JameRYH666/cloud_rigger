@@ -33,16 +33,17 @@ public class SwaggerConfig implements WebMvcConfigurer {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))                         //这里采用包含注解的方式来确定要显示的接口
+                .apis(RequestHandlerSelectors.withMethodAnnotation(ApiOperation.class))
+                //这里采用包含注解的方式来确定要显示的接口
                 .paths(PathSelectors.any())
                 .build();
     }
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("中审科技 接口文档")
+                .title("云信海 接口文档")
                 .description("JeeRigger 接口文档详细描述")
-                .contact(new Contact("JeeRigger", "http://www.zskj.com.cn", "sevenLee@gmail.com"))
+                .contact(new Contact("JeeRigger", "http://www.abc.com.cn", "sevenLee@gmail.com"))
                 .version("1.0")
                 .build();
     }
