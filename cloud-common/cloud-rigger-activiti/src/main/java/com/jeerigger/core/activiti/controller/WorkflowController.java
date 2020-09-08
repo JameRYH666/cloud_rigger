@@ -5,19 +5,14 @@ package com.jeerigger.core.activiti.controller;/*
  * @开发公司或单位：河南中审科技有限公司研发中心
  */
 
-import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
-import javax.servlet.http.HttpServletResponse;
-
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.jeerigger.core.activiti.enums.ActivitiEnum;
 import com.jeerigger.core.activiti.service.IWorkflowService;
-import com.jeerigger.frame.page.PageHelper;
 import com.jeerigger.frame.base.controller.BaseController;
 import com.jeerigger.frame.base.controller.ResultCodeEnum;
 import com.jeerigger.frame.base.controller.ResultData;
 import com.jeerigger.frame.exception.FrameException;
+import com.jeerigger.frame.page.PageHelper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -29,6 +24,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @ClassName: WorkflowController

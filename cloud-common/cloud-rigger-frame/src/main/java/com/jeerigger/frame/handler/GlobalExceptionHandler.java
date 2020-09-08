@@ -1,6 +1,7 @@
 package com.jeerigger.frame.handler;
 
 import com.alibaba.fastjson.JSONException;
+import com.jeerigger.frame.base.controller.FastJSON;
 import com.jeerigger.frame.base.controller.IResultCode;
 import com.jeerigger.frame.base.controller.ResultCodeEnum;
 import com.jeerigger.frame.base.controller.ResultData;
@@ -100,7 +101,6 @@ public class GlobalExceptionHandler {
     public ResultData exception(UnauthorizedException ex) {
         return rtnResultData(ResultCodeEnum.ERROR_NO_PERMISSION);
     }*/
-
     @ExceptionHandler({CannotCreateTransactionException.class})
     public ResultData exception(CannotCreateTransactionException ex) {
         log.error(ex.getMessage());
@@ -137,11 +137,11 @@ public class GlobalExceptionHandler {
     }
 
     private ResultData rtnResultData(String code, String message, String details) {
-        ResultData resultData = new ResultData();
-        resultData.setCode(code);
-        resultData.setMessage(message);
-        resultData.setDetails(details);
-        return resultData;
+        FastJSON fastJson = new FastJSON();
+        fastJson.setCode(code);
+        fastJson.setMessage(message);
+        fastJson.setDetails(details);
+        return new ResultData(fastJson);
     }
 
 }

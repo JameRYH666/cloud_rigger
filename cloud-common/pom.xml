@@ -17,6 +17,7 @@
         <module>cloud-rigger-security-common</module>
         <module>cloud-rigger-frame</module>
         <module>cloud-rigger-activiti</module>
+        <module>cloud-rigger-quartz</module>
     </modules>
     <name>JeeCommon</name>
     <dependencies>

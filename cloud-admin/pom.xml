@@ -18,6 +18,7 @@
         <module>cloud-admin-security</module>
         <module>cloud-admin-service</module>
         <module>cloud-admin-web</module>
+        <module>cloud-admin-jobs</module>
     </modules>
     <name>JeeAdmin</name>
     <dependencies>

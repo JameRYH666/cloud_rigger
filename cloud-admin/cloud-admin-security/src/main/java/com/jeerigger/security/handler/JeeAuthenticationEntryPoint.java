@@ -20,7 +20,6 @@ public class JeeAuthenticationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response,
                          AuthenticationException authException) throws IOException, ServletException {
-
         FastJSON fastJSON = new FastJSON().resultcode(ERROR_NO_LOGIN);
         JSONUtil.writeJson(response, fastJSON, SC_UNAUTHORIZED);
 

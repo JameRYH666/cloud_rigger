@@ -11,20 +11,18 @@ import com.jeerigger.security.SecurityUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 @RequestMapping("/person")
 @Api(value = "个人中心", tags = "个人中心")
 public class PersonController extends BaseController {
     @Autowired
     private ICloudUserService sysAdminUserService;
 
-    @ResponseBody
     @RequestMapping(value = "/info", method = RequestMethod.POST)
     @ApiOperation(value = "查看个人信息", notes = "查看个人信息")
     public ResultData userInfo() {
@@ -32,7 +30,6 @@ public class PersonController extends BaseController {
         return this.success(sysAdminUser);
     }
 
-    @ResponseBody
     @RequestMapping(value = "/changePwd", method = RequestMethod.POST)
     @ApiOperation(value = "修改个人密码", notes = "修改个人密码")
     public ResultData changePwd(@RequestBody UpdatePwdVo updatePwdVo) {
@@ -43,14 +40,12 @@ public class PersonController extends BaseController {
         }
     }
 
-    @ResponseBody
     @RequestMapping(value = "/updateInfo", method = RequestMethod.POST)
     @ApiOperation(value = "更新个人信息", notes = "更新个人信息")
     public ResultData updateUserInfo(@RequestBody UpdateUserVo updateUserVo) {
         return this.success(sysAdminUserService.updateUserInfo(updateUserVo));
     }
 
-    @ResponseBody
     @RequestMapping(value = "/menu", method = RequestMethod.POST)
     @ApiOperation(value = "获取个人菜单", notes = "获取个人菜单")
     public ResultData userMenu() {

@@ -11,7 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 
 import static com.jeerigger.security.StringUtil.splitclearSpace;
 
@@ -41,23 +41,30 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
+        auth.userDetailsService(userDetailsService).passwordEncoder(NoOpPasswordEncoder.getInstance());
     }
 
+
     @Override
-    public void configure(WebSecurity web) {
+    public void configure(WebSecurity webSecurity) {
         if (StringUtil.isNotEmpty(securityConfig.getIgnoring())) {
-            web.ignoring().antMatchers(splitclearSpace(securityConfig.getIgnoring()));
+            // 配置忽略的地址
+            webSecurity.ignoring().antMatchers(splitclearSpace(securityConfig.getIgnoring()));
         }
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().exceptionHandling().authenticationEntryPoint(jeeAuthenticationEntryPoint).accessDeniedHandler(deniedHandler)
+        http.csrf().disable()
+                .exceptionHandling()
+                .authenticationEntryPoint(jeeAuthenticationEntryPoint)
+                .accessDeniedHandler(deniedHandler)
                 .and().authorizeRequests()
                 .antMatchers(splitclearSpace(securityConfig.getIgnoring())).permitAll()
                 .anyRequest().authenticated().and()
-                .formLogin().loginPage(securityConfig.getLoginPage()).loginProcessingUrl(securityConfig.getLoginProcessingUrl())
+                .formLogin()
+                .loginPage(securityConfig.getLoginPage())
+                .loginProcessingUrl(securityConfig.getLoginProcessingUrl())
                 .failureHandler(failureHandler)
                 .successHandler(successHandler)
                 .permitAll().and()
