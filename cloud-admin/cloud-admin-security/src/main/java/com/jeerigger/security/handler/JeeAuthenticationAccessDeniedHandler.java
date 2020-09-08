@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 public class JeeAuthenticationAccessDeniedHandler implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest httpServletRequest, HttpServletResponse resp, AccessDeniedException e) {
-
         FastJSON fastJSON = new FastJSON();
         fastJSON.setMessage("权限不足!");
         JSONUtil.writeJson(resp, fastJSON, HttpServletResponse.SC_FORBIDDEN);

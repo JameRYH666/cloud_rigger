@@ -17,6 +17,7 @@ import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 //认真未登陆请求需要授权资源，返回401
 @Component
 public class JeeAuthenticationEntryPoint implements AuthenticationEntryPoint {
+    @Override
     public void commence(HttpServletRequest request, HttpServletResponse response,
                          AuthenticationException authException) throws IOException, ServletException {
 
