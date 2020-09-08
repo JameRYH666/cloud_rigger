@@ -7,8 +7,6 @@ import com.jeeadmin.vo.role.AssignMenuVo;
 import com.jeeadmin.vo.role.AssignUserVo;
 import com.jeeadmin.vo.role.CancelUserVo;
 import com.jeeadmin.vo.user.QueryUserVo;
-import com.jeerigger.core.common.annotation.Log;
-import com.jeerigger.core.common.enums.LogTypeEnum;
 import com.jeerigger.frame.base.controller.BaseController;
 import com.jeerigger.frame.base.controller.ResultCodeEnum;
 import com.jeerigger.frame.base.controller.ResultData;
@@ -16,7 +14,6 @@ import com.jeerigger.frame.page.PageHelper;
 import com.jeerigger.frame.support.resolver.annotation.SingleRequestBody;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -62,11 +59,10 @@ public class SysRoleController extends BaseController {
     }
 
     @ResponseBody
-    @RequiresPermissions("sys:role:status")
     @RequestMapping(value = "/updateStatus", method = RequestMethod.POST)
     @ApiOperation(value = "修改角色状态", notes = "修改角色状态")
     public ResultData updateStatus(@RequestBody SysRole sysRole) {
-        if (sysRoleService.updateStatus(sysRole.getUuid(), sysRole.getRoleStatus())) {
+        if (sysRoleService.updateStatus(sysRole.getId(), sysRole.getRoleStatus())) {
             return this.success();
         } else {
             return this.failed(ResultCodeEnum.ERROR_UPDATE_FAIL, "修改角色状态失败！");
@@ -75,19 +71,15 @@ public class SysRoleController extends BaseController {
 
 
     @ResponseBody
-    @RequiresPermissions("sys:role:add")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ApiOperation(value = "新增角色信息", notes = "新增角色信息")
-    @Log(logType = LogTypeEnum.SYSTEM, logTitle = "新增角色信息")
     public ResultData save(@RequestBody SysRole sysRole) {
         return this.success(sysRoleService.saveSysRole(sysRole));
     }
 
     @ResponseBody
-    @RequiresPermissions("sys:role:edit")
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ApiOperation(value = "更新角色信息", notes = "更新角色信息")
-    @Log(logType = LogTypeEnum.SYSTEM, logTitle = "更新角色信息")
     public ResultData update(@RequestBody SysRole sysRole) {
         if (sysRoleService.updateSysRole(sysRole)) {
             return this.success();
@@ -97,12 +89,10 @@ public class SysRoleController extends BaseController {
     }
 
     @ResponseBody
-    @RequiresPermissions("sys:role:delete")
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ApiOperation(value = "删除角色", notes = "删除角色")
-    @Log(logType = LogTypeEnum.SYSTEM, logTitle = "删除角色")
-    public ResultData delete(@SingleRequestBody(value = "roleUuid") String roleUuid) {
-        if (sysRoleService.deleteSysRole(roleUuid)) {
+    public ResultData delete(@SingleRequestBody(value = "roleId") Long roleId) {
+        if (sysRoleService.deleteSysRole(roleId)) {
             return this.success();
         } else {
             return this.failed(ResultCodeEnum.ERROR_DELETE_FAIL, "删除角色信息失败！");
@@ -113,8 +103,8 @@ public class SysRoleController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/detailUserList", method = RequestMethod.POST)
     @ApiOperation(value = "查看角色已分配用户", notes = "查看角色已分配用户")
-    public ResultData detailUserList(@SingleRequestBody(value  = "roleUuid") String roleUuid) {
-        return this.success(sysUserService.detailUserList(roleUuid));
+    public ResultData detailUserList(@SingleRequestBody(value = "roleId") Long roleId) {
+        return this.success(sysUserService.detailUserList(roleId));
     }
 
     @ResponseBody
@@ -125,15 +115,14 @@ public class SysRoleController extends BaseController {
     }
 
     @ResponseBody
-    @RequiresPermissions("sys:role:user")
     @RequestMapping(value = "/assignUser", method = RequestMethod.POST)
     @ApiOperation(value = "角色添加用户", notes = "角色添加用户")
     public ResultData assignUser(@RequestBody AssignUserVo assignUserVo) {
         boolean assignFlag = sysRoleService.assignUser(assignUserVo);
-        if(assignFlag){
+        if (assignFlag) {
             return this.success();
         } else {
-            return this.failed(ResultCodeEnum.ERROR_SAVE_FAIL,"用户分配角色失败！");
+            return this.failed(ResultCodeEnum.ERROR_SAVE_FAIL, "用户分配角色失败！");
         }
     }
 
@@ -141,10 +130,10 @@ public class SysRoleController extends BaseController {
     @RequestMapping(value = "/cancelUser", method = RequestMethod.POST)
     @ApiOperation(value = "批量取消角色已分配用户", notes = "批量取消角色已分配用户")
     public ResultData cancelUser(@RequestBody CancelUserVo cancelUserVo) {
-        if(sysUserRoleService.cancelRoleUser(cancelUserVo)){
+        if (sysUserRoleService.cancelRoleUser(cancelUserVo)) {
             return this.success();
         } else {
-            return this.failed(ResultCodeEnum.ERROR_SAVE_FAIL,"批量取消角色已分配用户失败！");
+            return this.failed(ResultCodeEnum.ERROR_SAVE_FAIL, "批量取消角色已分配用户失败！");
         }
     }
 
@@ -158,19 +147,18 @@ public class SysRoleController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/detailMenuList", method = RequestMethod.POST)
     @ApiOperation(value = "查看角色已分配菜单", notes = "查看角色已分配菜单")
-    public ResultData detailMenuList(@SingleRequestBody(value  = "roleUuid") String roleUuid) {
-        return this.success(sysRoleMenuService.detailMenuList(roleUuid));
+    public ResultData detailMenuList(@SingleRequestBody(value = "roleId") Long roleId) {
+        return this.success(sysRoleMenuService.detailMenuList(roleId));
     }
 
     @ResponseBody
-    @RequiresPermissions("sys:role:menu")
     @RequestMapping(value = "/assignMenu", method = RequestMethod.POST)
     @ApiOperation(value = "角色分配菜单", notes = "角色分配菜单")
     public ResultData assignMenu(@RequestBody AssignMenuVo assignMenuVo) {
-        if(sysRoleService.assignMenu(assignMenuVo)){
+        if (sysRoleService.assignMenu(assignMenuVo)) {
             return this.success();
         } else {
-            return this.failed(ResultCodeEnum.ERROR_SAVE_FAIL,"角色分配菜单失败！");
+            return this.failed(ResultCodeEnum.ERROR_SAVE_FAIL, "角色分配菜单失败！");
         }
     }
 

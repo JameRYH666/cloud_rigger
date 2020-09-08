@@ -3,8 +3,6 @@ package com.jeeadmin.controller;
 
 import com.jeeadmin.api.ISysPostService;
 import com.jeeadmin.entity.SysPost;
-import com.jeerigger.core.common.annotation.Log;
-import com.jeerigger.core.common.enums.LogTypeEnum;
 import com.jeerigger.frame.base.controller.BaseController;
 import com.jeerigger.frame.base.controller.ResultCodeEnum;
 import com.jeerigger.frame.base.controller.ResultData;
@@ -12,7 +10,6 @@ import com.jeerigger.frame.page.PageHelper;
 import com.jeerigger.frame.support.resolver.annotation.SingleRequestBody;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -51,11 +48,10 @@ public class SysPostController extends BaseController {
     }
 
     @ResponseBody
-    @RequiresPermissions("sys:post:status")
     @RequestMapping(value = "/updateStatus", method = RequestMethod.POST)
     @ApiOperation(value = "修改岗位状态", notes = "修改岗位状态")
     public ResultData updateStatus(@RequestBody SysPost sysPost) {
-        if (sysPostService.updateStatus(sysPost.getUuid(), sysPost.getPostStatus())) {
+        if (sysPostService.updateStatus(sysPost.getId(), sysPost.getPostStatus())) {
             return this.success();
         } else {
             return this.failed(ResultCodeEnum.ERROR_UPDATE_FAIL, "修改岗位状态失败！");
@@ -64,19 +60,15 @@ public class SysPostController extends BaseController {
 
 
     @ResponseBody
-    @RequiresPermissions("sys:post:add")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ApiOperation(value = "新增岗位信息", notes = "新增岗位信息")
-    @Log(logType = LogTypeEnum.SYSTEM, logTitle = "新增岗位信息")
     public ResultData save(@RequestBody SysPost sysPost) {
         return this.success(sysPostService.saveSysPost(sysPost));
     }
 
     @ResponseBody
-    @RequiresPermissions("sys:post:edit")
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ApiOperation(value = "更新岗位信息", notes = "更新岗位信息")
-    @Log(logType = LogTypeEnum.SYSTEM, logTitle = "更新岗位信息")
     public ResultData update(@RequestBody SysPost sysPost) {
         if (sysPostService.updateSysPost(sysPost)) {
             return this.success();
@@ -86,12 +78,10 @@ public class SysPostController extends BaseController {
     }
 
     @ResponseBody
-    @RequiresPermissions("sys:post:delete")
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ApiOperation(value = "删除岗位", notes = "删除岗位")
-    @Log(logType = LogTypeEnum.SYSTEM, logTitle = "删除角色")
-    public ResultData delete(@SingleRequestBody(value = "postUuid") String postUuid) {
-        if (sysPostService.deleteSysPost(postUuid)) {
+    public ResultData delete(@SingleRequestBody(value = "postId") Long postId) {
+        if (sysPostService.deleteSysPost(postId)) {
             return this.success();
         } else {
             return this.failed(ResultCodeEnum.ERROR_DELETE_FAIL, "删除岗位信息失败！");

@@ -212,7 +212,7 @@ public class SysOrgServiceImpl extends BaseTreeServiceImpl<SysOrgMapper, SysOrg>
         }
         //判断该组织机构是否已与人员绑定
         QueryWrapper<SysUser> userWrapper = new QueryWrapper<>();
-        userWrapper.lambda().eq(SysUser::getOrgUuid, orgId);
+        userWrapper.lambda().eq(SysUser::getOrgId, orgId);
         if (sysUserService.count(userWrapper) > 0) {
             throw new ValidateException("该组织机构已与用户绑定不能删除！");
         }

@@ -10,7 +10,6 @@ import com.jeerigger.frame.page.PageHelper;
 import com.jeerigger.frame.support.resolver.annotation.SingleRequestBody;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,11 +39,10 @@ public class SysOrgAdminController extends BaseController {
     }
 
     @ResponseBody
-    @RequiresPermissions("sys:orgAdmin:add")
     @RequestMapping(value = "/addOrgAdmin", method = RequestMethod.POST)
     @ApiOperation(value = "新增机构管理员", notes = "新增机构管理员")
-    public ResultData addOrgAdmin(@SingleRequestBody(value = "userUuid") String userUuid) {
-        if (sysOrgAdminService.saveOrgAdmin(userUuid)) {
+    public ResultData addOrgAdmin(@SingleRequestBody(value = "userId") Long userId) {
+        if (sysOrgAdminService.saveOrgAdmin(userId)) {
             return this.success();
         } else {
             return this.failed(ResultCodeEnum.ERROR_UPDATE_FAIL, "分配组织机构管理员失败！");
@@ -52,11 +50,10 @@ public class SysOrgAdminController extends BaseController {
     }
 
     @ResponseBody
-    @RequiresPermissions("sys:orgAdmin:cancel")
     @RequestMapping(value = "/cancelOrgAdmin", method = RequestMethod.POST)
     @ApiOperation(value = "取消组织机构管理员", notes = "取消组织机构管理员")
-    public ResultData cancelOrgAdmin(@SingleRequestBody(value = "userUuid") String userUuid) {
-        if (sysOrgAdminService.cancelOrgAdmin(userUuid)) {
+    public ResultData cancelOrgAdmin(@SingleRequestBody(value = "userId") Long userId) {
+        if (sysOrgAdminService.cancelOrgAdmin(userId)) {
             return this.success();
         } else {
             return this.failed(ResultCodeEnum.ERROR_UPDATE_FAIL, "取消组织机构管理员失败！");
@@ -66,12 +63,11 @@ public class SysOrgAdminController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/detailOrgRole", method = RequestMethod.POST)
     @ApiOperation(value = "查看机构管理员 已分配组织机构和已分配的角色", notes = "查看机构管理员 已分配组织机构和已分配的角色")
-    public ResultData detailOrgRole(@SingleRequestBody(value = "userUuid") String userUuid) {
-        return this.success(sysOrgAdminService.detailOrgRole(userUuid));
+    public ResultData detailOrgRole(@SingleRequestBody(value = "userId") Long userId) {
+        return this.success(sysOrgAdminService.detailOrgRole(userId));
     }
 
     @ResponseBody
-    @RequiresPermissions("sys:orgAdmin:assign")
     @RequestMapping(value = "/assignOrgRole", method = RequestMethod.POST)
     @ApiOperation(value = "机构管理员 分配可管理的组织机构和可给用户分配的角色", notes = "机构管理员 分配可管理的组织机构和可给用户分配的角色")
     public ResultData assignOrgRole(@RequestBody AssignOrgRoleVo assignOrgRoleVo) {

@@ -8,8 +8,6 @@ import com.jeeadmin.api.ISysUserService;
 import com.jeeadmin.entity.SysUser;
 import com.jeeadmin.vo.user.AssignRoleVo;
 import com.jeeadmin.vo.user.QueryUserVo;
-import com.jeerigger.core.common.annotation.Log;
-import com.jeerigger.core.common.enums.LogTypeEnum;
 import com.jeerigger.frame.base.controller.BaseController;
 import com.jeerigger.frame.base.controller.ResultCodeEnum;
 import com.jeerigger.frame.base.controller.ResultData;
@@ -17,7 +15,6 @@ import com.jeerigger.frame.page.PageHelper;
 import com.jeerigger.frame.support.resolver.annotation.SingleRequestBody;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -57,16 +54,14 @@ public class SysUserController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/detail", method = RequestMethod.POST)
     @ApiOperation(value = "获取用户详细信息", notes = "获取用户详细信息")
-    public ResultData selectUserByUserCode(@SingleRequestBody(value = "userUuid") String userUuid) {
-        return this.success(sysUserService.getUserById(userUuid));
+    public ResultData selectUserByUserCode(@SingleRequestBody(value = "userId") Long userId) {
+        return this.success(sysUserService.getUserById(userId));
     }
 
 
     @ResponseBody
-    @RequiresPermissions("sys:user:add")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ApiOperation(value = "新增用户信息", notes = "新增用户信息")
-    @Log(logType = LogTypeEnum.SYSTEM, logTitle = "新增用户信息")
     public ResultData save(@RequestBody SysUser sysUser) {
         if (sysUserService.saveUser(sysUser)) {
             return this.success();
@@ -76,10 +71,8 @@ public class SysUserController extends BaseController {
     }
 
     @ResponseBody
-    @RequiresPermissions("sys:user:edit")
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ApiOperation(value = "更新用户信息", notes = "更新用户信息")
-    @Log(logType = LogTypeEnum.SYSTEM, logTitle = "更新用户信息")
     public ResultData updateUser(@RequestBody SysUser sysUser) {
         if (sysUserService.updateUser(sysUser)) {
             return this.success();
@@ -89,12 +82,10 @@ public class SysUserController extends BaseController {
     }
 
     @ResponseBody
-    @RequiresPermissions("sys:user:delete")
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ApiOperation(value = "删除用户", notes = "删除用户")
-    @Log(logType = LogTypeEnum.SYSTEM, logTitle = "删除用户")
-    public ResultData updateUserByUserCode(@SingleRequestBody(value = "userUuid") String userUuid) {
-        if (sysUserService.deleteUser(userUuid)) {
+    public ResultData updateUserByUserCode(@SingleRequestBody(value = "userId") Long userId) {
+        if (sysUserService.deleteUser(userId)) {
             return this.success();
         } else {
             return this.failed(ResultCodeEnum.ERROR_DELETE_FAIL, "删除用户失败！");
@@ -102,10 +93,8 @@ public class SysUserController extends BaseController {
     }
 
     @ResponseBody
-    @RequiresPermissions("sys:user:status")
     @RequestMapping(value = "/updateStatus", method = RequestMethod.POST)
     @ApiOperation(value = "更新用户状态", notes = "更新用户状态")
-    @Log(logType = LogTypeEnum.SYSTEM, logTitle = "更新用户状态")
     public ResultData updateStatus(@RequestBody SysUser sysUser) {
         if (sysUserService.updateUserStatus(sysUser)) {
             return this.success();
@@ -115,12 +104,10 @@ public class SysUserController extends BaseController {
     }
 
     @ResponseBody
-    @RequiresPermissions("sys:user:resetPwd")
     @RequestMapping(value = "/reset", method = RequestMethod.POST)
     @ApiOperation(value = "重置用户密码", notes = "重置用户密码")
-    @Log(logType = LogTypeEnum.SYSTEM, logTitle = "重置用户密码")
-    public ResultData resetUserPassword(@SingleRequestBody(value = "userUuid") String userUuid) {
-        if (sysUserService.resetUserPwd(userUuid)) {
+    public ResultData resetUserPassword(@SingleRequestBody(value = "userId") Long userId) {
+        if (sysUserService.resetUserPwd(userId)) {
             return this.success();
         } else {
             return this.failed(ResultCodeEnum.ERROR_UPDATE_FAIL, "重置用户密码失败！");
@@ -138,13 +125,12 @@ public class SysUserController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/detailRoleList", method = RequestMethod.POST)
     @ApiOperation(value = "查看用户已分配角色列表", notes = "查看用户已分配角色列表")
-    public ResultData detailRole(@SingleRequestBody(value = "userUuid") String userUuid) {
-        return this.success(sysUserRoleService.detailRoleList(userUuid));
+    public ResultData detailRole(@SingleRequestBody(value = "userId") Long userId) {
+        return this.success(sysUserRoleService.detailRoleList(userId));
     }
 
     @ResponseBody
     @RequestMapping(value = "/assignRole", method = RequestMethod.POST)
-    @RequiresPermissions("sys:user:authRole")
     @ApiOperation(value = "用户分配角色", notes = "用户分配角色")
     public ResultData assignRole(@RequestBody AssignRoleVo assignRoleVo) {
         if (sysUserService.assignRole(assignRoleVo)) {

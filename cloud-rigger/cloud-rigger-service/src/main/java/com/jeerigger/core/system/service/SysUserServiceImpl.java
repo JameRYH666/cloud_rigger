@@ -35,11 +35,13 @@ import com.jeerigger.core.system.entity.SysRole;
 import com.jeerigger.core.system.entity.SysUserPost;
 import com.jeerigger.core.system.entity.SysUserRole;
 import com.jeerigger.core.system.mapper.SysUserMapper;
+import org.apache.catalina.security.SecurityUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
+import java.security.Security;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -192,7 +194,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUserMapper, SysUser> 
 
     @Override
     public boolean saveUser(SysUser sysUser) {
-        if (!ShiroUtil.getUserData().getUserType().equals(UserTypeEnum.ORG_ADMIN_USER)) {
+        if (!SecurityUtil.getUserData().getUserType().equals(UserTypeEnum.ORG_ADMIN_USER)) {
             throw new ValidateException("您不是组织机构管理员不能新增用户！");
         }
         sysUser.setUserStatus(UserStatusEnum.NORMAL.getCode());

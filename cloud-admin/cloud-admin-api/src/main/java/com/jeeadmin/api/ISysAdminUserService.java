@@ -63,7 +63,7 @@ public interface ISysAdminUserService extends BaseService<SysAdminUser> {
     /**
      * 管理员重置密码
      *
-     * @param userUuid
+     * @param userId
      * @return
      */
     boolean resetPwd(Long userId);

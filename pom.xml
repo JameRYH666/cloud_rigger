@@ -17,7 +17,7 @@
     <modules>
         <module>cloud-admin</module>
         <module>cloud-common</module>
-        <module>cloud-rigger</module>
+        <!--<module>cloud-rigger</module>-->
     </modules>
 
     <!-- 声明依赖Jar包版本号-->

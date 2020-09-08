@@ -3,15 +3,12 @@ package com.jeeadmin.controller;
 
 import com.jeeadmin.api.ISysOrgService;
 import com.jeeadmin.entity.SysOrg;
-import com.jeerigger.core.common.annotation.Log;
-import com.jeerigger.core.common.enums.LogTypeEnum;
 import com.jeerigger.frame.base.controller.BaseController;
 import com.jeerigger.frame.base.controller.ResultCodeEnum;
 import com.jeerigger.frame.base.controller.ResultData;
 import com.jeerigger.frame.support.resolver.annotation.SingleRequestBody;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,8 +35,8 @@ public class SysOrgController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/selectChild", method = RequestMethod.POST)
     @ApiOperation(value = "查询下级组织机构列表", notes = "查询下级组织机构列表")
-    public ResultData selectChild(@SingleRequestBody(value = "orgUuid") String orgUuid) {
-        return this.success(sysOrgService.selectChildOrg(orgUuid));
+    public ResultData selectChild(@SingleRequestBody(value = "orgId") Long orgId) {
+        return this.success(sysOrgService.selectChildOrg(orgId));
     }
 
     @ResponseBody
@@ -53,24 +50,20 @@ public class SysOrgController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/detail", method = RequestMethod.POST)
     @ApiOperation(value = "查看组织机构详细信息", notes = "查看组织机构详细信息")
-    public ResultData detail(@SingleRequestBody(value = "orgUuid") String orgUuid) {
-        return this.success(sysOrgService.detailOrg(orgUuid));
+    public ResultData detail(@SingleRequestBody(value = "orgId") Long orgId) {
+        return this.success(sysOrgService.detailOrg(orgId));
     }
 
     @ResponseBody
-    @RequiresPermissions("sys:org:add")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ApiOperation(value = "新增组织机构信息", notes = "新增组织机构信息")
-    @Log(logType = LogTypeEnum.SYSTEM, logTitle = "新增组织机构")
     public ResultData save(@RequestBody SysOrg sysOrg) {
         return this.success(sysOrgService.saveSysOrg(sysOrg));
     }
 
     @ResponseBody
-    @RequiresPermissions("sys:org:edit")
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ApiOperation(value = "更新组织机构信息", notes = "更新组织机构信息")
-    @Log(logType = LogTypeEnum.SYSTEM, logTitle = "更新组织机构信息")
     public ResultData update(@RequestBody SysOrg sysOrg) {
         if (sysOrgService.updateSysOrg(sysOrg)) {
             return this.success();
@@ -80,10 +73,8 @@ public class SysOrgController extends BaseController {
     }
 
     @ResponseBody
-    @RequiresPermissions("sys:org:status")
     @RequestMapping(value = "/updateStatus", method = RequestMethod.POST)
     @ApiOperation(value = "更新组织机构状态", notes = "更新组织机构状态")
-    @Log(logType = LogTypeEnum.SYSTEM, logTitle = "更新组织机构状态")
     public ResultData updateStatus(@RequestBody SysOrg sysOrg) {
         if (sysOrgService.updateStatus(sysOrg)) {
             return this.success();
@@ -94,12 +85,10 @@ public class SysOrgController extends BaseController {
 
 
     @ResponseBody
-    @RequiresPermissions("sys:org:delete")
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ApiOperation(value = "删除组织机构", notes = "删除组织机构")
-    @Log(logType = LogTypeEnum.SYSTEM, logTitle = "删除组织机构")
-    public ResultData delete(@SingleRequestBody(value = "orgUuid") String orgUuid) {
-        if (sysOrgService.deleteSysOrg(orgUuid)) {
+    public ResultData delete(@SingleRequestBody(value = "orgId") Long orgId) {
+        if (sysOrgService.deleteSysOrg(orgId)) {
             return this.success();
         } else {
             return this.failed(ResultCodeEnum.ERROR_DELETE_FAIL, "删除组织机构失败！");

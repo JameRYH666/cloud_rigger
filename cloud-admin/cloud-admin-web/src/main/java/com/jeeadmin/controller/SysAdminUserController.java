@@ -10,7 +10,6 @@ import com.jeerigger.frame.page.PageHelper;
 import com.jeerigger.frame.support.resolver.annotation.SingleRequestBody;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -48,7 +47,6 @@ public class SysAdminUserController extends BaseController {
     }
 
     @ResponseBody
-    @RequiresPermissions("sys:sysAdmin:add")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ApiOperation(value = "新增系统管理员信息", notes = "新增系统管理员信息")
     public ResultData add(@RequestBody SysAdminUser sysAdminUser) {
@@ -60,7 +58,6 @@ public class SysAdminUserController extends BaseController {
     }
 
     @ResponseBody
-    @RequiresPermissions("sys:sysAdmin:edit")
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ApiOperation(value = "更新系统管理员信息", notes = "更新系统管理员信息")
     public ResultData update(@RequestBody SysAdminUser sysAdminUser) {
@@ -72,7 +69,6 @@ public class SysAdminUserController extends BaseController {
     }
 
     @ResponseBody
-    @RequiresPermissions("sys:sysAdmin:delete")
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ApiOperation(value = "删除系统管理员", notes = "删除系统管理员")
     public ResultData delete(@SingleRequestBody(value = "userUuid") String userUuid) {
@@ -84,7 +80,6 @@ public class SysAdminUserController extends BaseController {
     }
 
     @ResponseBody
-    @RequiresPermissions("sys:sysAdmin:status")
     @RequestMapping(value = "/updateStatus", method = RequestMethod.POST)
     @ApiOperation(value = "修改系统管理员状态", notes = "修改系统管理员状态")
     public ResultData updateStatus(@RequestBody SysAdminUser sysAdminUser) {
@@ -96,11 +91,10 @@ public class SysAdminUserController extends BaseController {
     }
 
     @ResponseBody
-    @RequiresPermissions("sys:sysAdmin:resetPwd")
     @RequestMapping(value = "/reset", method = RequestMethod.POST)
     @ApiOperation(value = "重置密码", notes = "重置密码")
-    public ResultData resetPwd(@SingleRequestBody(value = "userUuid") String userUuid) {
-        if (sysAdminUserService.resetPwd(userUuid)) {
+    public ResultData resetPwd(@SingleRequestBody(value = "userId") Long userId) {
+        if (sysAdminUserService.resetPwd(userId)) {
             return this.success();
         } else {
             return this.failed(ResultCodeEnum.ERROR_UPDATE_FAIL, "重置密码失败！");

@@ -1,28 +1,11 @@
 package com.jeerigger.core.activiti.service.impl;
 
-/*
- * @项目名称: jeechuangshen
- * @日期: 2019/3/4 0004 下午 4:54
- * @版权: 2019 河南中审科技有限公司 Inc. All rights reserved.
- * @开发公司或单位：河南中审科技有限公司研发中心
- */
-
-import java.io.ByteArrayInputStream;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jeerigger.core.activiti.mapper.WorkFlowMapper;
 import com.jeerigger.core.activiti.enums.ActivitiEnum;
 import com.jeerigger.core.activiti.enums.BpmActivityTypeEnum;
+import com.jeerigger.core.activiti.mapper.WorkFlowMapper;
 import com.jeerigger.core.activiti.service.IWorkflowService;
 import com.jeerigger.core.activiti.utils.DateUtil;
 import com.jeerigger.core.activiti.utils.UtilMisc;
@@ -31,23 +14,10 @@ import com.jeerigger.core.activiti.vo.OutgoingVo;
 import com.jeerigger.core.activiti.vo.TaskVo;
 import com.jeerigger.frame.page.PageHelper;
 import lombok.extern.slf4j.Slf4j;
-import org.activiti.bpmn.model.BpmnModel;
-import org.activiti.bpmn.model.EndEvent;
-import org.activiti.bpmn.model.ExclusiveGateway;
-import org.activiti.bpmn.model.FlowElement;
-import org.activiti.bpmn.model.FlowNode;
-import org.activiti.bpmn.model.ParallelGateway;
 import org.activiti.bpmn.model.Process;
-import org.activiti.bpmn.model.SequenceFlow;
-import org.activiti.bpmn.model.StartEvent;
-import org.activiti.bpmn.model.UserTask;
+import org.activiti.bpmn.model.*;
 import org.activiti.editor.language.json.converter.BpmnJsonConverter;
-import org.activiti.engine.HistoryService;
-import org.activiti.engine.IdentityService;
-import org.activiti.engine.ProcessEngine;
-import org.activiti.engine.RepositoryService;
-import org.activiti.engine.RuntimeService;
-import org.activiti.engine.TaskService;
+import org.activiti.engine.*;
 import org.activiti.engine.history.HistoricActivityInstance;
 import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.history.HistoricTaskInstance;
@@ -61,9 +31,14 @@ import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.activiti.image.ProcessDiagramGenerator;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.util.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+
+import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.*;
 
 /**
  * @ClassName: WorkFlowServiceImpl
