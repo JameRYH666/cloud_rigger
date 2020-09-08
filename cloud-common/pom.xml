@@ -13,13 +13,12 @@
     <artifactId>jeecommon</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>jeerigger-frame</module>
-        <module>jeerigger-core</module>
-        <module>jeerigger-security-common</module>
-        <module>jeerigger-activiti</module>
+        <module>cloud-rigger-frame</module>
+        <module>cloud-rigger-core</module>
+        <module>cloud-rigger-security-common</module>
+        <module>cloud-rigger-activiti</module>
     </modules>
     <name>JeeCommon</name>
-
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>

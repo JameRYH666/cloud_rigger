@@ -16,11 +16,12 @@
     <name>JeeRigger</name>
 
     <modules>
-        <module>jeerigger-api</module>
-        <module>jeerigger-model</module>
-        <module>jeerigger-service</module>
-        <module>jeerigger-web</module>
-        <module>jeerigger-starter-web</module>
+        <module>cloud-rigger-api</module>
+        <module>cloud-rigger-model</module>
+        <module>cloud-rigger-service</module>
+        <module>cloud-rigger-web</module>
+        <module>cloud-rigger-test</module>
+        <module>cloud-rigger-starter-web</module>
     </modules>
     <dependencies>
         <dependency>

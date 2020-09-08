@@ -13,11 +13,11 @@
     <artifactId>jeeadmin</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>jeeadmin-api</module>
-        <module>jeeadmin-model</module>
-        <module>jeeadmin-security</module>
-        <module>jeeadmin-service</module>
-        <module>jeeadmin-web</module>
+        <module>cloud-admin-api</module>
+        <module>cloud-admin-model</module>
+        <module>cloud-admin-security</module>
+        <module>cloud-admin-service</module>
+        <module>cloud-admin-web</module>
     </modules>
     <name>JeeAdmin</name>
     <dependencies>
