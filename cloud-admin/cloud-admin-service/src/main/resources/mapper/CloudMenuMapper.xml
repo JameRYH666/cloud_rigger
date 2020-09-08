@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jeeadmin.mapper.CloudMenuMapper" >
+  <resultMap id="BaseResultMap" type="com.jeeadmin.entity.CloudMenu" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="parent_id" property="parentId" jdbcType="BIGINT" />
+    <result column="menu_name" property="menuName" jdbcType="VARCHAR" />
+    <result column="menu_type" property="menuType" jdbcType="CHAR" />
+    <result column="menu_href" property="menuHref" jdbcType="VARCHAR" />
+    <result column="menu_icon" property="menuIcon" jdbcType="VARCHAR" />
+    <result column="menu_sort" property="menuSort" jdbcType="INTEGER" />
+    <result column="menu_weight" property="menuWeight" jdbcType="INTEGER" />
+    <result column="menu_color" property="menuColor" jdbcType="VARCHAR" />
+    <result column="menu_target" property="menuTarget" jdbcType="CHAR" />
+    <result column="sys_code" property="sysCode" jdbcType="VARCHAR" />
+    <result column="permission" property="permission" jdbcType="VARCHAR" />
+    <result column="show_flag" property="showFlag" jdbcType="CHAR" />
+    <result column="leaf_flag" property="leafFlag" jdbcType="CHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <!-- 通用查询结果列 -->
+  <sql id="Base_Column_List">
+    id, parent_id, menu_name, menu_type, menu_href, menu_icon, menu_sort, menu_weight, menu_color, menu_target, sys_code, permission, show_flag, leaf_flag, remark, create_user, create_date, update_user, update_date
+  </sql>
+</mapper>

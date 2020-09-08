@@ -1,7 +1,7 @@
 package com.jeeadmin.controller;
 
 
-import com.jeeadmin.api.ISysLogService;
+import com.jeeadmin.api.ICloudLogService;
 import com.jeeadmin.entity.SysLog;
 import com.jeerigger.frame.base.controller.BaseController;
 import com.jeerigger.frame.base.controller.ResultData;
@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Api(value = "系统日志", tags = "系统日志")
 public class SysLogController extends BaseController {
     @Autowired
-    ISysLogService sysLogService;
+    ICloudLogService sysLogService;
 
     @ResponseBody
     @RequestMapping(value = "/list", method = RequestMethod.POST)

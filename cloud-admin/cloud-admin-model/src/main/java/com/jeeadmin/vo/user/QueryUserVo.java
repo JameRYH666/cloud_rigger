@@ -14,24 +14,9 @@ public class QueryUserVo {
     private String userName;
 
     /**
-     * 登录名
-     */
-    private String loginName;
-
-    /**
-     * 联系电话
-     */
-    private String userPhone;
-
-    /**
      * 联系手机
      */
     private String userMobile;
-
-    /**
-     * 联系地址
-     */
-    private String userAddress;
 
     /**
      * 邮箱地址
@@ -39,7 +24,7 @@ public class QueryUserVo {
     private String userEmail;
 
     /**
-     * 组织机构UUID
+     * 组织机构ID
      */
     private Long orgId;
 

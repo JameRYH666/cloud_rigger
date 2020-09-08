@@ -1,7 +1,7 @@
 package com.jeeadmin.controller;
 
 
-import com.jeeadmin.api.ISysOrgService;
+import com.jeeadmin.api.ICloudOrgService;
 import com.jeeadmin.entity.SysOrg;
 import com.jeerigger.frame.base.controller.BaseController;
 import com.jeerigger.frame.base.controller.ResultCodeEnum;
@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class SysOrgController extends BaseController {
 
     @Autowired
-    private ISysOrgService sysOrgService;
+    private ICloudOrgService sysOrgService;
 
     @ResponseBody
     @RequestMapping(value = "/selectChild", method = RequestMethod.POST)

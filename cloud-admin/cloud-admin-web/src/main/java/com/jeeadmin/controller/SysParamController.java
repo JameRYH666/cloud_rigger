@@ -1,7 +1,7 @@
 package com.jeeadmin.controller;
 
 
-import com.jeeadmin.api.ISysParamService;
+import com.jeeadmin.api.ICloudParamService;
 import com.jeeadmin.entity.SysParam;
 import com.jeerigger.frame.base.controller.BaseController;
 import com.jeerigger.frame.base.controller.ResultCodeEnum;
@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.*;
 @Api(value = "系统参数管理", tags = "系统参数管理")
 public class SysParamController extends BaseController {
     @Autowired
-    private ISysParamService sysParamService;
+    private ICloudParamService sysParamService;
 
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ApiOperation(value = "获取系统参数列表", notes = "获取系统参数列表")

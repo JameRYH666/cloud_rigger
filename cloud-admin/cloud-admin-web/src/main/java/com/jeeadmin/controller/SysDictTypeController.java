@@ -1,7 +1,7 @@
 package com.jeeadmin.controller;
 
 
-import com.jeeadmin.api.ISysDictTypeService;
+import com.jeeadmin.api.ICloudDictTypeService;
 import com.jeeadmin.entity.SysDictType;
 import com.jeerigger.frame.base.controller.BaseController;
 import com.jeerigger.frame.base.controller.ResultCodeEnum;
@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Api(value = "字典类型管理", tags = "字典类型管理")
 public class SysDictTypeController extends BaseController {
     @Autowired
-    ISysDictTypeService sysDictTypeService;
+    ICloudDictTypeService sysDictTypeService;
 
     @ResponseBody
     @RequestMapping(value = "/list", method = RequestMethod.POST)

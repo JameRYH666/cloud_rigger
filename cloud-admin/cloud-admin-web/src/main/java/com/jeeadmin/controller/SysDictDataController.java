@@ -1,7 +1,7 @@
 package com.jeeadmin.controller;
 
 
-import com.jeeadmin.api.ISysDictDataService;
+import com.jeeadmin.api.ICloudDictDataService;
 import com.jeeadmin.entity.SysDictData;
 import com.jeerigger.frame.base.controller.BaseController;
 import com.jeerigger.frame.base.controller.ResultCodeEnum;
@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.*;
 @Api(value = "字典数据管理", tags = "字典数据管理")
 public class SysDictDataController extends BaseController {
     @Autowired
-    private ISysDictDataService sysDictDataService;
+    private ICloudDictDataService sysDictDataService;
 
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ApiOperation(value = "获取字典数据列表", notes = "获取字典数据列表")

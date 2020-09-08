@@ -46,14 +46,14 @@ public interface IUserService {
      *
      * @return
      */
-    List<UserMenu> getUserMenu(String userUuid);
+    List<UserMenu> getUserMenu(String id);
 
 
     /**
      * 获取用户角色
      *
-     * @param userUuid
+     * @param id
      * @return
      */
-    List<UserRole> getUserRole(String userUuid);
+    List<UserRole> getUserRole(String id);
 }

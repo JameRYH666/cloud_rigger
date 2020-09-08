@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jeeadmin.mapper.CloudDictDataMapper" >
+  <resultMap id="BaseResultMap" type="com.jeeadmin.entity.CloudDictData" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="parent_id" property="parentId" jdbcType="BIGINT" />
+    <result column="dict_type" property="dictType" jdbcType="VARCHAR" />
+    <result column="data_code" property="dataCode" jdbcType="VARCHAR" />
+    <result column="dict_label" property="dictLabel" jdbcType="VARCHAR" />
+    <result column="dict_value" property="dictValue" jdbcType="VARCHAR" />
+    <result column="dict_sort" property="dictSort" jdbcType="INTEGER" />
+    <result column="dict_status" property="dictStatus" jdbcType="CHAR" />
+    <result column="leaf_flag" property="leafFlag" jdbcType="CHAR" />
+    <result column="sys_flag" property="sysFlag" jdbcType="CHAR" />
+    <result column="sign" property="sign" jdbcType="VARCHAR" />
+    <result column="def" property="def" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="dict_desc" property="dictDesc" jdbcType="LONGVARCHAR" />
+  </resultMap>
+
+  <!-- 通用查询结果列 -->
+  <sql id="Base_Column_List">
+    id, parent_id, dict_type, data_code, dict_label, dict_value, dict_sort, dict_status, leaf_flag, sys_flag, sign, def, remark, create_user, create_date, update_user, update_date, dict_desc
+  </sql>
+</mapper>

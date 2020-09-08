@@ -60,7 +60,7 @@ public class JeeUser extends User {
         super(loginName, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
         this.userId = id;
         this.loginName = loginName;
-        this.userName = username;
+        // this.userName = username;
         this.orgIds = orgIds;
         this.unitIds = unitIds;
         //  this.userType = userType;

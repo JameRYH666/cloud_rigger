@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jeeadmin.mapper.CloudMonitorMapper">
+
+    <select id="selectMsaOrgUserPage" resultType="com.jeeadmin.vo.monitor.MsaOrgUserVo">
+      select id,orgName,total from
+      (
+          SELECT u.id,o.org_name orgName,count(u.id) total
+          FROM cloud_user u
+          INNER JOIN cloud_user_org cuo ON u.id=cuo.user_id
+          INNER JOIN cloud_org o ON o.id=cuo.org_id
+          group by u.id,o.org_name
+       )
+      temp order by temp.total desc
+    </select>
+
+    <select id="selectMsaRoleUserPage" resultType="com.jeeadmin.vo.monitor.MsaRoleUserVo">
+      select id,roleName,total from
+      (
+		  SELECT r.id,r.role_name roleName,count(u.id) total
+		  FROM cloud_user u
+		  INNER JOIN cloud_user_role ur ON u.id=ur.user_id
+		  INNER JOIN cloud_role r ON r.id=ur.role_id
+		  group by r.id,r.role_name
+      )
+      temp order by temp.total desc
+
+    </select>
+
+</mapper>

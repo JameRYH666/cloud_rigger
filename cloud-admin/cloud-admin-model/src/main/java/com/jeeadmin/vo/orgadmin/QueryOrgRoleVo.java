@@ -1,7 +1,7 @@
 package com.jeeadmin.vo.orgadmin;
 
-import com.jeeadmin.entity.SysOrgAdminOrg;
-import com.jeeadmin.entity.SysOrgAdminRole;
+import com.jeeadmin.entity.CloudUserOrg;
+import com.jeeadmin.entity.CloudUserRole;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -22,9 +22,9 @@ public class QueryOrgRoleVo {
     /**
      * 组织机构管理员已分配角色
      */
-    private List<SysOrgAdminRole>  OrgAdminRoleList;
+    private List<CloudUserRole>  OrgAdminRoleList;
     /**
      * 组织机构管理员已分配组织机构
      */
-    private List<SysOrgAdminOrg>  OrgAdminOrgList;
+    private List<CloudUserOrg>  OrgAdminOrgList;
 }
