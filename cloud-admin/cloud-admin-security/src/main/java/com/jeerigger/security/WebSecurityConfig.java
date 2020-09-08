@@ -2,7 +2,9 @@ package com.jeerigger.security;
 
 import com.jeerigger.security.handler.*;
 import com.jeerigger.security.service.JeeUserDetailsService;
+import com.jeerigger.security.utils.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -11,7 +13,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.Objects;
 
 import static com.jeerigger.security.StringUtil.splitclearSpace;
 
@@ -41,8 +45,33 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
+        auth.userDetailsService(userDetailsService);
     }
+
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new PasswordEncoder() {
+            @Override
+            public String encode(CharSequence rawPassword) {
+                // 通过Md5对表单提交的密码进行加密
+                return MD5Util.encode((String) rawPassword);
+            }
+
+            @Override
+            public boolean matches(CharSequence rawPassword, String encodedPassword) {
+                // 因为表单提交的密码并没有加密。所以，这里需要对表单提交的密码进行加密
+                String formPasswd = MD5Util.encode((String) rawPassword);
+                return Objects.equals(formPasswd, encodedPassword);
+            }
+
+            @Override
+            public boolean upgradeEncoding(String encodedPassword) {
+                return true;
+            }
+        };
+    }
+
 
     @Override
     public void configure(WebSecurity webSecurity) {

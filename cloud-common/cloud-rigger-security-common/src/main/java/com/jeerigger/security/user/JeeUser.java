@@ -63,7 +63,7 @@ public class JeeUser extends User {
         this.userName = username;
         this.orgIds = orgIds;
         this.unitIds = unitIds;
-        //  this.userType = userType;
+        this.userType = userType;
         this.authorities = super.getAuthorities();
     }
 }

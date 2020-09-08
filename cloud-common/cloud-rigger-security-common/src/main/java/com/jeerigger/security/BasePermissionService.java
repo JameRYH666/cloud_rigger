@@ -31,5 +31,6 @@ public abstract class BasePermissionService implements PermissionService {
         return hasPermission;
     }
 
+    @Override
     public abstract boolean readUpdatePermission(String permission);
 }
