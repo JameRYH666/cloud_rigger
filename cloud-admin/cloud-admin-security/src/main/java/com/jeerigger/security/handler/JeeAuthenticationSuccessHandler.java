@@ -18,16 +18,15 @@ public class JeeAuthenticationSuccessHandler implements AuthenticationSuccessHan
     public void onAuthenticationSuccess(HttpServletRequest req,
                                         HttpServletResponse resp,
                                         Authentication auth) {
-
         FastJSON<JeeUser> fastJson = new FastJSON().
                 setCode(ResultCodeEnum.SUCCESS.getCode()).
                 setMessage(ResultCodeEnum.SUCCESS.getMessage());
         JeeUser jeeUser = SecurityUtil.getUser();
         jeeUser.setSessionId(SecurityUtil.getSessionId());
         jeeUser.setToken(SecurityUtil.getSessionId());
-        fastJson.ex(JeeUser::getAuthorities,JeeUser::isAccountNonExpired
-                ,JeeUser::isAccountNonLocked,JeeUser::isCredentialsNonExpired,JeeUser::isEnabled
-        /*,JeeUser::getUserType*/,JeeUser::getUsername).data(jeeUser);
+        fastJson.ex(JeeUser::getAuthorities, JeeUser::isAccountNonExpired
+                , JeeUser::isAccountNonLocked, JeeUser::isCredentialsNonExpired, JeeUser::isEnabled
+                , JeeUser::getUserType, JeeUser::getUsername).data(jeeUser);
         JSONUtil.writeJson(resp, fastJson);
 
     }
