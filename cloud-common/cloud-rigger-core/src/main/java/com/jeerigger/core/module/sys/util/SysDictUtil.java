@@ -1,9 +1,9 @@
 package com.jeerigger.core.module.sys.util;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.jeerigger.core.common.enums.StatusEnum;
 import com.jeerigger.core.module.sys.entity.SysDictData;
 import com.jeerigger.core.module.sys.mapper.DictDataMapper;
+import com.jeerigger.frame.enums.StatusEnum;
 import com.jeerigger.frame.support.util.SpringUtil;
 
 import java.util.HashMap;

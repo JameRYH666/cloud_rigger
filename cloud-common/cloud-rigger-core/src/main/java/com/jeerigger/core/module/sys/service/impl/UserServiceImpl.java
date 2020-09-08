@@ -1,6 +1,5 @@
 package com.jeerigger.core.module.sys.service.impl;
 
-import com.jeerigger.core.common.enums.SysCodeEnum;
 import com.jeerigger.core.common.properties.JeeRiggerProperties;
 import com.jeerigger.core.module.sys.entity.SysAdminUser;
 import com.jeerigger.core.module.sys.entity.SysUser;
@@ -8,6 +7,7 @@ import com.jeerigger.core.module.sys.entity.UserMenu;
 import com.jeerigger.core.module.sys.entity.UserRole;
 import com.jeerigger.core.module.sys.mapper.UserMapper;
 import com.jeerigger.core.module.sys.service.IUserService;
+import com.jeerigger.frame.enums.SysCodeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,11 +43,11 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public List<UserMenu> getUserMenu(String userUuid) {
-        List<String> sysCodeList=properties.getShiro().getMenu_sys_code();
-        if(sysCodeList==null || sysCodeList.size()<1){
+        List<String> sysCodeList = null;// properties.getShiro().getMenu_sys_code();
+        if (sysCodeList == null || sysCodeList.size() < 1) {
             sysCodeList.add(SysCodeEnum.JEE_RIGGER_SYSTEM.getCode());
         }
-        return userMapper.getUserMenu(userUuid,sysCodeList);
+        return userMapper.getUserMenu(userUuid, sysCodeList);
     }
 
     @Override

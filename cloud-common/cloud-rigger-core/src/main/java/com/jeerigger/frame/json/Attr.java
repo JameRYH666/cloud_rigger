@@ -50,7 +50,7 @@ public class Attr<T> {
         return LambdaExpression.parse(propertyRef);
     }
 
-    public static Member getMember(javax.el.LambdaExpression lambdaExpression) {
+    public static Member getMember(LambdaExpression lambdaExpression) {
         Expression methodCall = lambdaExpression.getBody();
         // remove casts
         while (methodCall instanceof UnaryExpression) {

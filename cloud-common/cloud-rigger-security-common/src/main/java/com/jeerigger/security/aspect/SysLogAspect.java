@@ -3,7 +3,6 @@ package com.jeerigger.security.aspect;
 import com.alibaba.fastjson.JSONObject;
 import com.jeerigger.frame.annotation.Log;
 import com.jeerigger.frame.support.util.UserAgentUtil;
-import com.jeerigger.frame.util.StringUtil;
 import com.jeerigger.security.SecurityUtil;
 import com.jeerigger.security.log.LogService;
 import com.jeerigger.security.user.JeeUser;
@@ -19,10 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Ian
@@ -58,10 +54,11 @@ public class SysLogAspect {
         Method method = signature.getMethod();
         Log log = method.getAnnotation(Log.class);
         if (log != null) {
-            ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+            ServletRequestAttributes attributes =
+                    (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
             HttpServletRequest request = attributes.getRequest();
             JeeUser userData = SecurityUtil.getUserData();
-            if (userData != null && StringUtil.isNotEmpty(userData.getUserId()) && request != null) {
+            if (userData != null && Objects.nonNull(userData.getUserId()) && request != null) {
                 List<Object> paramsObj = new ArrayList<>();
                 String params = "";
                 try {
@@ -74,7 +71,7 @@ public class SysLogAspect {
                     params = JSONObject.toJSONString(paramsObj.toArray(new Object[paramsObj.size()]));
                 } catch (Exception ex) {
                 }
-                Map<String,String> requestMap = new HashMap<>(5);
+                Map<String, String> requestMap = new HashMap<>(5);
                 requestMap.put(UserAgentUtil.REQUEST_URI, request.getRequestURL().toString());
                 requestMap.put(UserAgentUtil.REQUEST_METHOD, request.getMethod());
                 UserAgent userAgent = UserAgentUtil.getUserAgent(request);

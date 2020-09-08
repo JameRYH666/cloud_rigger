@@ -1,6 +1,7 @@
 package com.jeerigger.core.common.user;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.jeerigger.frame.enums.UserTypeEnum;
 import eu.bitwalker.useragentutils.DeviceType;
 import lombok.Data;
 
@@ -15,7 +16,7 @@ public abstract class BaseUser implements Serializable {
     /**
      * 用户UUID
      */
-    private String userUuid;
+    private Long userId;
     /**
      * 用户名
      */
@@ -40,7 +41,7 @@ public abstract class BaseUser implements Serializable {
     /**
      * 组织机构UUID
      */
-    private String orgUuid;
+    private Long orgId;
     /**
      * 组织机构名称
      */

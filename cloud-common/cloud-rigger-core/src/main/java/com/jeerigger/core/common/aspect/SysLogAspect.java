@@ -1,10 +1,9 @@
 package com.jeerigger.core.common.aspect;
 
 import com.alibaba.fastjson.JSONObject;
-import com.jeerigger.core.common.annotation.Log;
 import com.jeerigger.core.common.user.BaseUser;
 import com.jeerigger.core.module.sys.util.SysLogUtil;
-import com.jeerigger.frame.util.StringUtil;
+import com.jeerigger.frame.annotation.Log;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -20,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Aspect
 @Component
@@ -62,8 +62,8 @@ public class SysLogAspect {
             ServletRequestAttributes attributes =
                     (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
             HttpServletRequest request = attributes.getRequest();
-            BaseUser userData = null; // ShiroUtil.getUserData();
-            if (userData != null && StringUtil.isNotEmpty(userData.getUserUuid()) && request != null) {
+            BaseUser userData = null;// ShiroUtil.getUserData();
+            if (userData != null && Objects.nonNull(userData.getUserId()) && request != null) {
                 List<Object> paramsObj = new ArrayList<>();
                 String params = "";
                 try {

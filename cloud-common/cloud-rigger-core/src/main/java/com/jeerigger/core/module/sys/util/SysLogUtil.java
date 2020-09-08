@@ -3,17 +3,18 @@
  */
 package com.jeerigger.core.module.sys.util;
 
-import com.jeerigger.core.common.annotation.Log;
-import com.jeerigger.core.common.enums.LogTypeEnum;
 import com.jeerigger.core.common.user.BaseUser;
-import com.jeerigger.frame.enums.FlagEnum;
 import com.jeerigger.core.module.sys.entity.SysLog;
+import com.jeerigger.frame.annotation.Log;
+import com.jeerigger.frame.enums.FlagEnum;
+import com.jeerigger.frame.enums.LogTypeEnum;
 import com.jeerigger.frame.support.util.UserAgentUtil;
 import com.jeerigger.frame.util.StringUtil;
 import eu.bitwalker.useragentutils.UserAgent;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
+import java.util.Objects;
 
 /**
  * 日志工具类
@@ -36,23 +37,26 @@ public class SysLogUtil {
      * @param executeTime
      */
 
-    public static void saveLog(BaseUser userData, HttpServletRequest request, Throwable throwable, String params, Log log, long executeTime) {
-        saveLog(userData,request,throwable,params,log.logType(),log.logTitle(),executeTime);
+    public static void saveLog(BaseUser userData, HttpServletRequest request, Throwable throwable, String params,
+                               Log log, long executeTime) {
+        saveLog(userData, request, throwable, params, log.logType(), log.logTitle(), executeTime);
     }
 
     /**
      * 保存日志
+     *
      * @param userData
      * @param request
      * @param logType
      * @param logTitle
      */
     public static void saveLog(BaseUser userData, HttpServletRequest request, LogTypeEnum logType, String logTitle) {
-        saveLog(userData,request,null,null,logType,logTitle,0);
+        saveLog(userData, request, null, null, logType, logTitle, 0);
     }
 
     /**
      * 保存日志
+     *
      * @param userData
      * @param request
      * @param throwable
@@ -61,8 +65,9 @@ public class SysLogUtil {
      * @param logTitle
      * @param executeTime
      */
-    public static void saveLog(BaseUser userData, HttpServletRequest request, Throwable throwable, String params, LogTypeEnum logType, String logTitle, long executeTime) {
-        if (userData == null || StringUtil.isEmpty(userData.getUserUuid()) || request == null) {
+    public static void saveLog(BaseUser userData, HttpServletRequest request, Throwable throwable, String params,
+                               LogTypeEnum logType, String logTitle, long executeTime) {
+        if (userData == null || Objects.isNull(userData.getUserId()) || request == null) {
             return;
         }
         SysLog sysLog = new SysLog();
@@ -80,8 +85,8 @@ public class SysLogUtil {
         sysLog.setDeviceName(userAgent.getOperatingSystem().getName());
         sysLog.setBrowserName(userAgent.getBrowser().getName());
         sysLog.setExceptionFlag(FlagEnum.NO.getCode());
-        sysLog.setUserUuid(userData.getUserUuid());
-        sysLog.setCreateUser(userData.getUserUuid());
+        sysLog.setUserId(userData.getUserId());
+        sysLog.setCreateUser(userData.getUserId());
         sysLog.setUserName(userData.getUserName());
         sysLog.setExecuteTime(new BigDecimal(executeTime));
 

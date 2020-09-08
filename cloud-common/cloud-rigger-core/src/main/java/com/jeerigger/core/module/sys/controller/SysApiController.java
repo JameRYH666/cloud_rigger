@@ -1,6 +1,5 @@
 package com.jeerigger.core.module.sys.controller;
 
-import com.jeerigger.core.module.sys.util.SysAreaUtil;
 import com.jeerigger.core.module.sys.util.SysDictUtil;
 import com.jeerigger.core.module.sys.util.SysOrgUtil;
 import com.jeerigger.frame.base.controller.BaseController;
@@ -38,12 +37,7 @@ public class SysApiController extends BaseController {
     public ResultData orgList() {
         return this.success(SysOrgUtil.getSysOrgList());
     }
-
-    @RequestMapping(value = "/areaList", method = RequestMethod.POST)
-    @ApiOperation(value = "获取行政区划列表", notes = "获取行政区划列表")
-    public ResultData areaList(@SingleRequestBody("areaType") String areaType) {
-        return this.success(SysAreaUtil.getSysAreaList(areaType));
-    }
+    
 
     @RequestMapping(value = "/sysTime", method = RequestMethod.POST)
     @ApiOperation(value = "获取系统时间", notes = "获取系统时间")

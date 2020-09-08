@@ -14,7 +14,7 @@ public class SysLog extends BaseModel<SysLog> {
     /**
      * 用户uuid
      */
-    private String userUuid;
+    private Long userId;
 
     /**
      * 用户名称
