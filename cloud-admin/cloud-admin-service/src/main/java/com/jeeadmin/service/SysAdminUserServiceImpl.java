@@ -44,7 +44,6 @@ public class SysAdminUserServiceImpl extends BaseServiceImpl<SysAdminUserMapper,
 
     @Override
     public SysAdminUser getAdminUserByLoginName(String loginName) {
-
         QueryWrapper<SysAdminUser> queryWrapper = new QueryWrapper();
         queryWrapper.lambda().eq(SysAdminUser::getLoginName, loginName);
         return this.getOne(queryWrapper);

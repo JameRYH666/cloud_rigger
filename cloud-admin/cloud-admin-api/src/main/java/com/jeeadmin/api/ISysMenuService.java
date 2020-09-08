@@ -72,4 +72,17 @@ public interface ISysMenuService extends BaseTreeService<SysMenu> {
      * @return
      */
     List<SysMenu> getMenuList();
+
+    /**
+     * 获取系统管理员或超级管理员菜单
+     *
+     * @param userId
+     * @return
+     */
+    List<SysMenu> findAdminUserSysMenu(Long userId, String userType);
+
+    /**
+     * 判断系统管理员是否有指定权限
+     */
+    boolean isAdminUserWithHasPermission(Long userId, String userType, String permission);
 }

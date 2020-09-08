@@ -13,6 +13,7 @@ import com.jeerigger.core.module.sys.util.SysDictUtil;
 import com.jeerigger.frame.base.controller.ResultCodeEnum;
 import com.jeerigger.frame.base.service.impl.BaseTreeServiceImpl;
 import com.jeerigger.frame.enums.SysCodeEnum;
+import com.jeerigger.frame.enums.UserTypeEnum;
 import com.jeerigger.frame.exception.FrameException;
 import com.jeerigger.frame.exception.ValidateException;
 import com.jeerigger.frame.support.validate.ValidateUtil;
@@ -117,7 +118,6 @@ public class SysMenuServiceImpl extends BaseTreeServiceImpl<SysMenuMapper, SysMe
         if (Objects.nonNull(sysMenu.getParentId())) {
             sysMenu.setParentId(0L);
         }
-
         SysMenu oldSysMenu = this.getById(sysMenu.getId());
         if (oldSysMenu == null) {
             throw new ValidateException("该菜单不存在,不能进行更新！");
@@ -205,5 +205,29 @@ public class SysMenuServiceImpl extends BaseTreeServiceImpl<SysMenuMapper, SysMe
         wrapper.lambda().ne(SysMenu::getSysCode, SysCodeEnum.JEE_ADMIN_SYSTEM);
         wrapper.lambda().orderByAsc(SysMenu::getSysCode, SysMenu::getParentId, SysMenu::getMenuSort);
         return this.list(wrapper);
+    }
+
+    @Override
+    public List<SysMenu> findAdminUserSysMenu(Long userId, String userType) {
+        if (UserTypeEnum.SUPER_ADMIN_USER.getCode().equals(userType)) {
+            QueryWrapper<SysMenu> wrapper = new QueryWrapper<>();
+            //获取超级管理员权重以外的菜单
+            wrapper.lambda().eq(SysMenu::getSysCode, SysCodeEnum.JEE_ADMIN_SYSTEM);
+            wrapper.orderByAsc("parent_id", "menu_sort");
+            // 超级管理员
+            return this.list(wrapper);
+        } else {
+            // 系统管理员
+            return null;// this.getAdminUserSysMenu(userId);
+        }
+    }
+
+    @Override
+    public boolean isAdminUserWithHasPermission(Long userId, String userType, String permission) {
+        if (UserTypeEnum.SUPER_ADMIN_USER.getCode().equals(userType)) {
+            // 超级管理员
+            return true;
+        }
+        return false; // ListTools.isNotEmpty(getAdminUserPermission(userId, permission));
     }
 }

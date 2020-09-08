@@ -54,7 +54,7 @@ public class JeeUser extends User {
     private String token;
 
     public JeeUser(Long id, String loginName, String username, String password, List<String> orgIds,
-                   List<String> unitIds, /*UserTypeEnum userType,*/ boolean enabled, boolean accountNonExpired,
+                   List<String> unitIds, UserTypeEnum userType, boolean enabled, boolean accountNonExpired,
                    boolean credentialsNonExpired, boolean accountNonLocked,
                    Collection<? extends GrantedAuthority> authorities) {
         super(loginName, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
