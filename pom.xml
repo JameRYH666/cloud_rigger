@@ -48,13 +48,9 @@
         <!--系统监控-->
         <oshi-core.version>3.9.1</oshi-core.version>
 
-        <!-- ehcache和shiro的整合包 -->
-        <ehcache-shiro.version>1.4.1</ehcache-shiro.version>
-
         <commons-lang3.version>3.8</commons-lang3.version>
         <commons-io.version>2.6</commons-io.version>
         <commons-fileupload.version>1.4</commons-fileupload.version>
-
         <activiti.version>6.0.0</activiti.version>
         <!-- junit test -->
         <junit.version>4.12</junit.version>

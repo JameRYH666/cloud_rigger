@@ -13,12 +13,12 @@ import org.springframework.context.annotation.PropertySource;
 @EnableCaching
 @Configuration
 @ComponentScan({"com.jeerigger.core"})
-@PropertySource("classpath:jeerigger.properties")
+@PropertySource("classpath:config/jeerigger.properties")
 public class CommonAutoConfiguration {
 
-    @Value("${jeerigger.dataCenterId:2L}")
+    @Value("${jeerigger.dataCenterId:2}")
     private Long dataCenterId;
-    @Value("${jeerigger.machineId:3L}")
+    @Value("${jeerigger.machineId:3}")
     private Long machineId;
 
 
