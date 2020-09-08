@@ -1,6 +1,7 @@
 package com.jeerigger.frame.util;
 
 import org.springframework.util.DigestUtils;
+
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Random;
@@ -159,8 +160,9 @@ public class StringUtil {
      * @throws Exception
      */
     public static final byte[] base64ToByte(String str) throws Exception {
-        if (str == null)
+        if (str == null) {
             return null;
+        }
         byte[] decByte = null;
         try {
             decByte = new sun.misc.BASE64Decoder().decodeBuffer(str);
