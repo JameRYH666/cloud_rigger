@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 
 import static com.jeerigger.security.StringUtil.splitclearSpace;
 
@@ -40,7 +41,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService);
+        auth.userDetailsService(userDetailsService).passwordEncoder(NoOpPasswordEncoder.getInstance());
     }
 
 
@@ -61,8 +62,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().authorizeRequests()
                 .antMatchers(splitclearSpace(securityConfig.getIgnoring())).permitAll()
                 .anyRequest().authenticated().and()
-                .formLogin()//.loginPage(securityConfig.getLoginPage()).loginProcessingUrl(securityConfig
-                // .getLoginProcessingUrl())
+                .formLogin()
+                .loginPage(securityConfig.getLoginPage())
+                .loginProcessingUrl(securityConfig.getLoginProcessingUrl())
                 .failureHandler(failureHandler)
                 .successHandler(successHandler)
                 .permitAll().and()
