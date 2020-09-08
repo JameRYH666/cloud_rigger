@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public abstract class BaseController {
+
     protected Logger logger = LoggerFactory.getLogger(this.getClass());
     /**
      * 返回成功结果集
@@ -12,10 +13,10 @@ public abstract class BaseController {
      * @return
      */
     protected ResultData success() {
-        ResultData resultData = new ResultData();
-        resultData.setCode(ResultCodeEnum.SUCCESS.getCode());
-        resultData.setMessage(ResultCodeEnum.SUCCESS.getMessage());
-        return resultData;
+        FastJSON fastJson = new FastJSON();
+        fastJson.setCode(ResultCodeEnum.SUCCESS.getCode());
+        fastJson.setMessage(ResultCodeEnum.SUCCESS.getMessage());
+        return new ResultData(fastJson);
     }
 
     /**
@@ -25,10 +26,10 @@ public abstract class BaseController {
      * @return
      */
     protected ResultData success(String message) {
-        ResultData resultData = new ResultData();
-        resultData.setCode(ResultCodeEnum.SUCCESS.getCode());
-        resultData.setMessage(message);
-        return resultData;
+        FastJSON fastJson = new FastJSON();
+        fastJson.setCode(ResultCodeEnum.SUCCESS.getCode());
+        fastJson.setMessage(message);
+        return new ResultData(fastJson);
     }
 
     /**
@@ -38,11 +39,16 @@ public abstract class BaseController {
      * @return
      */
     protected ResultData success(Object data) {
-        ResultData resultData = new ResultData();
-        resultData.setCode(ResultCodeEnum.SUCCESS.getCode());
-        resultData.setMessage(ResultCodeEnum.SUCCESS.getMessage());
-        resultData.setData(data);
-        return resultData;
+        FastJSON fastJson;
+        if (data instanceof FastJSON){
+            fastJson = (FastJSON) data;
+        }else {
+            fastJson = new FastJSON<>();
+            fastJson.setData(data);
+        }
+        fastJson.setCode(ResultCodeEnum.SUCCESS.getCode());
+        fastJson.setMessage(ResultCodeEnum.SUCCESS.getMessage());
+        return new ResultData(fastJson);
     }
 
     /**
@@ -53,11 +59,17 @@ public abstract class BaseController {
      * @return
      */
     protected ResultData success(Object data,String message) {
-        ResultData resultData = new ResultData();
-        resultData.setCode(ResultCodeEnum.SUCCESS.getCode());
-        resultData.setMessage(message);
-        resultData.setData(data);
-        return resultData;
+        FastJSON fastJson;
+        if (data instanceof FastJSON){
+            fastJson = (FastJSON) data;
+        }else {
+            fastJson = new FastJSON<>();
+            fastJson.setData(data);
+        }
+
+        fastJson.setCode(ResultCodeEnum.SUCCESS.getCode());
+        fastJson.setMessage(message);
+        return new ResultData(fastJson);
     }
 
     /**
@@ -67,14 +79,14 @@ public abstract class BaseController {
      * @return
      */
     protected ResultData failed(IResultCode resultCode) {
-        ResultData resultData = new ResultData();
-        resultData.setCode(resultCode.getCode());
+        FastJSON fastJson = new FastJSON();
+        fastJson.setCode(resultCode.getCode());
         if (StringUtil.isNotEmpty(resultCode.getMessage())) {
-            resultData.setMessage(resultCode.getMessage());
+            fastJson.setMessage(resultCode.getMessage());
         } else {
-            resultData.setMessage("未知错误信息！");
+            fastJson.setMessage("未知错误信息！");
         }
-        return resultData;
+        return new ResultData(fastJson);
     }
 
     /**
@@ -85,17 +97,17 @@ public abstract class BaseController {
      * @return
      */
     protected ResultData failed(IResultCode resultCode, String message) {
-        ResultData resultData = new ResultData();
-        resultData.setCode(resultCode.getCode());
+        FastJSON fastJson = new FastJSON();
+        fastJson.setCode(resultCode.getCode());
         if (StringUtil.isEmpty(message)) {
             message = resultCode.getMessage();
         }
         if (StringUtil.isNotEmpty(message)) {
-            resultData.setMessage(message);
+            fastJson.setMessage(message);
         } else {
-            resultData.setMessage("未知错误信息！");
+            fastJson.setMessage("未知错误信息！");
         }
-        return resultData;
+        return new ResultData(fastJson);
     }
 
     /**
@@ -105,17 +117,17 @@ public abstract class BaseController {
      * @return
      */
     protected ResultData failed(IResultCode resultCode, String message,String details) {
-        ResultData resultData = new ResultData();
-        resultData.setCode(resultCode.getCode());
+        FastJSON fastJson = new FastJSON();
+        fastJson.setCode(resultCode.getCode());
         if (StringUtil.isEmpty(message)) {
             message = resultCode.getMessage();
         }
         if (StringUtil.isNotEmpty(message)) {
-            resultData.setMessage(message);
+            fastJson.setMessage(message);
         } else {
-            resultData.setMessage("未知错误信息！");
+            fastJson.setMessage("未知错误信息！");
         }
-        resultData.setDetails(details);
-        return resultData;
+        fastJson.setDetails(details);
+        return new ResultData(fastJson);
     }
 }

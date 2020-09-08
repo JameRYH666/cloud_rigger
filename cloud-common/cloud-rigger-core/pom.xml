@@ -15,14 +15,7 @@
     <name>JeeRigger Core</name>
 
     <dependencies>
-        <dependency>
-            <groupId>com.jeerigger</groupId>
-            <artifactId>cloud-rigger-frame</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.trigersoft</groupId>
-            <artifactId>jaque</artifactId>
-        </dependency>
+
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
@@ -30,6 +23,10 @@
         <dependency>
             <groupId>commons-fileupload</groupId>
             <artifactId>commons-fileupload</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.jeerigger</groupId>
+            <artifactId>cloud-rigger-frame</artifactId>
         </dependency>
     </dependencies>
 

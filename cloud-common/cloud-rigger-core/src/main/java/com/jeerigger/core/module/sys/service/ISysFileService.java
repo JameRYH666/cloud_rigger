@@ -40,7 +40,7 @@ public interface ISysFileService extends BaseService<SysFile> {
     /**
      * 查看文件
      *
-     * @param fileUuid
+     * @param fileId
      * @return
      */
     SysFile viewFile(Long fileId);

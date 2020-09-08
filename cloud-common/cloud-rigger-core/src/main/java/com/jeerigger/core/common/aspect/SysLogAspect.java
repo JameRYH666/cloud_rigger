@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Objects;
 
 // @Aspect
-// @Component
+//@Component
 public class SysLogAspect {
     /**
      * 定义切点(切BaseController以及所有继承了BaseController的子类)

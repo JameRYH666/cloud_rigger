@@ -11,7 +11,7 @@ public enum ResultCodeEnum implements IResultCode {
     ERROR_VALIDATE_TOKEN("1005", "用户登录信息已失效,请重新登录"),
     ERROR_NO_USER_INFO("1006", "用户信息不存在"),
     ERROR_NO_PERMISSION("1007", "没有访问权限"),
-
+    ERROR_LOGIN_WRONG("1010", "登录失败"),
     ERROR_KAPTCHA_FAILURE("1008", "验证码已失效"),
     ERROR_KAPTCHA_WRONG("1009", "验证码错误"),
 
