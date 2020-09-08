@@ -10,7 +10,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.jeerigger</groupId>
-    <artifactId>jeerigger-starter-parent</artifactId>
+    <artifactId>cloud-rigger-starter-parent</artifactId>
     <packaging>pom</packaging>
     <version>1.0.0</version>
 
@@ -168,17 +168,17 @@
 
             <dependency>
                 <groupId>com.jeerigger</groupId>
-                <artifactId>jeerigger-frame</artifactId>
+                <artifactId>cloud-rigger-frame</artifactId>
                 <version>${jeerigger.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.jeerigger</groupId>
-                <artifactId>jeerigger-core</artifactId>
+                <artifactId>cloud-rigger-core</artifactId>
                 <version>${jeerigger.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.jeerigger</groupId>
-                <artifactId>jeerigger-activiti</artifactId>
+                <artifactId>cloud-rigger-activiti</artifactId>
                 <version>${jeerigger.version}</version>
             </dependency>
             <dependency>

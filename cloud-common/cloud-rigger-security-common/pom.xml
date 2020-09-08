@@ -3,19 +3,18 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>jeerigger-starter-parent</artifactId>
+        <artifactId>cloud-common</artifactId>
         <groupId>com.jeerigger</groupId>
         <version>1.0.0</version>
-        <relativePath>../../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>jeerigger-security-common</artifactId>
+    <artifactId>cloud-rigger-security-common</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>com.jeerigger</groupId>
-            <artifactId>jeerigger-frame</artifactId>
+            <artifactId>cloud-rigger-frame</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>

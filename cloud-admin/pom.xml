@@ -4,13 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <groupId>com.jeerigger</groupId>
-        <artifactId>jeerigger-starter-parent</artifactId>
+        <artifactId>cloud-rigger-starter-parent</artifactId>
         <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.jeeadmin</groupId>
-    <artifactId>jeeadmin</artifactId>
+    <artifactId>cloud-admin</artifactId>
     <packaging>pom</packaging>
     <modules>
         <module>cloud-admin-api</module>
@@ -23,11 +23,11 @@
     <dependencies>
         <dependency>
             <groupId>com.jeerigger</groupId>
-            <artifactId>jeerigger-core</artifactId>
+            <artifactId>cloud-rigger-core</artifactId>
         </dependency>
         <dependency>
             <groupId>com.jeerigger</groupId>
-            <artifactId>jeerigger-security-common</artifactId>
+            <artifactId>cloud-rigger-security-common</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
     </dependencies>
