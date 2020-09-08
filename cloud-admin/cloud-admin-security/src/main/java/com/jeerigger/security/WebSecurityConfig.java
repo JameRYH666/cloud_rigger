@@ -45,9 +45,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    public void configure(WebSecurity web) {
+    public void configure(WebSecurity webSecurity) {
         if (StringUtil.isNotEmpty(securityConfig.getIgnoring())) {
-            web.ignoring().antMatchers(splitclearSpace(securityConfig.getIgnoring()));
+            // 配置忽略的地址
+            webSecurity.ignoring().antMatchers(splitclearSpace(securityConfig.getIgnoring()));
         }
     }
 
