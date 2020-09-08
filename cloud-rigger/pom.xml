@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.jeerigger</groupId>
+        <artifactId>jeerigger-starter-parent</artifactId>
+        <version>1.0.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.jeerigger</groupId>
+    <artifactId>jeerigger</artifactId>
+    <packaging>pom</packaging>
+
+    <name>JeeRigger</name>
+
+    <modules>
+        <module>jeerigger-api</module>
+        <module>jeerigger-model</module>
+        <module>jeerigger-service</module>
+        <module>jeerigger-web</module>
+        <module>jeerigger-starter-web</module>
+    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>com.jeerigger</groupId>
+            <artifactId>jeerigger-core</artifactId>
+        </dependency>
+    </dependencies>
+</project>
