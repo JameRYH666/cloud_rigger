@@ -1,7 +1,6 @@
 package com.jeeadmin.controller;
 
 import com.jeeadmin.api.ICloudUserService;
-import com.jeeadmin.entity.SysAdminUser;
 import com.jeeadmin.vo.user.UpdatePwdVo;
 import com.jeeadmin.vo.user.UpdateUserVo;
 import com.jeerigger.frame.base.controller.BaseController;
@@ -26,8 +25,7 @@ public class PersonController extends BaseController {
     @RequestMapping(value = "/info", method = RequestMethod.POST)
     @ApiOperation(value = "查看个人信息", notes = "查看个人信息")
     public ResultData userInfo() {
-        SysAdminUser sysAdminUser = sysAdminUserService.getById(SecurityUtil.getUserId());
-        return this.success(sysAdminUser);
+        return this.success(sysAdminUserService.getById(SecurityUtil.getUserId()));
     }
 
     @RequestMapping(value = "/changePwd", method = RequestMethod.POST)

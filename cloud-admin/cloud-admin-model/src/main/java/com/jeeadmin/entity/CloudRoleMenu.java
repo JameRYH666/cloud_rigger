@@ -6,8 +6,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
-import java.util.Date;
-
 /**
  * @author Seven Lee
  * @description
@@ -30,24 +28,24 @@ public class CloudRoleMenu extends BaseModel<CloudRoleMenu> {
      */
     private Long menuId;
 
-    /**
+  /*  *//**
      * 创建用户
-     */
-    private String createUser;
+     *//*
+    private Long createUser;
 
-    /**
+    *//**
      * 创建时间
-     */
+     *//*
     private Date createDate;
 
-    /**
+    *//**
      * 修改用户
-     */
-    private String updateUser;
+     *//*
+    private Long updateUser;
 
-    /**
+    *//**
      * 修改时间
-     */
-    private Date updateDate;
+     *//*
+    private Date updateDate;*/
 
 }

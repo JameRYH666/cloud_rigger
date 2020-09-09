@@ -2,7 +2,7 @@ package com.jeeadmin.controller;
 
 
 import com.jeeadmin.api.ICloudDictTypeService;
-import com.jeeadmin.entity.SysDictType;
+import com.jeeadmin.entity.CloudDictType;
 import com.jeerigger.frame.base.controller.BaseController;
 import com.jeerigger.frame.base.controller.ResultCodeEnum;
 import com.jeerigger.frame.base.controller.ResultData;
@@ -29,13 +29,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/sys/dictType")
 @Api(value = "字典类型管理", tags = "字典类型管理")
 public class SysDictTypeController extends BaseController {
+
     @Autowired
     ICloudDictTypeService sysDictTypeService;
 
     @ResponseBody
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ApiOperation(value = "获取字典类型列表", notes = "获取字典类型列表")
-    public ResultData list(@RequestBody PageHelper<SysDictType> pageHelper) {
+    public ResultData list(@RequestBody PageHelper<CloudDictType> pageHelper) {
         return this.success(sysDictTypeService.selectPage(pageHelper));
     }
 
@@ -50,8 +51,8 @@ public class SysDictTypeController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ApiOperation(value = "新增字典类型数据", notes = "新增字典类型数据")
-    public ResultData save(@RequestBody SysDictType sysDictType) {
-        if (sysDictTypeService.saveDictType(sysDictType)) {
+    public ResultData save(@RequestBody CloudDictType cloudDictType) {
+        if (sysDictTypeService.saveDictType(cloudDictType)) {
             return this.success();
         } else {
             return this.failed(ResultCodeEnum.ERROR_SAVE_FAIL, "新增字典类型数据失败！");
@@ -61,8 +62,8 @@ public class SysDictTypeController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/updateStatus", method = RequestMethod.POST)
     @ApiOperation(value = "修改字典类型状态", notes = "修改字典类型状态")
-    public ResultData updateStatus(@RequestBody SysDictType sysDictType) {
-        if (sysDictTypeService.updateStatus(sysDictType)) {
+    public ResultData updateStatus(@RequestBody CloudDictType cloudDictType) {
+        if (sysDictTypeService.updateStatus(cloudDictType)) {
             return this.success();
         } else {
             return this.failed(ResultCodeEnum.ERROR_UPDATE_FAIL, "修改字典类型状态失败！");
@@ -72,8 +73,8 @@ public class SysDictTypeController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ApiOperation(value = "修改字典类型数据", notes = "修改字典类型数据")
-    public ResultData update(@RequestBody SysDictType sysDictType) {
-        if (sysDictTypeService.updateDictType(sysDictType)) {
+    public ResultData update(@RequestBody CloudDictType cloudDictType) {
+        if (sysDictTypeService.updateDictType(cloudDictType)) {
             return this.success();
         } else {
             return this.failed(ResultCodeEnum.ERROR_UPDATE_FAIL, "修改字典类型数据失败！");

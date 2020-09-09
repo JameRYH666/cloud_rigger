@@ -11,7 +11,7 @@ public class QueryUserVo {
     /**
      * 用户名
      */
-    private String userName;
+    private String loginName;
 
     /**
      * 联系手机

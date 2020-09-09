@@ -1,26 +1,13 @@
 package com.jeeadmin.controller;
 
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.jeeadmin.api.ICloudRoleService;
-import com.jeeadmin.api.ISysUserRoleService;
 import com.jeeadmin.api.ICloudPartyMemberService;
-import com.jeeadmin.entity.SysUser;
-import com.jeeadmin.vo.user.AssignRoleVo;
-import com.jeeadmin.vo.user.QueryUserVo;
+import com.jeeadmin.api.ICloudRoleService;
 import com.jeerigger.frame.base.controller.BaseController;
-import com.jeerigger.frame.base.controller.ResultCodeEnum;
-import com.jeerigger.frame.base.controller.ResultData;
-import com.jeerigger.frame.page.PageHelper;
-import com.jeerigger.frame.support.resolver.annotation.SingleRequestBody;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * <p>
@@ -39,7 +26,7 @@ public class SysUserController extends BaseController {
     private ICloudPartyMemberService sysUserService;
     @Autowired
     private ICloudRoleService sysRoleService;
-    @Autowired
+    /*@Autowired
     private ISysUserRoleService sysUserRoleService;
 
     @ResponseBody
@@ -138,6 +125,6 @@ public class SysUserController extends BaseController {
         } else {
             return this.failed(ResultCodeEnum.ERROR_SAVE_FAIL, "用户分配角色失败！");
         }
-    }
+    }*/
 
 }

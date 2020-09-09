@@ -35,7 +35,7 @@ public class CloudUserOrg extends BaseModel<CloudUserOrg> {
     /**
      * 创建用户
      */
-    private String createUser;
+    private Long createUser;
 
     /**
      * 创建时间
@@ -45,7 +45,7 @@ public class CloudUserOrg extends BaseModel<CloudUserOrg> {
     /**
      * 更新用户
      */
-    private String updateUser;
+    private Long updateUser;
 
     /**
      * 更新时间

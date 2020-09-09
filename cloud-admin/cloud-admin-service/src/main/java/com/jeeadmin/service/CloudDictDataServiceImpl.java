@@ -34,7 +34,7 @@ import java.util.Objects;
 @Service
 public class CloudDictDataServiceImpl extends BaseServiceImpl<CloudDictDataMapper, CloudDictData> implements ICloudDictDataService {
     @Autowired
-    private ISysDictTypeService sysDictTypeService;
+    private ICloudDictTypeService cloudDictTypeService;
 
     @Override
     public List<CloudDictData> selectDictDataList(CloudDictData sysDictData) {
@@ -143,7 +143,7 @@ public class CloudDictDataServiceImpl extends BaseServiceImpl<CloudDictDataMappe
     private void validateDictType(String dictType) {
         QueryWrapper<CloudDictType> queryWrapper = new QueryWrapper<CloudDictType>();
         queryWrapper.lambda().eq(CloudDictType::getDictType, dictType);
-        if (sysDictTypeService.count(queryWrapper) < 1) {
+        if (cloudDictTypeService.count(queryWrapper) < 1) {
             throw new ValidateException("添加的字典数据类型不存在！");
         }
     }

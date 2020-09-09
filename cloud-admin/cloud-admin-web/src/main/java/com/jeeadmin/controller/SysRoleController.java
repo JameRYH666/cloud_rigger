@@ -1,8 +1,11 @@
 package com.jeeadmin.controller;
 
 
-import com.jeeadmin.api.*;
-import com.jeeadmin.entity.SysRole;
+import com.jeeadmin.api.ICloudMenuService;
+import com.jeeadmin.api.ICloudPartyMemberService;
+import com.jeeadmin.api.ICloudRoleMenuService;
+import com.jeeadmin.api.ICloudRoleService;
+import com.jeeadmin.entity.CloudRole;
 import com.jeeadmin.vo.role.AssignMenuVo;
 import com.jeeadmin.vo.role.AssignUserVo;
 import com.jeeadmin.vo.role.CancelUserVo;
@@ -33,6 +36,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/sys/role")
 @Api(value = "角色管理", tags = "角色管理")
 public class SysRoleController extends BaseController {
+
     @Autowired
     private ICloudRoleService sysRoleService;
     @Autowired
@@ -40,14 +44,12 @@ public class SysRoleController extends BaseController {
     @Autowired
     private ICloudMenuService sysMenuService;
     @Autowired
-    private ISysUserRoleService sysUserRoleService;
-    @Autowired
     private ICloudRoleMenuService sysRoleMenuService;
 
     @ResponseBody
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ApiOperation(value = "获取角色列表", notes = "获取角色列表")
-    public ResultData list(@RequestBody PageHelper<SysRole> pageHelper) {
+    public ResultData list(@RequestBody PageHelper<CloudRole> pageHelper) {
         return this.success(sysRoleService.selectPage(pageHelper));
     }
 
@@ -61,7 +63,7 @@ public class SysRoleController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/updateStatus", method = RequestMethod.POST)
     @ApiOperation(value = "修改角色状态", notes = "修改角色状态")
-    public ResultData updateStatus(@RequestBody SysRole sysRole) {
+    public ResultData updateStatus(@RequestBody CloudRole sysRole) {
         if (sysRoleService.updateStatus(sysRole.getId(), sysRole.getRoleStatus())) {
             return this.success();
         } else {
@@ -73,14 +75,14 @@ public class SysRoleController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ApiOperation(value = "新增角色信息", notes = "新增角色信息")
-    public ResultData save(@RequestBody SysRole sysRole) {
+    public ResultData save(@RequestBody CloudRole sysRole) {
         return this.success(sysRoleService.saveSysRole(sysRole));
     }
 
     @ResponseBody
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ApiOperation(value = "更新角色信息", notes = "更新角色信息")
-    public ResultData update(@RequestBody SysRole sysRole) {
+    public ResultData update(@RequestBody CloudRole sysRole) {
         if (sysRoleService.updateSysRole(sysRole)) {
             return this.success();
         } else {
@@ -130,11 +132,11 @@ public class SysRoleController extends BaseController {
     @RequestMapping(value = "/cancelUser", method = RequestMethod.POST)
     @ApiOperation(value = "批量取消角色已分配用户", notes = "批量取消角色已分配用户")
     public ResultData cancelUser(@RequestBody CancelUserVo cancelUserVo) {
-        if (sysUserRoleService.cancelRoleUser(cancelUserVo)) {
-            return this.success();
-        } else {
-            return this.failed(ResultCodeEnum.ERROR_SAVE_FAIL, "批量取消角色已分配用户失败！");
-        }
+        // if (sysUserRoleService.cancelRoleUser(cancelUserVo)) {
+        return this.success();
+        //} else {
+        //    return this.failed(ResultCodeEnum.ERROR_SAVE_FAIL, "批量取消角色已分配用户失败！");
+        // }
     }
 
     @ResponseBody

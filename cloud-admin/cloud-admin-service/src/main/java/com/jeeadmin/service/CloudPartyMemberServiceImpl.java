@@ -2,23 +2,18 @@ package com.jeeadmin.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.jeeadmin.api.*;
+import com.jeeadmin.api.ICloudOrgService;
+import com.jeeadmin.api.ICloudPartyMemberService;
+import com.jeeadmin.api.ICloudUserOrgService;
+import com.jeeadmin.api.ICloudUserRoleService;
 import com.jeeadmin.entity.CloudPartyMember;
-import com.jeeadmin.entity.SysUser;
-import com.jeeadmin.entity.SysUserPost;
-import com.jeeadmin.entity.SysUserRole;
 import com.jeeadmin.mapper.CloudPartyMemberMapper;
-import com.jeeadmin.mapper.SysUserMapper;
 import com.jeeadmin.vo.user.AssignRoleVo;
 import com.jeeadmin.vo.user.QueryUserVo;
 import com.jeerigger.core.module.sys.util.SysOrgUtil;
-import com.jeerigger.core.module.sys.util.SysParamUtil;
 import com.jeerigger.frame.base.service.impl.BaseServiceImpl;
-import com.jeerigger.frame.enums.FlagEnum;
-import com.jeerigger.frame.enums.UserStatusEnum;
 import com.jeerigger.frame.exception.ValidateException;
 import com.jeerigger.frame.page.PageHelper;
-import com.jeerigger.frame.support.validate.ValidateUtil;
 import com.jeerigger.frame.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -72,6 +67,7 @@ public class CloudPartyMemberServiceImpl extends BaseServiceImpl<CloudPartyMembe
         return page;
     }
 
+    @Override
     public CloudPartyMember getUserById(Long userId) {
         if (Objects.isNull(userId)) {
             throw new ValidateException("用户ID不能为空！");
@@ -93,6 +89,41 @@ public class CloudPartyMemberServiceImpl extends BaseServiceImpl<CloudPartyMembe
         sysUser.setPostIdList(postIdList);*/
 
         return sysUser;
+    }
+
+    @Override
+    public List<CloudPartyMember> detailUserList(Long roleId) {
+        return null;
+    }
+
+    @Override
+    public boolean saveUser(CloudPartyMember sysUser) {
+        return false;
+    }
+
+    @Override
+    public boolean updateUser(CloudPartyMember sysUser) {
+        return false;
+    }
+
+    @Override
+    public boolean deleteUser(Long id) {
+        return false;
+    }
+
+    @Override
+    public boolean updateUserStatus(CloudPartyMember sysUser) {
+        return false;
+    }
+
+    @Override
+    public boolean resetUserPwd(Long id) {
+        return false;
+    }
+
+    @Override
+    public boolean assignRole(AssignRoleVo assignRoleVo) {
+        return false;
     }
 
 
@@ -128,12 +159,12 @@ public class CloudPartyMemberServiceImpl extends BaseServiceImpl<CloudPartyMembe
         }
     }
 
-    @Override
-    public List<SysUser> detailUserList(Long roleId) {
+ /*   @Override
+    public List<CloudPartyMember> detailUserList(Long roleId) {
         return this.baseMapper.selectUserListByRoleId(roleId);
-    }
+    }*/
 
-    @Override
+   /* @Override
     public boolean saveUser(SysUser sysUser) {
         sysUser.setUserStatus(UserStatusEnum.NORMAL.getCode());
         sysUser.setMgrFlag(FlagEnum.NO.getCode());
@@ -237,13 +268,13 @@ public class CloudPartyMemberServiceImpl extends BaseServiceImpl<CloudPartyMembe
         return true;
     }
 
-    /**
+    *//**
      * 保存用户岗位
      *
      * @param userId
      * @param postIdList
      * @return
-     */
+     *//*
     private boolean saveUserPost(Long userId, List<Long> postIdList) {
         if (postIdList != null && postIdList.size() > 0) {
             List<SysUserPost> sysUserPostList = new ArrayList<>();
@@ -259,13 +290,13 @@ public class CloudPartyMemberServiceImpl extends BaseServiceImpl<CloudPartyMembe
         }
     }
 
-    /**
+    *//**
      * 保存用户已分配的角色
      *
      * @param userId
      * @param roleIdList
      * @return
-     */
+     *//*
     private boolean saveUserRole(Long userId, List<Long> roleIdList) {
         if (roleIdList != null && roleIdList.size() > 0) {
             List<SysUserRole> sysUserRoleList = new ArrayList<>();
@@ -279,5 +310,5 @@ public class CloudPartyMemberServiceImpl extends BaseServiceImpl<CloudPartyMembe
         } else {
             return true;
         }
-    }
+    }*/
 }

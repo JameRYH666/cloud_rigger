@@ -2,7 +2,7 @@ package com.jeeadmin.controller;
 
 
 import com.jeeadmin.api.ICloudLogService;
-import com.jeeadmin.entity.SysLog;
+import com.jeeadmin.entity.CloudLog;
 import com.jeerigger.frame.base.controller.BaseController;
 import com.jeerigger.frame.base.controller.ResultData;
 import com.jeerigger.frame.page.PageHelper;
@@ -27,13 +27,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/sys/log")
 @Api(value = "系统日志", tags = "系统日志")
 public class SysLogController extends BaseController {
+    
     @Autowired
-    ICloudLogService sysLogService;
+    ICloudLogService cloudLogService;
 
     @ResponseBody
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ApiOperation(value = "获取日志列表", notes = "获取日志列表")
-    public ResultData list(@RequestBody PageHelper<SysLog> pageHelper) {
-        return this.success(sysLogService.selectPage(pageHelper));
+    public ResultData list(@RequestBody PageHelper<CloudLog> pageHelper) {
+        return this.success(cloudLogService.selectPage(pageHelper));
     }
 }

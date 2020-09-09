@@ -2,7 +2,7 @@ package com.jeeadmin.controller;
 
 
 import com.jeeadmin.api.ICloudUserService;
-import com.jeeadmin.entity.SysAdminUser;
+import com.jeeadmin.entity.CloudUser;
 import com.jeerigger.frame.base.controller.BaseController;
 import com.jeerigger.frame.base.controller.ResultCodeEnum;
 import com.jeerigger.frame.base.controller.ResultData;
@@ -11,11 +11,7 @@ import com.jeerigger.frame.support.resolver.annotation.SingleRequestBody;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -25,32 +21,32 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @author wangcy
  * @since 2018-11-12
  */
-@Controller
+@RestController
 @RequestMapping("/sys/adminUser")
 @Api(value = "系统管理员", tags = "系统管理员")
 public class SysAdminUserController extends BaseController {
     @Autowired
-    private ICloudUserService sysAdminUserService;
+    private ICloudUserService cloudUserService;
 
     @ResponseBody
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ApiOperation(value = "获取系统管理员列表", notes = "获取系统管理员列表")
-    public ResultData list(@RequestBody PageHelper<SysAdminUser> pageHelper) {
-        return this.success(sysAdminUserService.selectPage(pageHelper));
+    public ResultData list(@RequestBody PageHelper<CloudUser> pageHelper) {
+        return this.success(cloudUserService.selectPage(pageHelper));
     }
 
     @ResponseBody
     @RequestMapping(value = "/detail", method = RequestMethod.POST)
     @ApiOperation(value = "查看系统管理员详细信息", notes = "查看系统管理员详细信息")
-    public ResultData detail(@SingleRequestBody(value = "userUuid") String userUuid) {
-        return this.success(sysAdminUserService.getById(userUuid));
+    public ResultData detail(@SingleRequestBody(value = "userId") Long userId) {
+        return this.success(cloudUserService.getById(userId));
     }
 
     @ResponseBody
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ApiOperation(value = "新增系统管理员信息", notes = "新增系统管理员信息")
-    public ResultData add(@RequestBody SysAdminUser sysAdminUser) {
-        if (sysAdminUserService.saveAdminUser(sysAdminUser)) {
+    public ResultData add(@RequestBody CloudUser cloudUser) {
+        if (cloudUserService.saveAdminUser(cloudUser)) {
             return this.success();
         } else {
             return this.failed(ResultCodeEnum.ERROR_SAVE_FAIL, "新增系统管理员信息！");
@@ -60,8 +56,8 @@ public class SysAdminUserController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ApiOperation(value = "更新系统管理员信息", notes = "更新系统管理员信息")
-    public ResultData update(@RequestBody SysAdminUser sysAdminUser) {
-        if (sysAdminUserService.updateAdminUser(sysAdminUser)) {
+    public ResultData update(@RequestBody CloudUser cloudUser) {
+        if (cloudUserService.updateAdminUser(cloudUser)) {
             return this.success();
         } else {
             return this.failed(ResultCodeEnum.ERROR_UPDATE_FAIL, "更新系统管理员信息失败！");
@@ -71,30 +67,28 @@ public class SysAdminUserController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ApiOperation(value = "删除系统管理员", notes = "删除系统管理员")
-    public ResultData delete(@SingleRequestBody(value = "userUuid") String userUuid) {
-        if (sysAdminUserService.removeById(userUuid)) {
+    public ResultData delete(@SingleRequestBody(value = "userId") Long userId) {
+        if (cloudUserService.removeById(userId)) {
             return this.success();
         } else {
             return this.failed(ResultCodeEnum.ERROR_DELETE_FAIL, "删除系统管理员失败！");
         }
     }
 
-    @ResponseBody
     @RequestMapping(value = "/updateStatus", method = RequestMethod.POST)
     @ApiOperation(value = "修改系统管理员状态", notes = "修改系统管理员状态")
-    public ResultData updateStatus(@RequestBody SysAdminUser sysAdminUser) {
-        if (sysAdminUserService.updateAdminUserStatus(sysAdminUser)) {
+    public ResultData updateStatus(@RequestBody CloudUser cloudUser) {
+        if (cloudUserService.updateAdminUserStatus(cloudUser)) {
             return this.success();
         } else {
             return this.failed(ResultCodeEnum.ERROR_UPDATE_FAIL, "修改系统管理员状态失败！");
         }
     }
 
-    @ResponseBody
     @RequestMapping(value = "/reset", method = RequestMethod.POST)
     @ApiOperation(value = "重置密码", notes = "重置密码")
     public ResultData resetPwd(@SingleRequestBody(value = "userId") Long userId) {
-        if (sysAdminUserService.resetPwd(userId)) {
+        if (cloudUserService.resetPwd(userId)) {
             return this.success();
         } else {
             return this.failed(ResultCodeEnum.ERROR_UPDATE_FAIL, "重置密码失败！");

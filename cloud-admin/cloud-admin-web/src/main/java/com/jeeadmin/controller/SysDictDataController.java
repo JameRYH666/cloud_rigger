@@ -2,7 +2,7 @@ package com.jeeadmin.controller;
 
 
 import com.jeeadmin.api.ICloudDictDataService;
-import com.jeeadmin.entity.SysDictData;
+import com.jeeadmin.entity.CloudDictData;
 import com.jeerigger.frame.base.controller.BaseController;
 import com.jeerigger.frame.base.controller.ResultCodeEnum;
 import com.jeerigger.frame.base.controller.ResultData;
@@ -28,30 +28,30 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(value = "字典数据管理", tags = "字典数据管理")
 public class SysDictDataController extends BaseController {
     @Autowired
-    private ICloudDictDataService sysDictDataService;
+    private ICloudDictDataService cloudDictDataService;
 
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ApiOperation(value = "获取字典数据列表", notes = "获取字典数据列表")
-    public ResultData list(@RequestBody SysDictData sysDictData) {
-        return this.success(sysDictDataService.selectDictDataList(sysDictData));
+    public ResultData list(@RequestBody CloudDictData cloudDictData) {
+        return this.success(cloudDictDataService.selectDictDataList(cloudDictData));
     }
 
     @RequestMapping(value = "/detail", method = RequestMethod.POST)
     @ApiOperation(value = "查看字典数据详细信息", notes = "查看字典数据详细信息")
     public ResultData detail(@SingleRequestBody(value = "dictDataId") Long dictDataId) {
-        return this.success(sysDictDataService.getById(dictDataId));
+        return this.success(cloudDictDataService.getById(dictDataId));
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ApiOperation(value = "新增字典数据信息", notes = "新增字典数据信息")
-    public ResultData add(@RequestBody SysDictData sysDictData) {
-        return this.success(sysDictDataService.saveDictData(sysDictData));
+    public ResultData add(@RequestBody CloudDictData sysDictData) {
+        return this.success(cloudDictDataService.saveDictData(sysDictData));
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ApiOperation(value = "更新字典数据信息", notes = "更新字典数据信息")
-    public ResultData update(@RequestBody SysDictData sysDictData) {
-        if (sysDictDataService.updateDictData(sysDictData)) {
+    public ResultData update(@RequestBody CloudDictData sysDictData) {
+        if (cloudDictDataService.updateDictData(sysDictData)) {
             return this.success();
         } else {
             return this.failed(ResultCodeEnum.ERROR_UPDATE_FAIL, "更新字典数据信息失败！");
@@ -60,8 +60,8 @@ public class SysDictDataController extends BaseController {
 
     @RequestMapping(value = "/updateStatus", method = RequestMethod.POST)
     @ApiOperation(value = "更新字典数据状态", notes = "更新字典数据状态")
-    public ResultData updateStatus(@RequestBody SysDictData sysDictData) {
-        if (sysDictDataService.updateStatus(sysDictData.getId(), sysDictData.getDictStatus())) {
+    public ResultData updateStatus(@RequestBody CloudDictData cloudDictData) {
+        if (cloudDictDataService.updateStatus(cloudDictData.getId(), cloudDictData.getDictStatus())) {
             return this.success();
         } else {
             return this.failed(ResultCodeEnum.ERROR_UPDATE_FAIL, "更新字典数据信息失败！");
@@ -71,7 +71,7 @@ public class SysDictDataController extends BaseController {
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ApiOperation(value = "删除字典数据", notes = "删除字典数据")
     public ResultData updateStatus(@SingleRequestBody(value = "dictDataId") Long dictDataId) {
-        if (sysDictDataService.deleteDictData(dictDataId)) {
+        if (cloudDictDataService.deleteDictData(dictDataId)) {
             return this.success();
         } else {
             return this.failed(ResultCodeEnum.ERROR_UPDATE_FAIL, "删除字典数据失败！");

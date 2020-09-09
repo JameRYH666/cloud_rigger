@@ -2,7 +2,7 @@ package com.jeeadmin.controller;
 
 
 import com.jeeadmin.api.ICloudOrgService;
-import com.jeeadmin.entity.SysOrg;
+import com.jeeadmin.entity.CloudOrg;
 import com.jeerigger.frame.base.controller.BaseController;
 import com.jeerigger.frame.base.controller.ResultCodeEnum;
 import com.jeerigger.frame.base.controller.ResultData;
@@ -42,8 +42,8 @@ public class SysOrgController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/selectAll", method = RequestMethod.POST)
     @ApiOperation(value = "查询组织机构列表", notes = "查询组织机构列表")
-    public ResultData selectAll(@RequestBody SysOrg sysOrg) {
-        return this.success(sysOrgService.selectOrgList(sysOrg));
+    public ResultData selectAll(@RequestBody CloudOrg cloudOrg) {
+        return this.success(sysOrgService.selectOrgList(cloudOrg));
     }
 
 
@@ -57,14 +57,14 @@ public class SysOrgController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ApiOperation(value = "新增组织机构信息", notes = "新增组织机构信息")
-    public ResultData save(@RequestBody SysOrg sysOrg) {
+    public ResultData save(@RequestBody CloudOrg sysOrg) {
         return this.success(sysOrgService.saveSysOrg(sysOrg));
     }
 
     @ResponseBody
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ApiOperation(value = "更新组织机构信息", notes = "更新组织机构信息")
-    public ResultData update(@RequestBody SysOrg sysOrg) {
+    public ResultData update(@RequestBody CloudOrg sysOrg) {
         if (sysOrgService.updateSysOrg(sysOrg)) {
             return this.success();
         } else {
@@ -75,8 +75,8 @@ public class SysOrgController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/updateStatus", method = RequestMethod.POST)
     @ApiOperation(value = "更新组织机构状态", notes = "更新组织机构状态")
-    public ResultData updateStatus(@RequestBody SysOrg sysOrg) {
-        if (sysOrgService.updateStatus(sysOrg)) {
+    public ResultData updateStatus(@RequestBody CloudOrg cloudOrg) {
+        if (sysOrgService.updateStatus(cloudOrg)) {
             return this.success();
         } else {
             return this.failed(ResultCodeEnum.ERROR_UPDATE_FAIL, "更新组织机构状态失败！");

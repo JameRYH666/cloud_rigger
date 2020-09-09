@@ -15,7 +15,7 @@ public interface ICloudUserOrgService extends BaseService<CloudUserOrg> {
     /**
      * 保存机构管理员分配的可管理机构
      *
-     * @param sysOrgAdminOrgList
+     * @param AdminOrgList
      * @return
      */
     boolean saveOrgAdminOrg(List<CloudUserOrg> sysOrgAdminOrgList);

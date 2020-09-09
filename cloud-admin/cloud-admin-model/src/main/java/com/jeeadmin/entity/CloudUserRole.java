@@ -9,14 +9,13 @@ import lombok.experimental.Accessors;
 import java.util.Date;
 
 /**
- * @author Seven Lee
- * @description
- *      管理员角色关系表
  * @param
+ * @author Seven Lee
+ * @description 管理员角色关系表
  * @date 2020/9/8
  * @return
  * @throws
-**/
+ **/
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
@@ -35,7 +34,7 @@ public class CloudUserRole extends BaseModel<CloudUserRole> {
     /**
      * 创建用户
      */
-    private String createUser;
+    private Long createUser;
 
     /**
      * 创建时间
@@ -45,7 +44,7 @@ public class CloudUserRole extends BaseModel<CloudUserRole> {
     /**
      * 更新用户
      */
-    private String updateUser;
+    private Long updateUser;
 
     /**
      * 更新时间

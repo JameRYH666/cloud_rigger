@@ -1,21 +1,10 @@
 package com.jeeadmin.controller;
 
 
-import com.jeeadmin.api.ISysPostService;
-import com.jeeadmin.entity.SysPost;
 import com.jeerigger.frame.base.controller.BaseController;
-import com.jeerigger.frame.base.controller.ResultCodeEnum;
-import com.jeerigger.frame.base.controller.ResultData;
-import com.jeerigger.frame.page.PageHelper;
-import com.jeerigger.frame.support.resolver.annotation.SingleRequestBody;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * <p>
@@ -30,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Api(value = "岗位管理", tags = "岗位管理")
 public class SysPostController extends BaseController {
 
-    @Autowired
+   /* @Autowired
     private ISysPostService sysPostService;
 
     @ResponseBody
@@ -86,5 +75,5 @@ public class SysPostController extends BaseController {
         } else {
             return this.failed(ResultCodeEnum.ERROR_DELETE_FAIL, "删除岗位信息失败！");
         }
-    }
+    }*/
 }
