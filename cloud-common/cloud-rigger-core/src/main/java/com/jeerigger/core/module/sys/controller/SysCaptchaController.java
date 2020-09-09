@@ -38,7 +38,7 @@ public class SysCaptchaController extends BaseController {
             response.setContentType("image/jpeg");//设置相应类型,告诉浏览器输出的内容为图片
             //生成验证码文本
             String kaptchaCode = captchaProducer.createText();
-            // ShiroUtil.setKaptchaCode(kaptchaCode);
+            // .setKaptchaCode(kaptchaCode);
             //利用生成的字符串构建图片
             BufferedImage bufferedImage = captchaProducer.createImage(kaptchaCode);
             servletOutputStream = response.getOutputStream();

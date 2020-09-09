@@ -8,11 +8,13 @@ import com.jeeadmin.mapper.SysParamMapper;
 import com.jeerigger.frame.base.controller.ResultCodeEnum;
 import com.jeerigger.frame.base.service.impl.BaseServiceImpl;
 import com.jeerigger.frame.enums.FlagEnum;
+import com.jeerigger.frame.enums.UserTypeEnum;
 import com.jeerigger.frame.exception.FrameException;
 import com.jeerigger.frame.exception.ValidateException;
 import com.jeerigger.frame.page.PageHelper;
 import com.jeerigger.frame.support.validate.ValidateUtil;
 import com.jeerigger.frame.util.StringUtil;
+import com.jeerigger.security.SecurityUtil;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -104,8 +106,7 @@ public class SysParamServiceImpl extends BaseServiceImpl<SysParamMapper, SysPara
             return true;
         } else {
             if (sysParam.getSysFlag().equals(FlagEnum.YES.getCode())) {
-                if (false) {
-                    // if (!ShiroUtil.getUserData().getUserType().equals(UserTypeEnum.SUPER_ADMIN_USER)) {
+                if (!SecurityUtil.getUserData().getUserType().equals(UserTypeEnum.SUPER_ADMIN_USER)) {
                     throw new ValidateException("系统默认参数不能进行删除！");
                 }
             }

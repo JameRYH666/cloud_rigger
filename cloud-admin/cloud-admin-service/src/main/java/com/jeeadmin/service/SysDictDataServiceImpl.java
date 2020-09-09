@@ -6,6 +6,7 @@ import com.jeeadmin.api.ISysDictTypeService;
 import com.jeeadmin.entity.SysDictData;
 import com.jeeadmin.entity.SysDictType;
 import com.jeeadmin.mapper.SysDictDataMapper;
+import com.jeerigger.core.common.core.SnowFlake;
 import com.jeerigger.frame.base.controller.ResultCodeEnum;
 import com.jeerigger.frame.base.service.impl.BaseServiceImpl;
 import com.jeerigger.frame.enums.FlagEnum;
@@ -35,6 +36,8 @@ import java.util.Objects;
 public class SysDictDataServiceImpl extends BaseServiceImpl<SysDictDataMapper, SysDictData> implements ISysDictDataService {
     @Autowired
     private ISysDictTypeService sysDictTypeService;
+    @Autowired
+    private SnowFlake snowFlake;
 
     @Override
     public List<SysDictData> selectDictDataList(SysDictData sysDictData) {
@@ -109,6 +112,7 @@ public class SysDictDataServiceImpl extends BaseServiceImpl<SysDictDataMapper, S
 
     @Override
     public boolean updateDictData(SysDictData sysDictData) {
+        long id = snowFlake.nextId();
         if (StringUtil.isEmpty(sysDictData.getParentUuid())) {
             sysDictData.setParentUuid("0");
         }

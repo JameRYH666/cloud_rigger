@@ -37,12 +37,12 @@ public class SysApiController extends BaseController {
     public ResultData orgList() {
         return this.success(SysOrgUtil.getSysOrgList());
     }
-    
+
 
     @RequestMapping(value = "/sysTime", method = RequestMethod.POST)
     @ApiOperation(value = "获取系统时间", notes = "获取系统时间")
     public ResultData sysTime() {
-        return this.success("系统时间", DateUtil.getDateNow());
+        return this.success(DateUtil.getDateNow(), "系统时间");
     }
 
 }
