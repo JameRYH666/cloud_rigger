@@ -6,8 +6,10 @@ import com.jeeadmin.api.ICloudUserService;
 import com.jeeadmin.entity.CloudMenu;
 import com.jeeadmin.entity.CloudUser;
 import com.jeeadmin.mapper.CloudUserMapper;
+import com.jeeadmin.vo.user.QueryUserVo;
 import com.jeeadmin.vo.user.UpdatePwdVo;
 import com.jeeadmin.vo.user.UpdateUserVo;
+import com.jeerigger.core.common.core.SnowFlake;
 import com.jeerigger.core.module.sys.SysConstant;
 import com.jeerigger.core.module.sys.entity.UserMenu;
 import com.jeerigger.core.module.sys.service.IUserService;
@@ -31,14 +33,16 @@ import java.util.Objects;
 
 /**
  * @author Seven Lee
- * @description
- *      系统管理员信息表 服务实现类
+ * @description 系统管理员信息表 服务实现类
  * @date 2020/9/8
-**/
+ **/
 @Service
 public class CloudUserServiceImpl extends BaseServiceImpl<CloudUserMapper, CloudUser> implements ICloudUserService {
     @Autowired
     private IUserService userService;
+
+    @Autowired
+    private SnowFlake snowFlake;
 
     @Override
     public CloudUser getAdminUserByLoginName(String loginName) {
@@ -48,20 +52,20 @@ public class CloudUserServiceImpl extends BaseServiceImpl<CloudUserMapper, Cloud
     }
 
     @Override
-    public Page<CloudUser> selectPage(PageHelper<CloudUser> pageHelper) {
+    public Page<CloudUser> selectPage(PageHelper<QueryUserVo> pageHelper) {
         Page page = new Page<CloudUser>(pageHelper.getCurrent(), pageHelper.getSize());
         QueryWrapper<CloudUser> queryWrapper = new QueryWrapper();
         if (pageHelper.getData() != null) {
-            CloudUser sysAdminUser = pageHelper.getData();
+            QueryUserVo queryUserVo = pageHelper.getData();
             queryWrapper.lambda().eq(CloudUser::getMgrType, UserTypeEnum.SYSTEM_ADMIN_USER.getCode());
-            if (StringUtil.isNotEmpty(sysAdminUser.getLoginName())) {
-                queryWrapper.lambda().like(CloudUser::getLoginName, sysAdminUser.getLoginName());
+            if (StringUtil.isNotEmpty(queryUserVo.getLoginName())) {
+                queryWrapper.lambda().like(CloudUser::getLoginName, queryUserVo.getLoginName());
             }
-            if (StringUtil.isNotEmpty(sysAdminUser.getLoginName())) {
-                queryWrapper.lambda().like(CloudUser::getLoginName, sysAdminUser.getLoginName());
+            if (StringUtil.isNotEmpty(queryUserVo.getLoginName())) {
+                queryWrapper.lambda().like(CloudUser::getLoginName, queryUserVo.getLoginName());
             }
-            if (StringUtil.isNotEmpty(sysAdminUser.getUserStatus())) {
-                queryWrapper.lambda().like(CloudUser::getUserStatus, sysAdminUser.getUserStatus());
+            if (StringUtil.isNotEmpty(queryUserVo.getUserStatus())) {
+                queryWrapper.lambda().like(CloudUser::getUserStatus, queryUserVo.getUserStatus());
             }
         }
         queryWrapper.lambda().orderByAsc(CloudUser::getUserSort);
@@ -69,14 +73,18 @@ public class CloudUserServiceImpl extends BaseServiceImpl<CloudUserMapper, Cloud
     }
 
     @Override
-    public boolean saveAdminUser(CloudUser sysAdminUser) {
+    public boolean saveAdminUser(CloudUser cloudUser) {
         //验证登录名
-        validateLoginName(sysAdminUser);
-        sysAdminUser.setMgrType(UserTypeEnum.SYSTEM_ADMIN_USER.getCode());
+        validateLoginName(cloudUser);
+        // cloudUser.setMgrType(UserTypeEnum.SYSTEM_ADMIN_USER.getCode());
         //校验数据准确性
-        ValidateUtil.validateObject(sysAdminUser);
-        sysAdminUser.setPassword(StringUtil.md5(SysParamUtil.getInitPassword()));
-        return this.save(sysAdminUser);
+        ValidateUtil.validateObject(cloudUser);
+        //cloudUser.setPassword(StringUtil.md5(SysParamUtil.getInitPassword()));
+        // todo 暂时默认密码写死
+        cloudUser.setPassword("123456");
+        long id = snowFlake.nextId();
+        cloudUser.setId(id);
+        return this.save(cloudUser);
     }
 
     @Override

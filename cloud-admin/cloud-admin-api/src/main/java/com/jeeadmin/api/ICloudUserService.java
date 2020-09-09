@@ -4,6 +4,7 @@ package com.jeeadmin.api;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jeeadmin.entity.CloudMenu;
 import com.jeeadmin.entity.CloudUser;
+import com.jeeadmin.vo.user.QueryUserVo;
 import com.jeeadmin.vo.user.UpdatePwdVo;
 import com.jeeadmin.vo.user.UpdateUserVo;
 import com.jeerigger.frame.base.service.BaseService;
@@ -32,7 +33,7 @@ public interface ICloudUserService extends BaseService<CloudUser> {
      * @param pageHelper 查询条件
      * @return
      */
-    Page<CloudUser> selectPage(PageHelper<CloudUser> pageHelper);
+    Page<CloudUser> selectPage(PageHelper<QueryUserVo> pageHelper);
 
     /**
      * 新增系统管理员数据

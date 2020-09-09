@@ -1,13 +1,22 @@
 package com.jeeadmin.controller;
 
 
-import com.jeeadmin.api.ICloudPartyMemberService;
-import com.jeeadmin.api.ICloudRoleService;
+import com.jeeadmin.api.ICloudUserService;
+import com.jeeadmin.entity.CloudUser;
+import com.jeeadmin.vo.user.QueryUserVo;
 import com.jeerigger.frame.base.controller.BaseController;
+import com.jeerigger.frame.base.controller.ResultCodeEnum;
+import com.jeerigger.frame.base.controller.ResultData;
+import com.jeerigger.frame.page.PageHelper;
+import com.jeerigger.frame.support.resolver.annotation.SingleRequestBody;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * <p>
@@ -18,23 +27,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @since 2018-11-12
  */
 @Controller
-@RequestMapping("/sys/user")
+@RequestMapping("/cloud/user")
 @Api(value = "用户管理", tags = "用户管理")
-public class SysUserController extends BaseController {
+public class CloudUserController extends BaseController {
 
     @Autowired
-    private ICloudPartyMemberService sysUserService;
-    @Autowired
-    private ICloudRoleService sysRoleService;
-    /*@Autowired
-    private ISysUserRoleService sysUserRoleService;
+    private ICloudUserService cloudUserService;
 
     @ResponseBody
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ApiOperation(value = "获取用户信息列表", notes = "获取用户信息列表")
     public ResultData selectAllUsers(@RequestBody PageHelper<QueryUserVo> pageHelper) {
-        IPage<SysUser> sysUserIPage = sysUserService.selectPage(pageHelper);
-        return this.success(sysUserIPage);
+        return this.success(cloudUserService.selectPage(pageHelper));
     }
 
 
@@ -42,15 +46,15 @@ public class SysUserController extends BaseController {
     @RequestMapping(value = "/detail", method = RequestMethod.POST)
     @ApiOperation(value = "获取用户详细信息", notes = "获取用户详细信息")
     public ResultData selectUserByUserCode(@SingleRequestBody(value = "userId") Long userId) {
-        return this.success(sysUserService.getUserById(userId));
+        return this.success(cloudUserService.getById(userId));
     }
 
 
     @ResponseBody
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ApiOperation(value = "新增用户信息", notes = "新增用户信息")
-    public ResultData save(@RequestBody SysUser sysUser) {
-        if (sysUserService.saveUser(sysUser)) {
+    public ResultData save(@RequestBody CloudUser cloudUser) {
+        if (cloudUserService.saveAdminUser(cloudUser)) {
             return this.success();
         } else {
             return this.failed(ResultCodeEnum.ERROR_SAVE_FAIL, "新增用户失败！");
@@ -60,8 +64,8 @@ public class SysUserController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ApiOperation(value = "更新用户信息", notes = "更新用户信息")
-    public ResultData updateUser(@RequestBody SysUser sysUser) {
-        if (sysUserService.updateUser(sysUser)) {
+    public ResultData updateUser(@RequestBody CloudUser cloudUser) {
+        if (cloudUserService.updateById(cloudUser)) {
             return this.success();
         } else {
             return this.failed(ResultCodeEnum.ERROR_UPDATE_FAIL, "更新用户信息失败！");
@@ -72,7 +76,7 @@ public class SysUserController extends BaseController {
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ApiOperation(value = "删除用户", notes = "删除用户")
     public ResultData updateUserByUserCode(@SingleRequestBody(value = "userId") Long userId) {
-        if (sysUserService.deleteUser(userId)) {
+        if (cloudUserService.removeById(userId)) {
             return this.success();
         } else {
             return this.failed(ResultCodeEnum.ERROR_DELETE_FAIL, "删除用户失败！");
@@ -82,8 +86,8 @@ public class SysUserController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/updateStatus", method = RequestMethod.POST)
     @ApiOperation(value = "更新用户状态", notes = "更新用户状态")
-    public ResultData updateStatus(@RequestBody SysUser sysUser) {
-        if (sysUserService.updateUserStatus(sysUser)) {
+    public ResultData updateStatus(@RequestBody CloudUser sysUser) {
+        if (cloudUserService.updateAdminUserStatus(sysUser)) {
             return this.success();
         } else {
             return this.failed(ResultCodeEnum.ERROR_UPDATE_FAIL, "用户状态更新失败！");
@@ -94,13 +98,13 @@ public class SysUserController extends BaseController {
     @RequestMapping(value = "/reset", method = RequestMethod.POST)
     @ApiOperation(value = "重置用户密码", notes = "重置用户密码")
     public ResultData resetUserPassword(@SingleRequestBody(value = "userId") Long userId) {
-        if (sysUserService.resetUserPwd(userId)) {
+        if (cloudUserService.resetPwd(userId)) {
             return this.success();
         } else {
             return this.failed(ResultCodeEnum.ERROR_UPDATE_FAIL, "重置用户密码失败！");
         }
     }
-
+/*
     @ResponseBody
     @RequestMapping(value = "/roleList", method = RequestMethod.POST)
     @ApiOperation(value = "获取用户可分配角色", notes = "获取用户可分配角色")
@@ -113,14 +117,14 @@ public class SysUserController extends BaseController {
     @RequestMapping(value = "/detailRoleList", method = RequestMethod.POST)
     @ApiOperation(value = "查看用户已分配角色列表", notes = "查看用户已分配角色列表")
     public ResultData detailRole(@SingleRequestBody(value = "userId") Long userId) {
-        return this.success(sysUserRoleService.detailRoleList(userId));
+        return this.success(cloudUserService.detailRoleList(userId));
     }
 
     @ResponseBody
     @RequestMapping(value = "/assignRole", method = RequestMethod.POST)
     @ApiOperation(value = "用户分配角色", notes = "用户分配角色")
     public ResultData assignRole(@RequestBody AssignRoleVo assignRoleVo) {
-        if (sysUserService.assignRole(assignRoleVo)) {
+        if (cloudUserService.assignRole(assignRoleVo)) {
             return this.success();
         } else {
             return this.failed(ResultCodeEnum.ERROR_SAVE_FAIL, "用户分配角色失败！");

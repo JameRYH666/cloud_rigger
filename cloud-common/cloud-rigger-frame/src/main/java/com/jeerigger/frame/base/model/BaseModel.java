@@ -17,6 +17,7 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 public abstract class BaseModel<T extends BaseModel> extends Model<T> {
+
     @TableId(value = "id", type = IdType.ID_WORKER)
     private Long id;
     /**

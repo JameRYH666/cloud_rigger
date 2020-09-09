@@ -34,7 +34,7 @@ public class JeeAdminUserDetailsServiceImpl implements JeeUserDetailsService {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    private ICloudUserService sysAdminUserService;
+    private ICloudUserService cloudUserService;
 
     @Autowired
     private ICloudMenuService sysMenuService;
@@ -43,7 +43,7 @@ public class JeeAdminUserDetailsServiceImpl implements JeeUserDetailsService {
     public UserDetails loadUserByUsername(String loginName) throws UsernameNotFoundException {
         logger.debug("权限框架-加载用户");
         List<GrantedAuthority> auths = new ArrayList<>();
-        CloudUser baseUser = sysAdminUserService.getAdminUserByLoginName(loginName);
+        CloudUser baseUser = cloudUserService.getAdminUserByLoginName(loginName);
 
         if (baseUser == null) {
             logger.debug("找不到该用户 用户名:{}", loginName);
@@ -71,7 +71,6 @@ public class JeeAdminUserDetailsServiceImpl implements JeeUserDetailsService {
             SimpleGrantedAuthority authority = new SimpleGrantedAuthority(permission);
             auths.add(authority);
         }
-        auths.add(new SimpleGrantedAuthority("user"));
         return new JeeUser(baseUser.getId(), baseUser.getLoginName(), baseUser.getLoginName(), baseUser.getPassword(),
                 new ArrayList<>(),new ArrayList<>(),userTypeEnum, "0".equals(baseUser.getUserStatus()), true,
                 true, !"3".equals(baseUser.getUserStatus()), auths);
