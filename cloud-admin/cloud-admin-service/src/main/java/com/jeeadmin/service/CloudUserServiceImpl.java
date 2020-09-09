@@ -84,6 +84,7 @@ public class CloudUserServiceImpl extends BaseServiceImpl<CloudUserMapper, Cloud
         cloudUser.setPassword("123456");
         long id = snowFlake.nextId();
         cloudUser.setId(id);
+        cloudUser.setCreateUser(SecurityUtil.getUserId());
         return this.save(cloudUser);
     }
 
