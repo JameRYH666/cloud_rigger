@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jeeadmin.mapper.CloudOrgMapper" >
+  <resultMap id="BaseResultMap" type="com.jeeadmin.entity.CloudOrg" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="parent_id" property="parentId" jdbcType="BIGINT" />
+    <result column="org_code" property="orgCode" jdbcType="VARCHAR" />
+    <result column="org_name" property="orgName" jdbcType="VARCHAR" />
+    <result column="org_short_name" property="orgShortName" jdbcType="VARCHAR" />
+    <result column="org_leader" property="orgLeader" jdbcType="VARCHAR" />
+    <result column="org_sort" property="orgSort" jdbcType="INTEGER" />
+    <result column="org_status" property="orgStatus" jdbcType="CHAR" />
+    <result column="leaf_flag" property="leafFlag" jdbcType="CHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="top_level" property="topLevel" jdbcType="VARCHAR" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="org_type" property="orgType" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <!-- 通用查询结果列 -->
+  <sql id="Base_Column_List">
+    id, parent_id, org_code, org_name, org_short_name, org_leader, org_type, org_sort, org_status, leaf_flag, remark, top_level, create_user, create_date, update_user, update_date
+  </sql>
+</mapper>

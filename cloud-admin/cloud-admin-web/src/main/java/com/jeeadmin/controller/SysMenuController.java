@@ -1,7 +1,7 @@
 package com.jeeadmin.controller;
 
 
-import com.jeeadmin.api.ISysMenuService;
+import com.jeeadmin.api.ICloudMenuService;
 import com.jeeadmin.entity.SysMenu;
 import com.jeeadmin.vo.menu.QueryMenuVo;
 import com.jeeadmin.vo.menu.SaveMenuSortVo;
@@ -34,7 +34,7 @@ import java.util.List;
 public class SysMenuController extends BaseController {
 
     @Autowired
-    private ISysMenuService sysMenuService;
+    private ICloudMenuService sysMenuService;
 
     @ResponseBody
     @RequestMapping(value = "/selectChild", method = RequestMethod.POST)

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jeeadmin.mapper.CloudDictTypeMapper" >
+  <resultMap id="BaseResultMap" type="com.jeeadmin.entity.CloudDictType" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="dict_type" property="dictType" jdbcType="VARCHAR" />
+    <result column="dict_name" property="dictName" jdbcType="VARCHAR" />
+    <result column="dict_status" property="dictStatus" jdbcType="CHAR" />
+    <result column="sys_flag" property="sysFlag" jdbcType="CHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="sign" property="sign" jdbcType="VARCHAR" />
+    <result column="dict_cat" property="dictCat" jdbcType="BIGINT" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, dict_type, dict_name, dict_status, sys_flag, remark, sign, dict_cat, create_user, create_date, update_user, update_date
+  </sql>
+
+</mapper>

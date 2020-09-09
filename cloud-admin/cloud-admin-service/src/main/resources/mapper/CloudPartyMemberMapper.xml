@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jeeadmin.mapper.CloudPartyMemberMapper" >
+  <resultMap id="BaseResultMap" type="com.jeeadmin.entity.CloudPartyMember" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="member_name" property="memberName" jdbcType="VARCHAR" />
+    <result column="enclosure_id" property="enclosureId" jdbcType="BIGINT" />
+    <result column="sex_code" property="sexCode" jdbcType="VARCHAR" />
+    <result column="member_age" property="memberAge" jdbcType="INTEGER" />
+    <result column="job_code" property="jobCode" jdbcType="VARCHAR" />
+    <result column="member_phone_number" property="memberPhoneNumber" jdbcType="BIGINT" />
+    <result column="member_desc" property="memberDesc" jdbcType="VARCHAR" />
+    <result column="org_id" property="orgId" jdbcType="BIGINT" />
+    <result column="member_enter_time" property="memberEnterTime" jdbcType="DATE" />
+    <result column="party_time" property="partyTime" jdbcType="INTEGER" />
+    <result column="model_code" property="modelCode" jdbcType="VARCHAR" />
+    <result column="member_progress" property="memberProgress" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="memeber_status" property="memeberStatus" jdbcType="CHAR" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="member_email" property="memberEmail" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <!-- 通用查询结果列 -->
+  <sql id="Base_Column_List">
+    id, member_name, enclosure_id, sex_code, member_age, job_code, member_phone_number, member_desc, org_id, member_enter_time, party_time, model_code, member_progress, remark, memeber_status, create_user, create_date, update_user, update_date, member_email
+  </sql>
+</mapper>

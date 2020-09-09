@@ -2,10 +2,11 @@ package com.jeeadmin.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.jeeadmin.api.ISysOrgAdminOrgService;
-import com.jeeadmin.api.ISysOrgAdminRoleService;
+import com.jeeadmin.api.ICloudUserOrgService;
+import com.jeeadmin.api.ICloudUserRoleService;
 import com.jeeadmin.api.ISysOrgAdminService;
-import com.jeeadmin.api.ISysUserService;
+import com.jeeadmin.api.ICloudPartyMemberService;
+import com.jeeadmin.entity.CloudUser;
 import com.jeeadmin.entity.SysOrgAdminOrg;
 import com.jeeadmin.entity.SysOrgAdminRole;
 import com.jeeadmin.entity.SysUser;
@@ -26,31 +27,31 @@ import java.util.Objects;
 @Service
 public class SysOrgAdminServiceImpl implements ISysOrgAdminService {
     @Autowired
-    private ISysOrgAdminOrgService sysOrgAdminOrgService;
+    private ICloudUserOrgService sysOrgAdminOrgService;
     @Autowired
-    private ISysOrgAdminRoleService sysOrgAdminRoleService;
+    private ICloudUserRoleService sysOrgAdminRoleService;
     @Autowired
-    private ISysUserService sysUserService;
+    private ICloudPartyMemberService sysUserService;
 
     @Override
-    public Page<SysUser> selectOrgAdminPage(PageHelper<QueryUserVo> pageHelper) {
-        Page<SysUser> page = new Page<SysUser>(pageHelper.getCurrent(), pageHelper.getSize());
-        QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();
+    public Page<CloudUser> selectOrgAdminPage(PageHelper<QueryUserVo> pageHelper) {
+        Page<CloudUser> page = new Page<CloudUser>(pageHelper.getCurrent(), pageHelper.getSize());
+        QueryWrapper<CloudUser> queryWrapper = new QueryWrapper<CloudUser>();
 
         if (pageHelper.getData() != null) {
             QueryUserVo queryUserVo = pageHelper.getData();
-            queryWrapper.lambda().eq(SysUser::getMgrFlag, FlagEnum.YES.getCode());
+            queryWrapper.lambda().eq(CloudUser::getMgrFlag, FlagEnum.YES.getCode());
             if (StringUtil.isNotEmpty(queryUserVo.getLoginName())) {
-                queryWrapper.lambda().like(SysUser::getLoginName, queryUserVo.getLoginName());
+                queryWrapper.lambda().like(CloudUser::getLoginName, queryUserVo.getLoginName());
             }
             if (StringUtil.isNotEmpty(queryUserVo.getUserName())) {
-                queryWrapper.lambda().like(SysUser::getUserName, queryUserVo.getUserName());
+                queryWrapper.lambda().like(CloudUser::getLoginName, queryUserVo.getUserName());
             }
             if (StringUtil.isNotEmpty(queryUserVo.getUserEmail())) {
-                queryWrapper.lambda().like(SysUser::getUserEmail, queryUserVo.getUserEmail());
+                queryWrapper.lambda().like(CloudUser::getUserEmail, queryUserVo.getUserEmail());
             }
             if (StringUtil.isNotEmpty(queryUserVo.getUserPhone())) {
-                queryWrapper.lambda().like(SysUser::getUserPhone, queryUserVo.getUserPhone());
+                queryWrapper.lambda().like(CloudUser::getUserPhone, queryUserVo.getUserPhone());
             }
             if (StringUtil.isNotEmpty(queryUserVo.getUserMobile())) {
                 queryWrapper.lambda().like(SysUser::getUserMobile, queryUserVo.getUserMobile());
@@ -69,22 +70,22 @@ public class SysOrgAdminServiceImpl implements ISysOrgAdminService {
     }
 
     @Override
-    public Page<SysUser> selectUserPage(PageHelper<QueryUserVo> pageHelper) {
-        Page<SysUser> page = new Page<>(pageHelper.getCurrent(), pageHelper.getSize());
-        QueryWrapper<SysUser> queryWrapper = new QueryWrapper();
+    public Page<CloudUser> selectUserPage(PageHelper<QueryUserVo> pageHelper) {
+        Page<CloudUser> page = new Page<CloudUser>(pageHelper.getCurrent(), pageHelper.getSize());
+        QueryWrapper<CloudUser> queryWrapper = new QueryWrapper();
         if (pageHelper.getData() != null) {
             QueryUserVo queryUserVo = pageHelper.getData();
             if (StringUtil.isNotEmpty(queryUserVo.getLoginName())) {
-                queryWrapper.lambda().like(SysUser::getLoginName, queryUserVo.getLoginName());
+                queryWrapper.lambda().like(CloudUser::getLoginName, queryUserVo.getLoginName());
             }
             if (StringUtil.isNotEmpty(queryUserVo.getUserName())) {
-                queryWrapper.lambda().like(SysUser::getUserName, queryUserVo.getUserName());
+                queryWrapper.lambda().like(CloudUser::getUserName, queryUserVo.getUserName());
             }
             if (StringUtil.isNotEmpty(queryUserVo.getUserEmail())) {
-                queryWrapper.lambda().like(SysUser::getUserEmail, queryUserVo.getUserEmail());
+                queryWrapper.lambda().like(CloudUser::getUserEmail, queryUserVo.getUserEmail());
             }
             if (StringUtil.isNotEmpty(queryUserVo.getUserPhone())) {
-                queryWrapper.lambda().like(SysUser::getUserPhone, queryUserVo.getUserPhone());
+                queryWrapper.lambda().like(CloudUser::getUserPhone, queryUserVo.getUserPhone());
             }
             if (StringUtil.isNotEmpty(queryUserVo.getUserMobile())) {
                 queryWrapper.lambda().like(SysUser::getUserMobile, queryUserVo.getUserMobile());
@@ -103,7 +104,7 @@ public class SysOrgAdminServiceImpl implements ISysOrgAdminService {
     public boolean saveOrgAdmin(Long userId) {
         //验证用户是否存在
         validateUser(userId);
-        SysUser sysUser = new SysUser();
+        CloudUser sysUser = new CloudUser();
         sysUser.setId(userId);
         sysUser.setMgrFlag(FlagEnum.YES.getCode());
         return sysUserService.updateById(sysUser);
@@ -112,7 +113,7 @@ public class SysOrgAdminServiceImpl implements ISysOrgAdminService {
     /**
      * 验证用户是否存在
      *
-     * @param userUuid
+     * @param userId
      */
     private void validateUser(Long userId) {
         if (Objects.isNull(userId)) {
@@ -127,7 +128,7 @@ public class SysOrgAdminServiceImpl implements ISysOrgAdminService {
     public boolean cancelOrgAdmin(Long userId) {
         //验证用户是否存在
         validateUser(userId);
-        SysUser sysUser = new SysUser();
+        CloudUser sysUser = new CloudUser();
         sysUser.setId(userId);
         sysUser.setMgrFlag(FlagEnum.NO.getCode());
         //机构管理员需删除机构管理员组织机构关系表

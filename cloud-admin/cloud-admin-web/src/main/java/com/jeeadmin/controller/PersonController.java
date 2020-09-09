@@ -1,6 +1,6 @@
 package com.jeeadmin.controller;
 
-import com.jeeadmin.api.ISysAdminUserService;
+import com.jeeadmin.api.ICloudUserService;
 import com.jeeadmin.entity.SysAdminUser;
 import com.jeeadmin.vo.user.UpdatePwdVo;
 import com.jeeadmin.vo.user.UpdateUserVo;
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(value = "个人中心", tags = "个人中心")
 public class PersonController extends BaseController {
     @Autowired
-    private ISysAdminUserService sysAdminUserService;
+    private ICloudUserService sysAdminUserService;
 
     @RequestMapping(value = "/info", method = RequestMethod.POST)
     @ApiOperation(value = "查看个人信息", notes = "查看个人信息")

@@ -29,18 +29,18 @@ public class SysOrgUtil {
 //        List<DictData> dictDataList= (List<DictData>)CacheUtil.getSysCache(SYS_DICT_DATA_LIST+"_"+dictType);
         QueryWrapper<SysOrg> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("org_status", StatusEnum.NORMAL.getCode());
-        queryWrapper.orderByAsc("parent_uuid", "org_sort");
+        queryWrapper.orderByAsc("parent_id", "org_sort");
         return getOrgMapper().selectList(queryWrapper);
     }
 
     /**
      * 根据机构UUID获取机构信息
      *
-     * @param orgUuid
+     * @param orgid
      * @return
      */
-    public static SysOrg getSysOrg(String orgUuid) {
-        return getOrgMapper().selectById(orgUuid);
+    public static SysOrg getSysOrg(Long orgid) {
+        return getOrgMapper().selectById(orgid);
     }
 
     /**
@@ -58,11 +58,11 @@ public class SysOrgUtil {
     /**
      * 根据机构UUID获取机构名称
      *
-     * @param orgUuid
+     * @param orgid
      * @return
      */
-    public static String getOrgName(String orgUuid) {
-        SysOrg sysOrg = getSysOrg(orgUuid);
+    public static String getOrgName(Long orgid) {
+        SysOrg sysOrg = getSysOrg(orgid);
         if (sysOrg != null) {
             return sysOrg.getOrgName();
         } else {

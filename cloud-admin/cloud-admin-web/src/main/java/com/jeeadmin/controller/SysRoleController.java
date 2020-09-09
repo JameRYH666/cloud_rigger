@@ -34,15 +34,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Api(value = "角色管理", tags = "角色管理")
 public class SysRoleController extends BaseController {
     @Autowired
-    private ISysRoleService sysRoleService;
+    private ICloudRoleService sysRoleService;
     @Autowired
-    private ISysUserService sysUserService;
+    private ICloudPartyMemberService sysUserService;
     @Autowired
-    private ISysMenuService sysMenuService;
+    private ICloudMenuService sysMenuService;
     @Autowired
     private ISysUserRoleService sysUserRoleService;
     @Autowired
-    private ISysRoleMenuService sysRoleMenuService;
+    private ICloudRoleMenuService sysRoleMenuService;
 
     @ResponseBody
     @RequestMapping(value = "/list", method = RequestMethod.POST)

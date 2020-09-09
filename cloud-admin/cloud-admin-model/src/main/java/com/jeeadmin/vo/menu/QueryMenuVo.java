@@ -9,7 +9,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class QueryMenuVo {
     /**
-     * 菜单UUID
+     * 菜单ID
      */
     private Long menuId;
     /**

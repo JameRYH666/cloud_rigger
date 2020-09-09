@@ -2,9 +2,9 @@ package com.jeeadmin.controller;
 
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.jeeadmin.api.ISysRoleService;
+import com.jeeadmin.api.ICloudRoleService;
 import com.jeeadmin.api.ISysUserRoleService;
-import com.jeeadmin.api.ISysUserService;
+import com.jeeadmin.api.ICloudPartyMemberService;
 import com.jeeadmin.entity.SysUser;
 import com.jeeadmin.vo.user.AssignRoleVo;
 import com.jeeadmin.vo.user.QueryUserVo;
@@ -36,9 +36,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class SysUserController extends BaseController {
 
     @Autowired
-    private ISysUserService sysUserService;
+    private ICloudPartyMemberService sysUserService;
     @Autowired
-    private ISysRoleService sysRoleService;
+    private ICloudRoleService sysRoleService;
     @Autowired
     private ISysUserRoleService sysUserRoleService;
 

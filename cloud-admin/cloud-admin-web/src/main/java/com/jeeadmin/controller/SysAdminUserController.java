@@ -1,7 +1,7 @@
 package com.jeeadmin.controller;
 
 
-import com.jeeadmin.api.ISysAdminUserService;
+import com.jeeadmin.api.ICloudUserService;
 import com.jeeadmin.entity.SysAdminUser;
 import com.jeerigger.frame.base.controller.BaseController;
 import com.jeerigger.frame.base.controller.ResultCodeEnum;
@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Api(value = "系统管理员", tags = "系统管理员")
 public class SysAdminUserController extends BaseController {
     @Autowired
-    private ISysAdminUserService sysAdminUserService;
+    private ICloudUserService sysAdminUserService;
 
     @ResponseBody
     @RequestMapping(value = "/list", method = RequestMethod.POST)
