@@ -29,7 +29,7 @@ import java.util.List;
  * @date 2020/9/9
 **/
 @Service
-public class JeeAdminUserDetailsServiceImpl implements JeeUserDetailsService {
+public class CloudUserDetailsServiceImpl implements JeeUserDetailsService {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
