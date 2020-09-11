@@ -1,7 +1,7 @@
 package com.jeerigger.core.module.sys.util;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.jeerigger.core.module.sys.entity.SysDictData;
+import com.jeerigger.core.module.sys.entity.CloudDictData;
 import com.jeerigger.core.module.sys.mapper.DictDataMapper;
 import com.jeerigger.frame.enums.StatusEnum;
 import com.jeerigger.frame.support.util.SpringUtil;
@@ -17,9 +17,9 @@ import java.util.Map;
 
 public class SysDictUtil {
 
-    private static final String SYS_DICT_DATA_LIST = "sys_dict_data";
+    private static final String SYS_DICT_DATA_LIST = "org_dict_data";
 
-    private static Map<String, SysDictData> dictDataMap = new HashMap<>();
+    private static Map<String, CloudDictData> dictDataMap = new HashMap<>();
 
     private static DictDataMapper getDictDataMapper() {
         return SpringUtil.getBean(DictDataMapper.class);
@@ -31,10 +31,10 @@ public class SysDictUtil {
      * @param dictType
      * @return
      */
-    public static List<SysDictData> getSysDictDataList(String dictType) {
+    public static List<CloudDictData> getSysDictDataList(String dictType) {
 //        List<DictData> dictDataList= (List<DictData>)CacheUtil.getSysCache(SYS_DICT_DATA_LIST+"_"+dictType);
 
-        QueryWrapper<SysDictData> queryWrapper = new QueryWrapper<>();
+        QueryWrapper<CloudDictData> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("dict_type", dictType);
         //只获取状态为正常的数据
         queryWrapper.eq("dict_status", StatusEnum.NORMAL.getCode());
@@ -62,7 +62,7 @@ public class SysDictUtil {
      * @return
      */
     public static String getDictLable(String dictType, String dictValue, String defaultLable) {
-        SysDictData sysDictData = getSysDictData(dictType, dictValue);
+        CloudDictData sysDictData = getSysDictData(dictType, dictValue);
         if (sysDictData != null) {
             return sysDictData.getDictLabel();
         } else {
@@ -70,10 +70,10 @@ public class SysDictUtil {
         }
     }
 
-    public static SysDictData getSysDictData(String dictType, String dictValue) {
-        SysDictData dictData = dictDataMap.get(dictType + dictValue);
+    public static CloudDictData getSysDictData(String dictType, String dictValue) {
+        CloudDictData dictData = dictDataMap.get(dictType + dictValue);
         if (dictData == null) {
-            QueryWrapper<SysDictData> queryWrapper = new QueryWrapper<>();
+            QueryWrapper<CloudDictData> queryWrapper = new QueryWrapper<>();
             queryWrapper.eq("dict_type", dictType);
             queryWrapper.eq("dict_value", dictValue);
             dictData = getDictDataMapper().selectOne(queryWrapper);

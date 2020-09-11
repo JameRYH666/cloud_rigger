@@ -1,5 +1,6 @@
 package com.jeerigger.core.module.sys.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.jeerigger.frame.base.model.BaseModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -16,14 +17,15 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class SysDictData extends BaseModel<SysDictData> {
+@TableName("cloud_dict_data")
+public class CloudDictData extends BaseModel<CloudDictData> {
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * 上级字典数据uuid
+     * 上级字典数据id
      */
-    private String parentUuid;
+    private String parentId;
 
     /**
      * 字典类型

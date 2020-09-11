@@ -6,15 +6,20 @@ import com.jeeadmin.api.ICloudOrgService;
 import com.jeeadmin.api.ICloudPartyMemberService;
 import com.jeeadmin.api.ICloudUserOrgService;
 import com.jeeadmin.api.ICloudUserRoleService;
+import com.jeeadmin.entity.CloudOrg;
 import com.jeeadmin.entity.CloudPartyMember;
 import com.jeeadmin.mapper.CloudPartyMemberMapper;
 import com.jeeadmin.vo.user.AssignRoleVo;
 import com.jeeadmin.vo.user.QueryUserVo;
-import com.jeerigger.core.module.sys.util.SysOrgUtil;
+import com.jeerigger.core.common.core.SnowFlake;
+import com.jeerigger.core.module.sys.util.CloudOrgUtil;
 import com.jeerigger.frame.base.service.impl.BaseServiceImpl;
+import com.jeerigger.frame.enums.UserStatusEnum;
 import com.jeerigger.frame.exception.ValidateException;
 import com.jeerigger.frame.page.PageHelper;
+import com.jeerigger.frame.support.validate.ValidateUtil;
 import com.jeerigger.frame.util.StringUtil;
+import com.jeerigger.security.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,7 +43,8 @@ public class CloudPartyMemberServiceImpl extends BaseServiceImpl<CloudPartyMembe
     private ICloudUserOrgService sysOrgAdminOrgService;
     @Autowired
     private ICloudUserRoleService sysOrgAdminRoleService;
-
+    @Autowired
+    private SnowFlake snowFlake;
     @Override
     public Page<CloudPartyMember> selectPage(PageHelper<QueryUserVo> pageHelper) {
         Page<CloudPartyMember> page = new Page<CloudPartyMember>(pageHelper.getCurrent(), pageHelper.getSize());
@@ -61,7 +67,7 @@ public class CloudPartyMemberServiceImpl extends BaseServiceImpl<CloudPartyMembe
         this.page(page, queryWrapper);
         for (CloudPartyMember sysUser : page.getRecords()) {
             if (sysUser.getOrgId() != null) {
-                sysUser.setOrgName(SysOrgUtil.getOrgName(sysUser.getOrgId()));
+                sysUser.setOrgName(CloudOrgUtil.getOrgName(sysUser.getOrgId()));
             }
         }
         return page;
@@ -91,29 +97,141 @@ public class CloudPartyMemberServiceImpl extends BaseServiceImpl<CloudPartyMembe
         return sysUser;
     }
 
+    /**
+     * @param orgName
+     * @Author: Sgz
+     * @Time: 9:05 2020/9/10
+     * @Params: [orgName]
+     * @Return: java.util.List<com.jeeadmin.entity.CloudPartyMember>
+     * @Throws:
+     * @Description: 根据党支部的名字查询该党支部的所有党员信息
+     */
     @Override
+    public Page<CloudPartyMember> detailPartyMemberList(PageHelper<CloudOrg> pageHelper) {
+        QueryWrapper<CloudPartyMember> wrapper = new QueryWrapper<>();
+        Page page = new Page<CloudPartyMember>(pageHelper.getCurrent(), pageHelper.getSize());
+
+        if (pageHelper.getData()!=null){
+            CloudOrg cloudOrg = sysOrgService.selectOrgByOrgName(pageHelper.getData().getOrgName());
+            wrapper.lambda().eq(CloudPartyMember::getOrgId,cloudOrg.getId());
+        }
+
+        return (Page<CloudPartyMember>) this.page(page, wrapper);
+
+
+    }
+
+   @Override
     public List<CloudPartyMember> detailUserList(Long roleId) {
+
+        /*List<CloudPartyMember> cloudPartyMemberList = new ArrayList<>();
+        QueryWrapper<CloudPartyMember> queryWrapper = new QueryWrapper();
+        CloudPartyMember cloudPartyMember = new CloudPartyMember();
+        //  首先需要判断roleId是否已经获取到
+        if(Objects.isNull(roleId)){
+            //  如果roleId为空  就直接抛出异常，提示错误信息
+            throw new ValidateException("党员的角色id不能为空");
+        }else {
+            //  如果roleId不为空，根据roleId查询党员详细列表
+          queryWrapper.lambda().eq(Cloudpar)
+            if (cloudPartyMembers ==null || cloudPartyMembers.size()>0){
+                throw new ValidateException("没有改角色的党员信息");
+            }
+
+        }*/
         return null;
     }
 
-    @Override
-    public boolean saveUser(CloudPartyMember sysUser) {
-        return false;
-    }
+    /**
+     * @Author: Sgz
+     * @Time: 14:26 2020/9/10
+     * @Params: [cloudPartyMember]
+     * @Return: boolean
+     * @Throws:
+     * @Description:
+     *  添加党员信息
+     *
+     */
 
     @Override
-    public boolean updateUser(CloudPartyMember sysUser) {
-        return false;
+    public boolean saveUser(CloudPartyMember cloudPartyMember) {
+        // 利用雪花算法生成id
+       cloudPartyMember.setId(snowFlake.nextId()) ;
+       cloudPartyMember.setCreateUser(SecurityUtil.getUserId());
+        //验证数据
+        ValidateUtil.validateObject(cloudPartyMember);
+
+        //验证党员手机号
+        validateUserNumber(cloudPartyMember);
+        cloudPartyMember.setMemeberStatus(UserStatusEnum.NORMAL.getCode());
+
+        //保存用户信息
+        return this.save(cloudPartyMember);
+
+
+    }
+    /**
+     * @Author: Sgz
+     * @Time: 14:27 2020/9/10
+     * @Params: [cloudPartyMember]
+     * @Return: boolean
+     * @Throws:
+     * @Description:
+     *  更新党员信息
+     *
+     */
+
+    @Override
+    public boolean updateUser(CloudPartyMember cloudPartyMember) {
+        QueryWrapper<CloudPartyMember> queryWrapper = new QueryWrapper<>();
+        if (this.getById(cloudPartyMember.getId()) == null) {
+            throw new ValidateException("该用户不存在！");
+
+        }
+        //验证数据
+        ValidateUtil.validateObject(cloudPartyMember);
+        cloudPartyMember.setUpdateUser(SecurityUtil.getUserId());
+
+        CloudPartyMember partyMember = this.getUserById(cloudPartyMember.getId());
+        if (!partyMember.getMemberPhoneNumber().equals(cloudPartyMember.getMemberPhoneNumber())){
+            validateUserNumber(cloudPartyMember);
+        }
+
+
+        //更新用户信息
+        return this.updateById(cloudPartyMember);
+
     }
 
     @Override
     public boolean deleteUser(Long id) {
+
         return false;
     }
+
 
     @Override
     public boolean updateUserStatus(CloudPartyMember sysUser) {
         return false;
+    }
+
+    /**
+     * @param cloudPartyMember
+     * @Author: Sgz
+     * @Time: 15:02 2020/9/10
+     * @Params: [cloudPartyMember]
+     * @Return: boolean
+     * @Throws:
+     * @Description: 逻辑删除党员信息
+     */
+    @Override
+    public boolean deleteUser(CloudPartyMember cloudPartyMember) {
+        if (Objects.isNull(cloudPartyMember)){
+            throw new ValidateException("党员信息不能为空");
+        }
+         cloudPartyMember.setMemeberStatus(UserStatusEnum.REMOVE.getCode());
+        return this.updateById(cloudPartyMember);
+
     }
 
     @Override

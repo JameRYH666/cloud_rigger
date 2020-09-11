@@ -1,7 +1,7 @@
 package com.jeerigger.core.module.sys.controller;
 
+import com.jeerigger.core.module.sys.util.CloudOrgUtil;
 import com.jeerigger.core.module.sys.util.SysDictUtil;
-import com.jeerigger.core.module.sys.util.SysOrgUtil;
 import com.jeerigger.frame.base.controller.BaseController;
 import com.jeerigger.frame.base.controller.ResultData;
 import com.jeerigger.frame.support.resolver.annotation.SingleRequestBody;
@@ -35,7 +35,7 @@ public class SysApiController extends BaseController {
     @RequestMapping(value = "/orgList", method = RequestMethod.POST)
     @ApiOperation(value = "获取组织机构列表", notes = "获取组织机构列表")
     public ResultData orgList() {
-        return this.success(SysOrgUtil.getSysOrgList());
+        return this.success(CloudOrgUtil.getSysOrgList());
     }
 
 

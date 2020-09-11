@@ -1,6 +1,7 @@
 package com.jeeadmin.api;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.jeeadmin.entity.CloudOrg;
 import com.jeeadmin.entity.CloudPartyMember;
 import com.jeeadmin.vo.user.AssignRoleVo;
 import com.jeeadmin.vo.user.QueryUserVo;
@@ -32,9 +33,21 @@ public interface ICloudPartyMemberService extends BaseService<CloudPartyMember> 
     /**
      * 查看角色已分配用户
      * @param roleId
+     * 暂时不用
      * @return
      */
     List<CloudPartyMember> detailUserList(Long roleId);
+    /**
+     * @Author: Sgz
+     * @Time: 9:05 2020/9/10
+     * @Params: [orgName]
+     * @Return:
+     * @Throws:
+     * @Description:
+     *  根据党支部的名字查询党员信息
+     *
+     */
+    Page<CloudPartyMember> detailPartyMemberList(PageHelper<CloudOrg> pageHelper);
     /**
      * 新增用户信息
      * @param sysUser
@@ -63,6 +76,17 @@ public interface ICloudPartyMemberService extends BaseService<CloudPartyMember> 
      */
     boolean updateUserStatus(CloudPartyMember sysUser);
 
+    /**
+     * @Author: Sgz
+     * @Time: 15:02 2020/9/10
+     * @Params: [cloudPartyMember]
+     * @Return: boolean
+     * @Throws:
+     * @Description:
+     *  逻辑删除党员信息
+     *
+     */
+    boolean deleteUser(CloudPartyMember cloudPartyMember);
     /**
      * 重置用户密码
      * @param id

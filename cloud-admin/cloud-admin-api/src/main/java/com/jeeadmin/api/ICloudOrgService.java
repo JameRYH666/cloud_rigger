@@ -28,6 +28,18 @@ public interface ICloudOrgService extends BaseTreeService<CloudOrg> {
      * @return
      */
     List<CloudOrg> selectOrgList(CloudOrg sysOrg);
+    /**
+     * @Author: Sgz
+     * @Time: 9:37 2020/9/10
+     * @Params: [orgName]
+     * @Return: java.lang.Long
+     * @Throws:
+     * @Description:
+     *  根据orgName 查询orgId
+     *
+     */
+
+    CloudOrg selectOrgByOrgName(String orgName);
 
     /**
      * 查看组织机构详细信息

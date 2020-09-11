@@ -2,13 +2,14 @@ package com.jeeadmin.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.jeeadmin.api.ICloudUserOrgService;
 import com.jeeadmin.api.ICloudOrgService;
 import com.jeeadmin.api.ICloudPartyMemberService;
+import com.jeeadmin.api.ICloudUserOrgService;
 import com.jeeadmin.entity.CloudOrg;
 import com.jeeadmin.entity.CloudPartyMember;
 import com.jeeadmin.entity.CloudUserOrg;
 import com.jeeadmin.mapper.CloudOrgMapper;
+import com.jeerigger.core.common.core.SnowFlake;
 import com.jeerigger.core.module.sys.SysConstant;
 import com.jeerigger.core.module.sys.util.SysDictUtil;
 import com.jeerigger.frame.base.controller.ResultCodeEnum;
@@ -18,6 +19,7 @@ import com.jeerigger.frame.exception.FrameException;
 import com.jeerigger.frame.exception.ValidateException;
 import com.jeerigger.frame.support.validate.ValidateUtil;
 import com.jeerigger.frame.util.StringUtil;
+import com.jeerigger.security.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +38,8 @@ public class CloudOrgServiceImpl extends BaseTreeServiceImpl<CloudOrgMapper, Clo
     private ICloudPartyMemberService sysUserService;
     @Autowired
     private ICloudUserOrgService sysOrgAdminOrgService;
+    @Autowired
+    private SnowFlake snowFlake;
 
     @Override
     public List<CloudOrg> selectChildOrg(Long orgId) {
@@ -47,7 +51,21 @@ public class CloudOrgServiceImpl extends BaseTreeServiceImpl<CloudOrgMapper, Clo
         wrapper.lambda().orderByAsc(CloudOrg::getParentId, CloudOrg::getOrgSort);
         return this.getListOrg(wrapper);
     }
-
+    /**
+     * @Author: Sgz
+     * @Time: 14:27 2020/9/11
+     * @Params: [sysOrg]
+     * @Return: java.util.List<com.jeeadmin.entity.CloudOrg>
+     * @Throws:
+     * @Description:
+     *  这里是多条件查询，其中
+     *      可以根据组织机构代码org_code进行精确查询
+     *      可以根据组织名称org_name进行模糊查询
+     *      可以根据机构简称org_short_name进行模糊查询
+     *      可以根据机构类型org_type进行模糊查询
+     *      当没有这这几个数据的时候，就会进行全部查询，并且根据parentId和org_sort进行排序
+     *
+     */
     @Override
     public List<CloudOrg> selectOrgList(CloudOrg sysOrg) {
         QueryWrapper<CloudOrg> wrapper = new QueryWrapper<CloudOrg>();
@@ -68,6 +86,30 @@ public class CloudOrgServiceImpl extends BaseTreeServiceImpl<CloudOrgMapper, Clo
         }
         wrapper.lambda().orderByAsc(CloudOrg::getParentId, CloudOrg::getOrgSort);
         return this.getListOrg(wrapper);
+    }
+
+    /**
+     * @param orgName
+     * @Author: Sgz
+     * @Time: 9:37 2020/9/10
+     * @Params: [orgName]
+     * @Return: CloudOrg
+     * @Throws:
+     * @Description: 根据orgName 查询组织信息
+     */
+    @Override
+    public CloudOrg selectOrgByOrgName(String orgName) {
+        QueryWrapper<CloudOrg> wrapper = new QueryWrapper<>();
+        if (Objects.isNull(orgName)){
+            throw new ValidateException("党支部的名字不能为空");
+        }
+             wrapper.lambda().eq(CloudOrg::getOrgName, orgName);
+            CloudOrg cloudOrg = this.getOne(wrapper);
+            if (Objects.isNull(cloudOrg) ){
+                throw  new ValidateException("该党支部不存在");
+            }
+
+        return cloudOrg;
     }
 
     private List<CloudOrg> getListOrg(QueryWrapper<CloudOrg> wrapper) {
@@ -92,6 +134,9 @@ public class CloudOrgServiceImpl extends BaseTreeServiceImpl<CloudOrgMapper, Clo
 
     @Override
     public CloudOrg saveSysOrg(CloudOrg sysOrg) {
+        // 通过安全框架拿取userId
+        sysOrg.setCreateUser(SecurityUtil.getUserId());
+        sysOrg.setId(snowFlake.nextId());
         if (Objects.isNull(sysOrg.getParentId())) {
             sysOrg.setParentId(0L);
         }
@@ -101,7 +146,10 @@ public class CloudOrgServiceImpl extends BaseTreeServiceImpl<CloudOrgMapper, Clo
         //校验业务数据
         ValidateUtil.validateObject(sysOrg);
         //验证上级组织机构
+        if (sysOrg.getParentId()!=0 ){
+
         validateParentUuid(sysOrg.getParentId());
+        }
         //校验组织机构代码是否已存在
         validateOrgCode(sysOrg);
         //验证同一级下名称是否存在
