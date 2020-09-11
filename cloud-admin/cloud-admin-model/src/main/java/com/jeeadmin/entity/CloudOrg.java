@@ -1,6 +1,7 @@
 package com.jeeadmin.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.jeerigger.frame.base.model.BaseModel;
 import com.jeerigger.frame.base.model.BaseTreeModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -25,6 +26,7 @@ import java.util.Date;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
+@TableName("cloud_org")
 public class CloudOrg extends BaseTreeModel<CloudOrg> {
 
     /**
