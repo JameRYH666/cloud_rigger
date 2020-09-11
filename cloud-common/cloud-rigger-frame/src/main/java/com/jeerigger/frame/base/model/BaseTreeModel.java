@@ -31,7 +31,7 @@ public abstract class BaseTreeModel<T extends BaseTreeModel> extends BaseModel<T
     private boolean isLeaf;
 
     public boolean isLeaf() {
-        if (leafFlag.equals(FlagEnum.YES.getCode())) {
+        if (FlagEnum.YES.getCode().equals(leafFlag)) {
             isLeaf = true;
         } else {
             isLeaf = false;
