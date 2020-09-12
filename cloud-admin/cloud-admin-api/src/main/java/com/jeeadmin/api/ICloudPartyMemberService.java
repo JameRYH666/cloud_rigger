@@ -108,16 +108,4 @@ public interface ICloudPartyMemberService extends BaseService<CloudPartyMember> 
      * @return
      */
     boolean assignRole(AssignRoleVo assignRoleVo);
-
-    /**
-     * @Author: Sgz
-     * @Time: 10:43 2020/9/12
-     * @Params: []
-     * @Return: java.util.List<com.jeeadmin.entity.CloudPartyMember>
-     * @Throws:
-     * @Description:
-     *  根据党支部id查询党员信息
-     *
-     */
-    Page<CloudPartyMember> selectPageByOrgId(PageHelper<CloudOrg> pageHelper);
 }

@@ -248,21 +248,6 @@ public class CloudPartyMemberServiceImpl extends BaseServiceImpl<CloudPartyMembe
     }
 
     /**
-     * @param orgId
-     * @Author: Sgz
-     * @Time: 10:43 2020/9/12
-     * @Params: []
-     * @Return: java.util.List<com.jeeadmin.entity.CloudPartyMember>
-     * @Throws:
-     * @Description: 根据党支部id查询党员信息
-     */
-    @Override
-    public Page<CloudPartyMember> selectPageByOrgId(PageHelper<CloudOrg> pageHelper) {
-        return null;
-    }
-
-
-    /**
      * 验证党员姓名是否存在
      *
      * @param sysUser
