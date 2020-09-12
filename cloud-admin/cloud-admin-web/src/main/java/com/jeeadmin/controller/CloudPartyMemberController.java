@@ -2,8 +2,8 @@ package com.jeeadmin.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jeeadmin.api.ICloudPartyMemberService;
-import com.jeeadmin.entity.CloudOrg;
 import com.jeeadmin.entity.CloudPartyMember;
+import com.jeeadmin.vo.member.PartyMemberVo;
 import com.jeeadmin.vo.user.QueryUserVo;
 import com.jeerigger.frame.base.controller.BaseController;
 import com.jeerigger.frame.base.controller.ResultData;
@@ -33,7 +33,7 @@ public class CloudPartyMemberController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ApiOperation(value = "获取党员信息列表", notes = "获取党员信息列表")
-    public ResultData selectAllPartyMembers(@RequestBody PageHelper<QueryUserVo> pageHelper ){
+    public ResultData selectAllPartyMembers(@RequestBody PageHelper<PartyMemberVo> pageHelper ){
         Page<CloudPartyMember> cloudPartyMemberPage = cloudPartyMemberService.selectPage(pageHelper);
         return this.success(cloudPartyMemberPage);
     }
@@ -46,12 +46,6 @@ public class CloudPartyMemberController extends BaseController {
         return this.success(cloudPartyMemberService.getUserById(id));
     }
 
-    @ResponseBody
-    @RequestMapping(value = "/detailPartyMemberList", method = RequestMethod.POST)
-    @ApiOperation(value = "根据党组织名称获取党员详细信息列表", notes = "根据党组织名称获取党员详细信息列表")
-    public ResultData detailPartyMemberListByOrgName(@RequestBody PageHelper<CloudOrg> pageHelper) {
-        return this.success(cloudPartyMemberService.detailPartyMemberList(pageHelper));
-    }
     @ResponseBody
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     @ApiOperation(value = "新增党员信息", notes = "新增党员信息")

@@ -1,10 +1,9 @@
 package com.jeeadmin.api;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.jeeadmin.entity.CloudOrg;
 import com.jeeadmin.entity.CloudPartyMember;
+import com.jeeadmin.vo.member.PartyMemberVo;
 import com.jeeadmin.vo.user.AssignRoleVo;
-import com.jeeadmin.vo.user.QueryUserVo;
 import com.jeerigger.frame.base.service.BaseService;
 import com.jeerigger.frame.page.PageHelper;
 
@@ -22,7 +21,7 @@ public interface ICloudPartyMemberService extends BaseService<CloudPartyMember> 
      * @param pageHelper
      * @return
      */
-    Page<CloudPartyMember> selectPage(PageHelper<QueryUserVo> pageHelper);
+    Page<CloudPartyMember> selectPage(PageHelper<PartyMemberVo> pageHelper);
 
     /**
      * 根据用户唯一标识获取用户信息
@@ -37,17 +36,6 @@ public interface ICloudPartyMemberService extends BaseService<CloudPartyMember> 
      * @return
      */
     List<CloudPartyMember> detailUserList(Long roleId);
-    /**
-     * @Author: Sgz
-     * @Time: 9:05 2020/9/10
-     * @Params: [orgName]
-     * @Return:
-     * @Throws:
-     * @Description:
-     *  根据党支部的名字查询党员信息
-     *
-     */
-    Page<CloudPartyMember> detailPartyMemberList(PageHelper<CloudOrg> pageHelper);
     /**
      * 新增用户信息
      * @param sysUser

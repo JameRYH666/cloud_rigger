@@ -6,11 +6,10 @@ import com.jeeadmin.api.ICloudOrgService;
 import com.jeeadmin.api.ICloudPartyMemberService;
 import com.jeeadmin.api.ICloudUserOrgService;
 import com.jeeadmin.api.ICloudUserRoleService;
-import com.jeeadmin.entity.CloudOrg;
 import com.jeeadmin.entity.CloudPartyMember;
 import com.jeeadmin.mapper.CloudPartyMemberMapper;
+import com.jeeadmin.vo.member.PartyMemberVo;
 import com.jeeadmin.vo.user.AssignRoleVo;
-import com.jeeadmin.vo.user.QueryUserVo;
 import com.jeerigger.core.common.core.SnowFlake;
 import com.jeerigger.core.module.sys.util.CloudOrgUtil;
 import com.jeerigger.frame.base.service.impl.BaseServiceImpl;
@@ -29,10 +28,9 @@ import java.util.Objects;
 
 /**
  * @author Seven Lee
- * @description
- *      党员信息表 服务实现类
+ * @description 党员信息表 服务实现类
  * @date 2020/9/9
-**/
+ **/
 @Service
 public class CloudPartyMemberServiceImpl extends BaseServiceImpl<CloudPartyMemberMapper, CloudPartyMember> implements ICloudPartyMemberService {
     @Autowired
@@ -45,23 +43,24 @@ public class CloudPartyMemberServiceImpl extends BaseServiceImpl<CloudPartyMembe
     private ICloudUserRoleService sysOrgAdminRoleService;
     @Autowired
     private SnowFlake snowFlake;
+
     @Override
-    public Page<CloudPartyMember> selectPage(PageHelper<QueryUserVo> pageHelper) {
+    public Page<CloudPartyMember> selectPage(PageHelper<PartyMemberVo> pageHelper) {
         Page<CloudPartyMember> page = new Page<CloudPartyMember>(pageHelper.getCurrent(), pageHelper.getSize());
         QueryWrapper<CloudPartyMember> queryWrapper = new QueryWrapper();
         if (pageHelper.getData() != null) {
-            QueryUserVo queryUserVo = pageHelper.getData();
-            if (StringUtil.isNotEmpty(queryUserVo.getUserEmail())) {
-                queryWrapper.lambda().like(CloudPartyMember::getMemberEmail, queryUserVo.getUserEmail());
+            PartyMemberVo queryUserVo = pageHelper.getData();
+            if (StringUtil.isNotEmpty(queryUserVo.getMemberEmail())) {
+                queryWrapper.lambda().like(CloudPartyMember::getMemberEmail, queryUserVo.getMemberEmail());
             }
-            if (StringUtil.isNotEmpty(queryUserVo.getUserMobile())) {
-                queryWrapper.lambda().like(CloudPartyMember::getMemberPhoneNumber, queryUserVo.getUserMobile());
+            if (StringUtil.isNotEmpty(queryUserVo.getMemberName())) {
+                queryWrapper.lambda().like(CloudPartyMember::getMemberName, queryUserVo.getMemberName());
             }
             if (Objects.nonNull(queryUserVo.getOrgId())) {
                 queryWrapper.lambda().eq(CloudPartyMember::getOrgId, queryUserVo.getOrgId());
             }
-            if (StringUtil.isNotEmpty(queryUserVo.getUserStatus())) {
-                queryWrapper.lambda().eq(CloudPartyMember::getMemeberStatus, queryUserVo.getUserStatus());
+            if (StringUtil.isNotEmpty(queryUserVo.getMemeberStatus())) {
+                queryWrapper.lambda().eq(CloudPartyMember::getMemeberStatus, queryUserVo.getMemeberStatus());
             }
         }
         this.page(page, queryWrapper);
@@ -93,35 +92,10 @@ public class CloudPartyMemberServiceImpl extends BaseServiceImpl<CloudPartyMembe
             }
         }
         sysUser.setPostIdList(postIdList);*/
-
         return sysUser;
     }
 
-    /**
-     * @param orgName
-     * @Author: Sgz
-     * @Time: 9:05 2020/9/10
-     * @Params: [orgName]
-     * @Return: java.util.List<com.jeeadmin.entity.CloudPartyMember>
-     * @Throws:
-     * @Description: 根据党支部的名字查询该党支部的所有党员信息
-     */
     @Override
-    public Page<CloudPartyMember> detailPartyMemberList(PageHelper<CloudOrg> pageHelper) {
-        QueryWrapper<CloudPartyMember> wrapper = new QueryWrapper<>();
-        Page page = new Page<CloudPartyMember>(pageHelper.getCurrent(), pageHelper.getSize());
-
-        if (pageHelper.getData()!=null){
-            CloudOrg cloudOrg = sysOrgService.selectOrgByOrgName(pageHelper.getData().getOrgName());
-            wrapper.lambda().eq(CloudPartyMember::getOrgId,cloudOrg.getId());
-        }
-
-        return (Page<CloudPartyMember>) this.page(page, wrapper);
-
-
-    }
-
-   @Override
     public List<CloudPartyMember> detailUserList(Long roleId) {
 
         /*List<CloudPartyMember> cloudPartyMemberList = new ArrayList<>();
@@ -148,16 +122,14 @@ public class CloudPartyMemberServiceImpl extends BaseServiceImpl<CloudPartyMembe
      * @Params: [cloudPartyMember]
      * @Return: boolean
      * @Throws:
-     * @Description:
-     *  添加党员信息
-     *
+     * @Description: 添加党员信息
      */
 
     @Override
     public boolean saveUser(CloudPartyMember cloudPartyMember) {
         // 利用雪花算法生成id
-       cloudPartyMember.setId(snowFlake.nextId()) ;
-       cloudPartyMember.setCreateUser(SecurityUtil.getUserId());
+        cloudPartyMember.setId(snowFlake.nextId());
+        cloudPartyMember.setCreateUser(SecurityUtil.getUserId());
         //验证数据
         ValidateUtil.validateObject(cloudPartyMember);
 
@@ -170,15 +142,14 @@ public class CloudPartyMemberServiceImpl extends BaseServiceImpl<CloudPartyMembe
 
 
     }
+
     /**
      * @Author: Sgz
      * @Time: 14:27 2020/9/10
      * @Params: [cloudPartyMember]
      * @Return: boolean
      * @Throws:
-     * @Description:
-     *  更新党员信息
-     *
+     * @Description: 更新党员信息
      */
 
     @Override
@@ -193,7 +164,7 @@ public class CloudPartyMemberServiceImpl extends BaseServiceImpl<CloudPartyMembe
         cloudPartyMember.setUpdateUser(SecurityUtil.getUserId());
 
         CloudPartyMember partyMember = this.getUserById(cloudPartyMember.getId());
-        if (!partyMember.getMemberPhoneNumber().equals(cloudPartyMember.getMemberPhoneNumber())){
+        if (!partyMember.getMemberPhoneNumber().equals(cloudPartyMember.getMemberPhoneNumber())) {
             validateUserNumber(cloudPartyMember);
         }
 
@@ -226,10 +197,10 @@ public class CloudPartyMemberServiceImpl extends BaseServiceImpl<CloudPartyMembe
      */
     @Override
     public boolean deleteUser(CloudPartyMember cloudPartyMember) {
-        if (Objects.isNull(cloudPartyMember)){
+        if (Objects.isNull(cloudPartyMember)) {
             throw new ValidateException("党员信息不能为空");
         }
-         cloudPartyMember.setMemeberStatus(UserStatusEnum.REMOVE.getCode());
+        cloudPartyMember.setMemeberStatus(UserStatusEnum.REMOVE.getCode());
         return this.updateById(cloudPartyMember);
 
     }
