@@ -1,8 +1,6 @@
 package com.jeeadmin.controller;
 
-import com.jeeadmin.api.ICloudActivityRecordService;
 import com.jeeadmin.api.ICloudMeetingRecordService;
-import com.jeeadmin.entity.CloudActivityRecord;
 import com.jeeadmin.entity.CloudMeetingRecord;
 import com.jeerigger.frame.base.controller.BaseController;
 import com.jeerigger.frame.base.controller.ResultCodeEnum;
@@ -24,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/meeting/record")
-@Api(value = "活动记录信息", tags = "活动记录信息")
+@Api(value = "会议记录信息", tags = "会议记录信息")
 public class MeetingRecordController extends BaseController {
 
     @Autowired

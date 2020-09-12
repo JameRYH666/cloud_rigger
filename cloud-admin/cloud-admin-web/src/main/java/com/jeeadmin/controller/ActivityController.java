@@ -2,6 +2,7 @@ package com.jeeadmin.controller;
 
 import com.jeeadmin.api.ICloudActivityService;
 import com.jeeadmin.entity.CloudActivity;
+import com.jeeadmin.vo.activity.QueryActivityVo;
 import com.jeerigger.frame.base.controller.BaseController;
 import com.jeerigger.frame.base.controller.ResultCodeEnum;
 import com.jeerigger.frame.base.controller.ResultData;
@@ -31,23 +32,23 @@ public class ActivityController extends BaseController {
 
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ApiOperation(value = "获取活动信息数据列表", notes = "获取活动信息数据列表")
-    public ResultData list(@RequestBody PageHelper<CloudActivity> pageHelper){
+    public ResultData list(@RequestBody PageHelper<QueryActivityVo> pageHelper) {
         return this.success(cloudActivityService.selectPage(pageHelper));
     }
 
-    @RequestMapping(value = "/add",method = RequestMethod.POST)
-    @ApiOperation(value = "新增活动信息数据",notes = "新增活动信息数据列表")
-    public ResultData add(@RequestBody CloudActivity activity){
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @ApiOperation(value = "新增活动信息数据", notes = "新增活动信息数据列表")
+    public ResultData add(@RequestBody CloudActivity activity) {
         return this.success(cloudActivityService.saveActivity(activity));
     }
 
-    @RequestMapping(value = "/update",method = RequestMethod.POST)
-    @ApiOperation(value = "更新活动信息数据",notes = "更新活动信息数据")
-    public ResultData update(@RequestBody CloudActivity activity){
-        if (cloudActivityService.updateActivity(activity)){
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    @ApiOperation(value = "更新活动信息数据", notes = "更新活动信息数据")
+    public ResultData update(@RequestBody CloudActivity activity) {
+        if (cloudActivityService.updateActivity(activity)) {
             return this.success();
-        }else {
-            return this.failed(ResultCodeEnum.ERROR_UPDATE_FAIL,"更新活动信息失败");
+        } else {
+            return this.failed(ResultCodeEnum.ERROR_UPDATE_FAIL, "更新活动信息失败");
         }
     }
 
@@ -61,14 +62,9 @@ public class ActivityController extends BaseController {
         }
     }
 
-    @RequestMapping(value = "/selectOne",method = RequestMethod.POST)
-    @ApiOperation(value = "查询单个活动信息",notes = "查询单个活动的信息")
-        public  ResultData selectOneActivity(@SingleRequestBody(value = "activityId") Long activityId){
-        return this.success(cloudActivityService.selectOneActivity(activityId));
+    @RequestMapping(value = "/selectOne", method = RequestMethod.POST)
+    @ApiOperation(value = "查询单个活动信息", notes = "查询单个活动的信息")
+    public ResultData selectOneActivity(@SingleRequestBody(value = "activityId") Long activityId) {
+        return this.success(cloudActivityService.getById(activityId));
     }
-
-
-
-
-
 }

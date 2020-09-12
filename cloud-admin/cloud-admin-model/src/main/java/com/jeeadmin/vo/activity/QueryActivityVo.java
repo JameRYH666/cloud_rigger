@@ -8,7 +8,7 @@ import lombok.experimental.Accessors;
  * @Company YXH
  * @Author ryh
  * @Date Create in 2020/9/9 13:50
- * @Description:        活动信息记录附件VO
+ * @Description: 活动信息记录附件VO
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -49,15 +49,4 @@ public class QueryActivityVo {
      * 活动地址
      */
     private String activityAddress;
-
-    /**
-     * 活动记录内容
-     */
-    private String recordComment;
-
-    /**
-     * 备注信息(冗余字段)
-     */
-    private String remark;
-
 }

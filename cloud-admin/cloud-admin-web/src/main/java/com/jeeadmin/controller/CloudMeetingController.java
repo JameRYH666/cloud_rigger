@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/meeting")
-@Api(value = "活动信息", tags = "活动信息")
+@Api(value = "会议信息", tags = "会议信息")
 public class CloudMeetingController extends BaseController {
 
     @Autowired
