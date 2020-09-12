@@ -25,7 +25,7 @@ public class SysParamUtil {
      */
     public static SysParam getSysParam(String paramKey) {
         QueryWrapper queryWrapper = new QueryWrapper();
-        queryWrapper.eq("param_key", paramKey);
+            queryWrapper.eq("param_key", paramKey);
         return getParamMapper().selectOne(queryWrapper);
     }
 

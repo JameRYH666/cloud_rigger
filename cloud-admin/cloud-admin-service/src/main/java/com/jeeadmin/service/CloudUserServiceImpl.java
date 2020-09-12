@@ -93,7 +93,6 @@ public class CloudUserServiceImpl extends BaseServiceImpl<CloudUserMapper, Cloud
         if (this.getById(sysAdminUser.getId()) == null) {
             throw new ValidateException("该管理员（" + sysAdminUser.getLoginName() + "）已不存在，不能进行编辑！");
         }
-
         //校验数据准确性
         ValidateUtil.validateObject(sysAdminUser);
         //验证登录名

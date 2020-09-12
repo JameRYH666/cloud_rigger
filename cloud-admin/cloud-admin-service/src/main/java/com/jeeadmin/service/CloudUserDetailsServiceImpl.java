@@ -44,7 +44,6 @@ public class CloudUserDetailsServiceImpl implements JeeUserDetailsService {
         logger.debug("权限框架-加载用户");
         List<GrantedAuthority> auths = new ArrayList<>();
         CloudUser baseUser = cloudUserService.getAdminUserByLoginName(loginName);
-
         if (baseUser == null) {
             logger.debug("找不到该用户 用户名:{}", loginName);
             throw new UsernameNotFoundException("找不到该用户！");
