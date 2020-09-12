@@ -3,8 +3,8 @@ package com.jeeadmin.api;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jeeadmin.entity.CloudOrg;
 import com.jeeadmin.entity.CloudPartyMember;
+import com.jeeadmin.vo.member.PartyMemberVo;
 import com.jeeadmin.vo.user.AssignRoleVo;
-import com.jeeadmin.vo.user.QueryUserVo;
 import com.jeerigger.frame.base.service.BaseService;
 import com.jeerigger.frame.page.PageHelper;
 
@@ -23,7 +23,7 @@ public interface ICloudPartyMemberService extends BaseService<CloudPartyMember> 
      * @param pageHelper
      * @return
      */
-    Page<CloudPartyMember> selectPage(PageHelper<QueryUserVo> pageHelper);
+    Page<CloudPartyMember> selectPage(PageHelper<PartyMemberVo> pageHelper);
 
     /**
      * 根据用户唯一标识获取用户信息
