@@ -64,6 +64,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated().and()
                 .formLogin()
                 .loginPage(securityConfig.getLoginPage())
+                .usernameParameter("loginName")
+                .passwordParameter("password")
                 .loginProcessingUrl(securityConfig.getLoginProcessingUrl())
                 .failureHandler(failureHandler)
                 .successHandler(successHandler)
