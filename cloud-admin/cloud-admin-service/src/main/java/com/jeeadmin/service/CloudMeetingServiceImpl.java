@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jeeadmin.api.ICloudMeetingService;
 
+import com.jeeadmin.entity.CloudEnclosure;
 import com.jeeadmin.entity.CloudMeeting;
 
 import com.jeeadmin.mapper.CloudMeetingMapper;
@@ -98,12 +99,17 @@ public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper,
         if(Objects.isNull(id)){
             throw new ValidateException("会议的Id不能为空");
         }
-        // 查询会议详情信息(没有参与人)
+        // 查询会议详情信息(没有参与人和附件信息)
         CloudMeetingDetailVo meeting = cloudMeetingMapper.selectMeetingDetail(id);
         // 查询该次会议参与人(所有的参与人信息中会议的id是一样的)
         List<String> memberNameList = cloudMeetingMapper.selectJoinMembersByMeetingId(id);
         if(memberNameList.size() > 0) {
             meeting.setJoinMemberName(memberNameList);
+        }
+        // 查询该次会议的附件(所有的附件信息中会议的id是一样的)
+        List<CloudEnclosure> cloudEnclosureList = cloudMeetingMapper.selectEnclosuresByMeetingId(id);
+        if(cloudEnclosureList.size() > 0) {
+            meeting.setEnclosureList(cloudEnclosureList);
         }
         if (null == meeting){
             throw new ValidateException("会议数据为空");

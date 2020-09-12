@@ -49,17 +49,13 @@
             cdd.dict_value formName,
             cdd2.dict_value typeName,
             cpm.member_name memberName,
-            cmpm.create_date oneCreateDate,
-            ce.enclosure_name enclosureName,
-            ce.enclosure_path enclosurePath
+            cmpm.create_date oneCreateDate
         FROM
             cloud_meeting cm
             INNER JOIN cloud_dict_data cdd ON cm.form_code = cdd.data_code
             INNER JOIN cloud_dict_data cdd2 ON cm.type_code = cdd2.data_code
             INNER JOIN cloud_meeting_party_member cmpm ON cm.id = cmpm.meeting_id
             INNER JOIN cloud_party_member cpm ON cpm.id = cmpm.party_member_id
-            INNER JOIN cloud_meeting_enclosure cme ON cme.meeting_id = cm.id
-            INNER JOIN cloud_enclosure ce ON cme.enclosure_id = ce.id
         WHERE
             cmpm.promoter_flag = 1
             AND cm.id = #{id}
@@ -69,11 +65,21 @@
         SELECT
             cpm.member_name joinMemberName
         FROM
-            cloud_meeting cm
-            INNER JOIN cloud_meeting_party_member cmpm ON cmpm.meeting_id = cm.id
-            INNER JOIN cloud_party_member cpm ON cmpm.party_member_id = cpm.id
+            cloud_party_member cpm
+            INNER JOIN cloud_meeting_party_member cmpm ON cpm.id = cmpm.party_member_id
         WHERE
-            cmpm.promoter_flag = 2 AND cm.id = #{id}
+            cmpm.promoter_flag = 2
+            AND cmpm.meeting_id = #{id}
+    </select>
+
+    <select id="selectEnclosuresByMeetingId" parameterType="long" resultType="com.jeeadmin.entity.CloudEnclosure">
+        SELECT
+            ce.*
+        FROM
+            cloud_enclosure ce
+            INNER JOIN cloud_meeting_enclosure cme ON cme.enclosure_id = ce.id
+        WHERE
+            cme.meeting_id = #{id}
     </select>
 
 </mapper>

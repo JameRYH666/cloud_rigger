@@ -1,5 +1,6 @@
 package com.jeeadmin.vo.meeting;
 
+import com.jeeadmin.entity.CloudEnclosure;
 import com.jeeadmin.entity.CloudMeeting;
 import com.jeeadmin.entity.CloudPartyMember;
 import lombok.Data;
@@ -27,11 +28,13 @@ public class CloudMeetingDetailVo extends CloudMeeting {
      */
     private String memberName;
     private Date oneCreateDate;
-    private String enclosureName;
-    private String enclosurePath;
     /**
      * 参会人员名称
      */
     private List<String> joinMemberName;
+    /**
+     * 附件信息
+     */
+    private List<CloudEnclosure> enclosureList;
 
 }
