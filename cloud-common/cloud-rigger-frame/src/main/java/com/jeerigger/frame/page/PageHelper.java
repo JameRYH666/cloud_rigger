@@ -16,6 +16,10 @@ public class PageHelper<T> {
      * 查询条件
      */
     private T data;
+
+    public PageHelper(T current, T size) {
+    }
+
     /**
      * 设置每页记录数默认值
      *

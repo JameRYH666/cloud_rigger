@@ -105,6 +105,7 @@ public class CloudPartyMemberServiceImpl extends BaseServiceImpl<CloudPartyMembe
      * @Return: java.util.List<com.jeeadmin.entity.CloudPartyMember>
      * @Throws:
      * @Description: 根据党支部的名字查询该党支部的所有党员信息
+     * todo 查询不到数据
      */
     @Override
     public Page<CloudPartyMember> detailPartyMemberList(PageHelper<CloudOrg> pageHelper) {
@@ -112,7 +113,9 @@ public class CloudPartyMemberServiceImpl extends BaseServiceImpl<CloudPartyMembe
         Page page = new Page<CloudPartyMember>(pageHelper.getCurrent(), pageHelper.getSize());
 
         if (pageHelper.getData()!=null){
-            CloudOrg cloudOrg = sysOrgService.selectOrgByOrgName(pageHelper.getData().getOrgName());
+            CloudOrg cloudOrg = pageHelper.getData();
+
+             cloudOrg = sysOrgService.selectOrgByOrgName(pageHelper.getData().getOrgName());
             wrapper.lambda().eq(CloudPartyMember::getOrgId,cloudOrg.getId());
         }
 
@@ -242,6 +245,20 @@ public class CloudPartyMemberServiceImpl extends BaseServiceImpl<CloudPartyMembe
     @Override
     public boolean assignRole(AssignRoleVo assignRoleVo) {
         return false;
+    }
+
+    /**
+     * @param orgId
+     * @Author: Sgz
+     * @Time: 10:43 2020/9/12
+     * @Params: []
+     * @Return: java.util.List<com.jeeadmin.entity.CloudPartyMember>
+     * @Throws:
+     * @Description: 根据党支部id查询党员信息
+     */
+    @Override
+    public Page<CloudPartyMember> selectPageByOrgId(PageHelper<CloudOrg> pageHelper) {
+        return null;
     }
 
 

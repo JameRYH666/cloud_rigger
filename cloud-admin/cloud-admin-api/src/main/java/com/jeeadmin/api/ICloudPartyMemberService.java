@@ -19,6 +19,7 @@ import java.util.List;
 public interface ICloudPartyMemberService extends BaseService<CloudPartyMember> {
     /**
      * 获取用户信息
+     *
      * @param pageHelper
      * @return
      */
@@ -26,30 +27,33 @@ public interface ICloudPartyMemberService extends BaseService<CloudPartyMember> 
 
     /**
      * 根据用户唯一标识获取用户信息
+     *
      * @param id
      * @return
      */
     CloudPartyMember getUserById(Long id);
+
     /**
      * 查看角色已分配用户
-     * @param roleId
-     * 暂时不用
+     *
+     * @param roleId 暂时不用
      * @return
      */
     List<CloudPartyMember> detailUserList(Long roleId);
+
     /**
      * @Author: Sgz
      * @Time: 9:05 2020/9/10
      * @Params: [orgName]
      * @Return:
      * @Throws:
-     * @Description:
-     *  根据党支部的名字查询党员信息
-     *
+     * @Description: 根据党支部的名字查询党员信息
      */
     Page<CloudPartyMember> detailPartyMemberList(PageHelper<CloudOrg> pageHelper);
+
     /**
      * 新增用户信息
+     *
      * @param sysUser
      * @return
      */
@@ -57,6 +61,7 @@ public interface ICloudPartyMemberService extends BaseService<CloudPartyMember> 
 
     /**
      * 更新用户信息
+     *
      * @param sysUser
      * @return
      */
@@ -64,6 +69,7 @@ public interface ICloudPartyMemberService extends BaseService<CloudPartyMember> 
 
     /**
      * 删除用户
+     *
      * @param id
      * @return
      */
@@ -71,6 +77,7 @@ public interface ICloudPartyMemberService extends BaseService<CloudPartyMember> 
 
     /**
      * 更新用户状态
+     *
      * @param sysUser
      * @return
      */
@@ -82,13 +89,13 @@ public interface ICloudPartyMemberService extends BaseService<CloudPartyMember> 
      * @Params: [cloudPartyMember]
      * @Return: boolean
      * @Throws:
-     * @Description:
-     *  逻辑删除党员信息
-     *
+     * @Description: 逻辑删除党员信息
      */
     boolean deleteUser(CloudPartyMember cloudPartyMember);
+
     /**
      * 重置用户密码
+     *
      * @param id
      * @return
      */
@@ -96,10 +103,21 @@ public interface ICloudPartyMemberService extends BaseService<CloudPartyMember> 
 
     /**
      * 用户分配角色
+     *
      * @param assignRoleVo
      * @return
      */
     boolean assignRole(AssignRoleVo assignRoleVo);
 
-
+    /**
+     * @Author: Sgz
+     * @Time: 10:43 2020/9/12
+     * @Params: []
+     * @Return: java.util.List<com.jeeadmin.entity.CloudPartyMember>
+     * @Throws:
+     * @Description:
+     *  根据党支部id查询党员信息
+     *
+     */
+    Page<CloudPartyMember> selectPageByOrgId(PageHelper<CloudOrg> pageHelper);
 }
