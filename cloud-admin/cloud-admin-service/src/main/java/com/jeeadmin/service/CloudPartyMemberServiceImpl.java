@@ -23,7 +23,6 @@ import com.jeerigger.security.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -47,24 +46,25 @@ public class CloudPartyMemberServiceImpl extends BaseServiceImpl<CloudPartyMembe
 
     @Override
     public Page<CloudPartyMember> selectPage(PageHelper<PartyMemberVo> pageHelper) {
-        Page<CloudPartyMember> page = new Page<CloudPartyMember>(pageHelper.getCurrent(), pageHelper.getSize());
+        Page<CloudPartyMember> page = new Page<>(pageHelper.getCurrent(), pageHelper.getSize());
         QueryWrapper<CloudPartyMember> queryWrapper = new QueryWrapper();
         if (pageHelper.getData() != null) {
-            PartyMemberVo queryUserVo = pageHelper.getData();
-            if (StringUtil.isNotEmpty(queryUserVo.getMemberEmail())) {
-                queryWrapper.lambda().like(CloudPartyMember::getMemberEmail, queryUserVo.getMemberEmail());
+            PartyMemberVo partyMemberVo = pageHelper.getData();
+            if (StringUtil.isNotEmpty(partyMemberVo.getMemberEmail())) {
+                queryWrapper.lambda().like(CloudPartyMember::getMemberEmail, partyMemberVo.getMemberEmail());
             }
-            if (Objects.nonNull(queryUserVo.getMemberPhoneNumber())) {
-                queryWrapper.lambda().like(CloudPartyMember::getMemberPhoneNumber, queryUserVo.getMemberPhoneNumber());
+            if (Objects.nonNull(partyMemberVo.getMemberPhoneNumber())) {
+                queryWrapper.lambda().like(CloudPartyMember::getMemberPhoneNumber,
+                        partyMemberVo.getMemberPhoneNumber());
             }
-            if (Objects.nonNull(queryUserVo.getOrgId())) {
-                queryWrapper.lambda().eq(CloudPartyMember::getOrgId, queryUserVo.getOrgId());
+            if (Objects.nonNull(partyMemberVo.getOrgId())) {
+                queryWrapper.lambda().eq(CloudPartyMember::getOrgId, partyMemberVo.getOrgId());
             }
-            if (StringUtil.isNotEmpty(queryUserVo.getMemberName())) {
-                queryWrapper.lambda().like(CloudPartyMember::getMemberName, queryUserVo.getMemberName());
+            if (StringUtil.isNotEmpty(partyMemberVo.getMemberName())) {
+                queryWrapper.lambda().like(CloudPartyMember::getMemberName, partyMemberVo.getMemberName());
             }
-            if (StringUtil.isNotEmpty(queryUserVo.getMemeberStatus())) {
-                queryWrapper.lambda().eq(CloudPartyMember::getMemeberStatus, queryUserVo.getMemeberStatus());
+            if (StringUtil.isNotEmpty(partyMemberVo.getMemeberStatus())) {
+                queryWrapper.lambda().eq(CloudPartyMember::getMemeberStatus, partyMemberVo.getMemeberStatus());
             }
         }
         this.page(page, queryWrapper);
@@ -77,31 +77,21 @@ public class CloudPartyMemberServiceImpl extends BaseServiceImpl<CloudPartyMembe
     }
 
     @Override
-    public CloudPartyMember getUserById(Long userId) {
+    public CloudPartyMember getPartyMemberById(Long userId) {
         if (Objects.isNull(userId)) {
             throw new ValidateException("用户ID不能为空！");
         }
-        CloudPartyMember sysUser = this.getById(userId);
-        if (sysUser == null) {
+        CloudPartyMember partyMember = this.getById(userId);
+        if (partyMember == null) {
             throw new ValidateException("用户不存在！");
         }
-        if (sysUser != null && Objects.nonNull(sysUser.getOrgId())) {
-            sysUser.setOrgName(sysOrgService.getById(sysUser.getOrgId()).getOrgName());
+        if (partyMember != null && Objects.nonNull(partyMember.getOrgId())) {
+            partyMember.setOrgName(sysOrgService.getById(partyMember.getOrgId()).getOrgName());
         }
-        List<Long> postIdList = new ArrayList<>();
-        /*List<SysUserPost> userPostList = sysUserPostService.detailPostList(userId);
-        if (userPostList != null && userPostList.size() > 0) {
-            for (SysUserPost sysUserPost : userPostList) {
-                postIdList.add(sysUserPost.getPostId());
-            }
-        }
-        sysUser.setPostIdList(postIdList);*/
-
-        return sysUser;
+        return partyMember;
     }
 
     /**
-     * @param orgName
      * @Author: Sgz
      * @Time: 9:05 2020/9/10
      * @Params: [orgName]
@@ -114,16 +104,13 @@ public class CloudPartyMemberServiceImpl extends BaseServiceImpl<CloudPartyMembe
     public Page<CloudPartyMember> detailPartyMemberList(PageHelper<CloudOrg> pageHelper) {
         QueryWrapper<CloudPartyMember> wrapper = new QueryWrapper<>();
         Page page = new Page<CloudPartyMember>(pageHelper.getCurrent(), pageHelper.getSize());
-
         if (pageHelper.getData() != null) {
             CloudOrg cloudOrg = pageHelper.getData();
-
             cloudOrg = sysOrgService.selectOrgByOrgName(pageHelper.getData().getOrgName());
             wrapper.lambda().eq(CloudPartyMember::getOrgId, cloudOrg.getId());
         }
 
         return (Page<CloudPartyMember>) this.page(page, wrapper);
-
 
     }
 
@@ -195,7 +182,7 @@ public class CloudPartyMemberServiceImpl extends BaseServiceImpl<CloudPartyMembe
         ValidateUtil.validateObject(cloudPartyMember);
         cloudPartyMember.setUpdateUser(SecurityUtil.getUserId());
 
-        CloudPartyMember partyMember = this.getUserById(cloudPartyMember.getId());
+        CloudPartyMember partyMember = this.getPartyMemberById(cloudPartyMember.getId());
         if (!partyMember.getMemberPhoneNumber().equals(cloudPartyMember.getMemberPhoneNumber())) {
             validateUserNumber(cloudPartyMember);
         }

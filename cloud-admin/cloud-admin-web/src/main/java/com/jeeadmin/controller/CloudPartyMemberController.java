@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jeeadmin.api.ICloudPartyMemberService;
 import com.jeeadmin.entity.CloudPartyMember;
 import com.jeeadmin.vo.member.PartyMemberVo;
-import com.jeeadmin.vo.user.QueryUserVo;
 import com.jeerigger.frame.base.controller.BaseController;
 import com.jeerigger.frame.base.controller.ResultData;
 import com.jeerigger.frame.page.PageHelper;
@@ -30,6 +29,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class CloudPartyMemberController extends BaseController {
     @Autowired
     private ICloudPartyMemberService cloudPartyMemberService;
+
     @ResponseBody
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ApiOperation(value = "获取党员信息列表", notes = "获取党员信息列表")
@@ -43,7 +43,7 @@ public class CloudPartyMemberController extends BaseController {
     @RequestMapping(value = "/detail", method = RequestMethod.POST)
     @ApiOperation(value = "根据党员id获取党员详细信息列表", notes = "根据党员id获取党员详细信息列表")
     public ResultData getPartyMemberById(@SingleRequestBody(value = "id") Long id){
-        return this.success(cloudPartyMemberService.getUserById(id));
+        return this.success(cloudPartyMemberService.getPartyMemberById(id));
     }
 
     @ResponseBody

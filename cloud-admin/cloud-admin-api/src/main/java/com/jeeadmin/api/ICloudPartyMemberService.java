@@ -31,7 +31,7 @@ public interface ICloudPartyMemberService extends BaseService<CloudPartyMember> 
      * @param id
      * @return
      */
-    CloudPartyMember getUserById(Long id);
+    CloudPartyMember getPartyMemberById(Long id);
 
     /**
      * 查看角色已分配用户
