@@ -3,7 +3,7 @@ package com.jeeadmin.controller;
 
 import com.jeeadmin.api.ICloudMeetingService;
 
-import com.jeeadmin.entity.CloudMeeting;
+import com.jeeadmin.vo.meeting.CloudMeetingVo;
 import com.jeerigger.frame.base.controller.BaseController;
 import com.jeerigger.frame.base.controller.ResultCodeEnum;
 import com.jeerigger.frame.base.controller.ResultData;
@@ -32,19 +32,19 @@ public class CloudMeetingController extends BaseController {
 
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ApiOperation(value = "获取活动会议数据列表", notes = "获取活动会议数据列表")
-    public ResultData list(@RequestBody PageHelper<CloudMeeting> pageHelper){
+    public ResultData list(@RequestBody PageHelper<CloudMeetingVo> pageHelper){
         return this.success(cloudMeetingService.selectPage(pageHelper));
     }
 
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     @ApiOperation(value = "新增活动会议数据",notes = "新增活动会议数据列表")
-    public ResultData add(@RequestBody CloudMeeting meeting){
+    public ResultData add(@RequestBody CloudMeetingVo meeting){
         return this.success(cloudMeetingService.saveMeeting(meeting));
     }
 
     @RequestMapping(value = "/update",method = RequestMethod.POST)
     @ApiOperation(value = "更新活动会议数据",notes = "更新活动会议数据")
-    public ResultData update(@RequestBody CloudMeeting meeting){
+    public ResultData update(@RequestBody CloudMeetingVo meeting){
         if (cloudMeetingService.updateMeeting(meeting)){
             return this.success();
         }else {
@@ -67,9 +67,4 @@ public class CloudMeetingController extends BaseController {
         public  ResultData selectOneActivity(@SingleRequestBody(value = "id") Long id){
         return this.success(cloudMeetingService.selectOneMeeting(id));
     }
-
-
-
-
-
 }
