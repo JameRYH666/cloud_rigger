@@ -73,7 +73,7 @@
             INNER JOIN cloud_meeting_party_member cmpm ON cmpm.meeting_id = cm.id
             INNER JOIN cloud_party_member cpm ON cmpm.party_member_id = cpm.id
         WHERE
-            cm.id = #{id}
+            cmpm.promoter_flag = 2 AND cm.id = #{id}
     </select>
 
 </mapper>
