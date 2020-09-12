@@ -11,9 +11,4 @@ public class JeeAdminApplication {
     public static void main(String[] args) {
         SpringApplication.run(JeeAdminApplication.class, args);
     }
-
-   /* @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(JeeAdminApplication.class);
-    }*/
 }
