@@ -89,6 +89,7 @@ public class CloudActivityServiceImpl extends BaseServiceImpl<CloudActivityMappe
             activity.setFormName(SysDictUtil.getDictLable("", activity.getFormCode()));
             // todo 指定活动类型字典类型
             activity.setActivityTypeName(SysDictUtil.getDictLable("", activity.getActivityCode()));
+            // 查询附件，填充附件集合
             List<CloudEnclosure> cloudEnclosureList =
                     cloudActivityEnclosureService.findEnclosuresByActivityId(activity.getId());
             if (cloudEnclosureList != null && cloudEnclosureList.size() > 0) {
