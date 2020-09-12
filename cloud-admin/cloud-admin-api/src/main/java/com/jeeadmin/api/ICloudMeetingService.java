@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 
 import com.jeeadmin.entity.CloudMeeting;
+import com.jeeadmin.vo.meeting.CloudMeetingDetailVo;
 import com.jeeadmin.vo.meeting.CloudMeetingVo;
 import com.jeerigger.frame.base.service.BaseService;
 import com.jeerigger.frame.page.PageHelper;
@@ -38,7 +39,7 @@ public interface ICloudMeetingService extends BaseService<CloudMeetingVo> {
      * 根据会议id查询单个会议信息
      *
      */
-    CloudMeetingVo selectOneMeeting(Long id);
+    CloudMeetingDetailVo selectOneMeeting(Long id);
 
     /**
      * @Author: Sgz
@@ -75,6 +76,10 @@ public interface ICloudMeetingService extends BaseService<CloudMeetingVo> {
      *
      */
     boolean deleteMeeting(Long id);
+
+
+
+
 
 
 }

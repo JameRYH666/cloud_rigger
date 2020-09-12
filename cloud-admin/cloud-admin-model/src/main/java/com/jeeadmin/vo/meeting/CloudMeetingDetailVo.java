@@ -9,18 +9,20 @@ import java.util.Date;
 
 /**
  * @Author Seven Lee
- * @Date Create in 2020/9/12 15:25
+ * @Date Create in 2020/9/12 15:44
  * @Description
  **/
 
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class CloudMeetingVo extends CloudMeeting {
+public class CloudMeetingDetailVo extends CloudMeeting {
 
     private String formName;
     private String typeName;
     private String memberName;
     private Date oneCreateDate;
+    private String enclosureName;
+    private String enclosurePath;
 
 }

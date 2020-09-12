@@ -8,6 +8,7 @@ import com.jeeadmin.api.ICloudMeetingService;
 import com.jeeadmin.entity.CloudMeeting;
 
 import com.jeeadmin.mapper.CloudMeetingMapper;
+import com.jeeadmin.vo.meeting.CloudMeetingDetailVo;
 import com.jeeadmin.vo.meeting.CloudMeetingVo;
 import com.jeerigger.core.common.core.SnowFlake;
 import com.jeerigger.frame.base.service.impl.BaseServiceImpl;
@@ -93,11 +94,13 @@ public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper,
      *
      */
     @Override
-    public CloudMeetingVo selectOneMeeting(Long id) {
+    public CloudMeetingDetailVo selectOneMeeting(Long id) {
         if(Objects.isNull(id)){
             throw new ValidateException("会议的Id不能为空");
         }
-        CloudMeetingVo meeting = this.getById(id);
+        // CloudMeetingVo meeting = this.getById(id);
+        CloudMeetingDetailVo meeting = cloudMeetingMapper.selectMeetingDetail(id);
+
         if (null == meeting){
             throw new ValidateException("会议数据为空");
         }

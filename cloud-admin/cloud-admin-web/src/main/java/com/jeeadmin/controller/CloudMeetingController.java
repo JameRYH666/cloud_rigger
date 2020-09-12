@@ -32,7 +32,7 @@ public class CloudMeetingController extends BaseController {
 
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ApiOperation(value = "获取活动会议数据列表", notes = "获取活动会议数据列表")
-    public ResultData list(@RequestBody PageHelper<CloudMeetingVo> pageHelper){
+    public ResultData list(PageHelper<CloudMeetingVo> pageHelper){
         return this.success(cloudMeetingService.selectPage(pageHelper));
     }
 
@@ -64,7 +64,7 @@ public class CloudMeetingController extends BaseController {
 
     @RequestMapping(value = "/selectOne",method = RequestMethod.POST)
     @ApiOperation(value = "查询单个会议信息",notes = "查询单个会议的信息")
-        public  ResultData selectOneActivity(@SingleRequestBody(value = "id") Long id){
+        public  ResultData selectOneActivity(Long id){
         return this.success(cloudMeetingService.selectOneMeeting(id));
     }
 }
