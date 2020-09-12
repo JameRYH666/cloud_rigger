@@ -1,6 +1,7 @@
 package com.jeeadmin.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.jeerigger.frame.base.model.BaseModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -17,7 +18,7 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("cloud_meeting_enclosure")
-public class CloudMeetingEnclosure {
+public class CloudMeetingEnclosure extends BaseModel<CloudMeetingEnclosure> {
     /**
      * 会议id
      */
