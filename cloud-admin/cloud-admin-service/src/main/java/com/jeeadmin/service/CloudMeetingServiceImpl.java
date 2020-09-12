@@ -1,12 +1,14 @@
 package com.jeeadmin.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jeeadmin.api.ICloudMeetingService;
 
 import com.jeeadmin.entity.CloudMeeting;
 
 import com.jeeadmin.mapper.CloudMeetingMapper;
+import com.jeeadmin.vo.meeting.CloudMeetingVo;
 import com.jeerigger.core.common.core.SnowFlake;
 import com.jeerigger.frame.base.service.impl.BaseServiceImpl;
 import com.jeerigger.frame.exception.FrameException;
@@ -18,7 +20,9 @@ import com.jeerigger.security.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -28,9 +32,13 @@ import java.util.Objects;
  *  会议信息类
  */
 @Service
-public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper, CloudMeeting> implements ICloudMeetingService {
+public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper, CloudMeetingVo> implements ICloudMeetingService {
+
     @Autowired
     private SnowFlake snowFlake;
+
+    @Autowired
+    private CloudMeetingMapper cloudMeetingMapper;
     /**
      * @param pageHelper
      * @Author: Sgz
@@ -41,9 +49,9 @@ public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper,
      * @Description: 查询所有的会议信息，并进行分页处理
      */
     @Override
-    public Page<CloudMeeting> selectPage(PageHelper<CloudMeeting> pageHelper) {
-        Page<CloudMeeting> page = new Page<CloudMeeting>(pageHelper.getCurrent(), pageHelper.getSize());
-        QueryWrapper<CloudMeeting> queryWrapper = new QueryWrapper<>();
+    public Page<CloudMeetingVo> selectPage(PageHelper<CloudMeetingVo> pageHelper) {
+        Page<CloudMeetingVo> page = new Page<CloudMeetingVo>(pageHelper.getCurrent(), pageHelper.getSize());
+        QueryWrapper<CloudMeetingVo> queryWrapper = new QueryWrapper<CloudMeetingVo>();
         if(pageHelper.getData() != null){
             CloudMeeting meetingData = pageHelper.getData();
             // 根据活动地址进行条件查询
@@ -60,7 +68,17 @@ public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper,
             }
         }
         queryWrapper.lambda().orderByAsc(CloudMeeting::getMeetingTime);
-        this.page(page,queryWrapper);
+        // 查询所有符合条件的会议分页信息
+        IPage<CloudMeetingVo> meetingPage = this.page(page, queryWrapper);
+        // 获取所有会议信息
+        List<CloudMeetingVo> cloudMeetingList = meetingPage.getRecords();
+        // 获取所有的会议id信息存入新的集合中
+        List<Long> ids = new ArrayList<Long>();
+        for(CloudMeeting cloudMeeting : cloudMeetingList) {
+            ids.add(cloudMeeting.getId());
+        }
+        // 查询复合信息
+        meetingPage.setRecords(cloudMeetingMapper.selectAllMeetings(ids));
         return page;
     }
 
@@ -75,11 +93,11 @@ public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper,
      *
      */
     @Override
-    public CloudMeeting selectOneMeeting(Long id) {
+    public CloudMeetingVo selectOneMeeting(Long id) {
         if(Objects.isNull(id)){
             throw new ValidateException("会议的Id不能为空");
         }
-        CloudMeeting meeting = this.getById(id);
+        CloudMeetingVo meeting = this.getById(id);
         if (null == meeting){
             throw new ValidateException("会议数据为空");
         }
@@ -97,7 +115,7 @@ public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper,
     *
     */
     @Override
-    public CloudMeeting saveMeeting(CloudMeeting meeting) {
+    public CloudMeetingVo saveMeeting(CloudMeetingVo meeting) {
         // 检验会议数据是否存在
         ValidateUtil.validateObject(meeting);
         // 由雪花算法生成主键id
@@ -123,7 +141,7 @@ public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper,
      *
      */
     @Override
-    public boolean updateMeeting(CloudMeeting meeting) {
+    public boolean updateMeeting(CloudMeetingVo meeting) {
         // 通过主键获取到会议数据信息
         CloudMeeting oldData = this.getById(meeting.getId());
         // 判断数据是否存在

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 
 import com.jeeadmin.entity.CloudMeeting;
+import com.jeeadmin.vo.meeting.CloudMeetingVo;
 import com.jeerigger.frame.base.service.BaseService;
 import com.jeerigger.frame.page.PageHelper;
 
@@ -15,7 +16,7 @@ import com.jeerigger.frame.page.PageHelper;
  *  会议信息表接口
  */
 
-public interface ICloudMeetingService extends BaseService<CloudMeeting> {
+public interface ICloudMeetingService extends BaseService<CloudMeetingVo> {
     /**
      * @Author: Sgz
      * @Time: 16:56 2020/9/11
@@ -26,7 +27,7 @@ public interface ICloudMeetingService extends BaseService<CloudMeeting> {
      *  查询所有的会议信息，并进行分页处理
      *
      */
-    Page<CloudMeeting> selectPage(PageHelper<CloudMeeting> pageHelper);
+    Page<CloudMeetingVo> selectPage(PageHelper<CloudMeetingVo> pageHelper);
     /**
      * @Author: Sgz
      * @Time: 17:04 2020/9/11
@@ -37,7 +38,7 @@ public interface ICloudMeetingService extends BaseService<CloudMeeting> {
      * 根据会议id查询单个会议信息
      *
      */
-    CloudMeeting selectOneMeeting(Long id);
+    CloudMeetingVo selectOneMeeting(Long id);
 
     /**
      * @Author: Sgz
@@ -49,7 +50,7 @@ public interface ICloudMeetingService extends BaseService<CloudMeeting> {
      *  新增会议信息
      *
      */
-    CloudMeeting saveMeeting(CloudMeeting cloudMeeting);
+    CloudMeetingVo saveMeeting(CloudMeetingVo cloudMeeting);
 
     /**
      * @Author: Sgz
@@ -61,7 +62,7 @@ public interface ICloudMeetingService extends BaseService<CloudMeeting> {
      * 更新会议信息
      *
      */
-    boolean updateMeeting(CloudMeeting cloudMeeting);
+    boolean updateMeeting(CloudMeetingVo cloudMeeting);
 
     /**
      * @Author: Sgz
