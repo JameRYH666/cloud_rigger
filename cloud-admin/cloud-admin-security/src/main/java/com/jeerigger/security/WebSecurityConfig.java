@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 
+import static com.jeerigger.frame.enums.UserParamEnum.*;
 import static com.jeerigger.security.StringUtil.splitclearSpace;
 
 /**
@@ -64,8 +65,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated().and()
                 .formLogin()
                 .loginPage(securityConfig.getLoginPage())
-                .usernameParameter("loginName")
-                .passwordParameter("password")
+                .usernameParameter(LOGIN_NAME.getParamValue())
+                .passwordParameter(PASSWORD.getParamValue())
                 .loginProcessingUrl(securityConfig.getLoginProcessingUrl())
                 .failureHandler(failureHandler)
                 .successHandler(successHandler)
