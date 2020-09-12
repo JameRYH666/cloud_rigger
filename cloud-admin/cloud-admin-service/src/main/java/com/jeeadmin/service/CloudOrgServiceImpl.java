@@ -106,7 +106,7 @@ public class CloudOrgServiceImpl extends BaseTreeServiceImpl<CloudOrgMapper, Clo
         }
              wrapper.lambda().eq(CloudOrg::getOrgName, orgName);
             CloudOrg cloudOrg = this.getOne(wrapper);
-            if (Objects.isNull(cloudOrg) ){
+        if (Objects.isNull(cloudOrg) ){
                 throw  new ValidateException("该党支部不存在");
             }
 
