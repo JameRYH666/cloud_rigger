@@ -37,4 +37,15 @@ public interface CloudMeetingMapper extends BaseMapper<CloudMeetingVo> {
     **/
     CloudMeetingDetailVo selectMeetingDetail(Long id);
 
+    /**
+     * @author Seven Lee
+     * @description
+     *      通过会议id查询参与人信息
+     * @param [id]
+     * @date 2020/9/12
+     * @return java.util.List<java.lang.String>
+     * @throws
+    **/
+    List<String> selectJoinMembersByMeetingId(Long id);
+
 }

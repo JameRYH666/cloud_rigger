@@ -98,9 +98,13 @@ public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper,
         if(Objects.isNull(id)){
             throw new ValidateException("会议的Id不能为空");
         }
-        // CloudMeetingVo meeting = this.getById(id);
+        // 查询会议详情信息(没有参与人)
         CloudMeetingDetailVo meeting = cloudMeetingMapper.selectMeetingDetail(id);
-
+        // 查询该次会议参与人(所有的参与人信息中会议的id是一样的)
+        List<String> memberNameList = cloudMeetingMapper.selectJoinMembersByMeetingId(id);
+        if(memberNameList.size() > 0) {
+            meeting.setJoinMemberName(memberNameList);
+        }
         if (null == meeting){
             throw new ValidateException("会议数据为空");
         }

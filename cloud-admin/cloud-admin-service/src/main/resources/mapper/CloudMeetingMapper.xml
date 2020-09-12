@@ -65,4 +65,15 @@
             AND cm.id = #{id}
     </select>
 
+    <select id="selectJoinMembersByMeetingId" parameterType="long" resultType="string">
+        SELECT
+            cpm.member_name joinMemberName
+        FROM
+            cloud_meeting cm
+            INNER JOIN cloud_meeting_party_member cmpm ON cmpm.meeting_id = cm.id
+            INNER JOIN cloud_party_member cpm ON cmpm.party_member_id = cpm.id
+        WHERE
+            cm.id = #{id}
+    </select>
+
 </mapper>
