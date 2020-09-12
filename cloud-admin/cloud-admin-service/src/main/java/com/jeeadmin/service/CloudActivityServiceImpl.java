@@ -4,9 +4,11 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jeeadmin.api.ICloudActivityService;
 import com.jeeadmin.entity.CloudActivity;
+import com.jeeadmin.entity.CloudEnclosure;
 import com.jeeadmin.mapper.CloudActivityMapper;
 import com.jeeadmin.vo.activity.QueryActivityVo;
 import com.jeerigger.core.common.core.SnowFlake;
+import com.jeerigger.core.module.sys.util.SysDictUtil;
 import com.jeerigger.frame.base.service.impl.BaseServiceImpl;
 import com.jeerigger.frame.exception.FrameException;
 import com.jeerigger.frame.exception.ValidateException;
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -32,6 +35,10 @@ public class CloudActivityServiceImpl extends BaseServiceImpl<CloudActivityMappe
 
     @Autowired
     private SnowFlake snowFlake;
+
+    @Autowired
+    private com.jeeadmin.api.ICloudActivityEnclosureService cloudActivityEnclosureService;
+
     /**
      * 获取活动信息
      *
@@ -41,7 +48,7 @@ public class CloudActivityServiceImpl extends BaseServiceImpl<CloudActivityMappe
      */
     @Override
     public Page<CloudActivity> selectPage(PageHelper<QueryActivityVo> pageHelper) {
-        Page<CloudActivity> page = new Page<CloudActivity>(pageHelper.getCurrent(), pageHelper.getSize());
+        Page<CloudActivity> page = new Page<>(pageHelper.getCurrent(), pageHelper.getSize());
         QueryWrapper<CloudActivity> queryWrapper = new QueryWrapper<CloudActivity>();
         if (pageHelper.getData() != null) {
             QueryActivityVo queryActivityVo = pageHelper.getData();
@@ -60,6 +67,12 @@ public class CloudActivityServiceImpl extends BaseServiceImpl<CloudActivityMappe
         }
         queryWrapper.lambda().orderByAsc(CloudActivity::getActivityTile);
         this.page(page, queryWrapper);
+        page.getRecords().forEach(cloudActivity -> {
+            // todo 需要添加字典类型中，活动类型的值。
+            cloudActivity.setActivityTypeName(SysDictUtil.getDictLable("", cloudActivity.getActivityCode()));
+            // todo 需要添加字典类型中，活动形式的值。
+            cloudActivity.setFormName(SysDictUtil.getDictLable("", cloudActivity.getFormCode()));
+        });
         return page;
     }
 
@@ -71,6 +84,17 @@ public class CloudActivityServiceImpl extends BaseServiceImpl<CloudActivityMappe
         CloudActivity activity = super.getById(id);
         if (null == activity) {
             throw new ValidateException("活动数据为空");
+        } else {
+            // todo 指定活动形式字典类型
+            activity.setFormName(SysDictUtil.getDictLable("", activity.getFormCode()));
+            // todo 指定活动类型字典类型
+            activity.setActivityTypeName(SysDictUtil.getDictLable("", activity.getActivityCode()));
+            // 查询附件，填充附件集合
+            List<CloudEnclosure> cloudEnclosureList =
+                    cloudActivityEnclosureService.findEnclosuresByActivityId(activity.getId());
+            if (cloudEnclosureList != null && cloudEnclosureList.size() > 0) {
+                activity.setCloudEnclosureList(cloudEnclosureList);
+            }
         }
         return activity;
     }

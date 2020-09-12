@@ -14,7 +14,6 @@ import lombok.experimental.Accessors;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 public class QueryActivityVo {
-
     /**
      * 活动标题
      */
@@ -44,7 +43,6 @@ public class QueryActivityVo {
      * 活动形式
      */
     private String formCode;
-
     /**
      * 活动地址
      */

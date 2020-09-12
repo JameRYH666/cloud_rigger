@@ -1,5 +1,6 @@
 package com.jeeadmin.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jeeadmin.api.ICloudActivityService;
 import com.jeeadmin.entity.CloudActivity;
 import com.jeeadmin.vo.activity.QueryActivityVo;
@@ -32,8 +33,9 @@ public class ActivityController extends BaseController {
 
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ApiOperation(value = "获取活动信息数据列表", notes = "获取活动信息数据列表")
-    public ResultData list(@RequestBody PageHelper<QueryActivityVo> pageHelper) {
-        return this.success(cloudActivityService.selectPage(pageHelper));
+    public ResultData list(PageHelper<QueryActivityVo> pageHelper) {
+        Page<CloudActivity> pageData = cloudActivityService.selectPage(pageHelper);
+        return this.success(pageData);
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)

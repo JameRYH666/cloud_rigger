@@ -40,7 +40,7 @@
         <!-- shiro和spring整合包 -->
         <shiro-spring.version>1.4.0</shiro-spring.version>
         <!--fastjson-->
-        <fastjson.version>1.2.41</fastjson.version>
+        <fastjson.version>1.2.73</fastjson.version>
 
         <!--验证码-->
         <kaptcha.version>2.3.2</kaptcha.version>
@@ -62,18 +62,15 @@
     <!--统一管理依赖Jar包-->
     <dependencyManagement>
         <dependencies>
-
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>${junit.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-thymeleaf</artifactId>
             </dependency>
-
             <dependency>
                 <groupId>org.activiti</groupId>
                 <artifactId>activiti-spring</artifactId>
@@ -95,7 +92,6 @@
                 <artifactId>springfox-swagger2</artifactId>
                 <version>${swagger.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>io.springfox</groupId>
                 <artifactId>springfox-swagger-ui</artifactId>
@@ -126,7 +122,6 @@
                 <artifactId>fastjson</artifactId>
                 <version>${fastjson.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>com.github.penggle</groupId>
                 <artifactId>kaptcha</artifactId>
@@ -137,31 +132,26 @@
                 <artifactId>jaque</artifactId>
                 <version>${jaque.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>com.github.oshi</groupId>
                 <artifactId>oshi-core</artifactId>
                 <version>${oshi-core.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
                 <version>${commons-lang3.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>commons-io</groupId>
                 <artifactId>commons-io</artifactId>
                 <version>${commons-io.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>commons-fileupload</groupId>
                 <artifactId>commons-fileupload</artifactId>
                 <version>${commons-fileupload.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>com.jeerigger</groupId>
                 <artifactId>cloud-rigger-frame</artifactId>

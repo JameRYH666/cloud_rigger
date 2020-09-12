@@ -32,8 +32,6 @@ public class SysDictUtil {
      * @return
      */
     public static List<CloudDictData> getSysDictDataList(String dictType) {
-//        List<DictData> dictDataList= (List<DictData>)CacheUtil.getSysCache(SYS_DICT_DATA_LIST+"_"+dictType);
-
         QueryWrapper<CloudDictData> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("dict_type", dictType);
         //只获取状态为正常的数据

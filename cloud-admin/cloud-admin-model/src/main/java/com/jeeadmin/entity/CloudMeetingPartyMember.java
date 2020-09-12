@@ -30,6 +30,4 @@ public class CloudMeetingPartyMember extends BaseModel<CloudMeetingPartyMember> 
      * 是否为发起人(1:是，2:不是)
      */
     private String promoterFlag;
-
-
 }
