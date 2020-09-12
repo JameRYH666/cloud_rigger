@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import java.util.List;
+
 
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -42,4 +44,9 @@ public class CloudActivity extends BaseModel<CloudActivity> {
      * 活动内容
      */
     private String activityComment;
+
+    /**
+     * 附件集合
+     */
+    private List<CloudEnclosure> cloudEnclosureList;
 }

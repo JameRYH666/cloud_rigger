@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jeeadmin.api.ICloudActivityService;
 import com.jeeadmin.entity.CloudActivity;
+import com.jeeadmin.entity.CloudEnclosure;
 import com.jeeadmin.mapper.CloudActivityMapper;
 import com.jeeadmin.vo.activity.QueryActivityVo;
 import com.jeerigger.core.common.core.SnowFlake;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -33,6 +35,9 @@ public class CloudActivityServiceImpl extends BaseServiceImpl<CloudActivityMappe
 
     @Autowired
     private SnowFlake snowFlake;
+
+    @Autowired
+    private com.jeeadmin.api.ICloudActivityEnclosureService cloudActivityEnclosureService;
 
     /**
      * 获取活动信息
@@ -79,6 +84,16 @@ public class CloudActivityServiceImpl extends BaseServiceImpl<CloudActivityMappe
         CloudActivity activity = super.getById(id);
         if (null == activity) {
             throw new ValidateException("活动数据为空");
+        } else {
+            // todo 指定活动形式字典类型
+            activity.setFormName(SysDictUtil.getDictLable("", activity.getFormCode()));
+            // todo 指定活动类型字典类型
+            activity.setActivityTypeName(SysDictUtil.getDictLable("", activity.getActivityCode()));
+            List<CloudEnclosure> cloudEnclosureList =
+                    cloudActivityEnclosureService.findEnclosuresByActivityId(activity.getId());
+            if (cloudEnclosureList != null && cloudEnclosureList.size() > 0) {
+                activity.setCloudEnclosureList(cloudEnclosureList);
+            }
         }
         return activity;
     }
