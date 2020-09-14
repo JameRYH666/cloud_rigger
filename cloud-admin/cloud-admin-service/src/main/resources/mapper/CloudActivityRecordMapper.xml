@@ -20,4 +20,29 @@
   <sql id="Base_Column_List">
     id, record_title, activity_id, remark, create_user, create_date, update_user, update_date, record_comment
   </sql>
+
+    <select id="selectEnclosuresByActivityRecordId" parameterType="long" resultType="com.jeeadmin.entity.CloudEnclosure">
+        SELECT
+            ce.*
+        FROM
+            cloud_enclosure ce
+            INNER JOIN cloud_activity_record_enclosure care ON care.enclosure_id = ce.id
+        WHERE
+            care.activity_record_id = #{id}
+    </select>
+
+    <select id="selectActivityRecordDetail" parameterType="long" resultType="com.jeeadmin.vo.activity.CloudActivityRecordVo">
+        select
+            car.id,
+            car.record_title,
+            car.record_comment,
+            car.activity_id,
+            car.create_date
+        from
+        cloud_activity_record car
+        where
+        car.id = #{id}
+    </select>
+
+
 </mapper>

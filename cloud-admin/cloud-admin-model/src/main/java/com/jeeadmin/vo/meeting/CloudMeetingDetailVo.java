@@ -2,7 +2,6 @@ package com.jeeadmin.vo.meeting;
 
 import com.jeeadmin.entity.CloudEnclosure;
 import com.jeeadmin.entity.CloudMeeting;
-import com.jeeadmin.entity.CloudPartyMember;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;

@@ -55,6 +55,7 @@ public class CloudDictTypeServiceImpl extends BaseServiceImpl<CloudDictTypeMappe
             if (StringUtil.isNotEmpty(sysDictType.getDictStatus())) {
                 queryWrapper.lambda().eq(CloudDictType::getDictStatus, sysDictType.getDictStatus());
             }
+
         }
         return (Page<CloudDictType>) this.page(page, queryWrapper);
     }

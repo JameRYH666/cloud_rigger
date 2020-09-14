@@ -2,6 +2,7 @@ package com.jeeadmin.api;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jeeadmin.entity.CloudActivityRecord;
+import com.jeeadmin.vo.activity.CloudActivityRecordVo;
 import com.jeerigger.frame.base.service.BaseService;
 import com.jeerigger.frame.page.PageHelper;
 
@@ -26,21 +27,25 @@ public interface ICloudActivityRecordService extends BaseService<CloudActivityRe
     /**
      *   新增活动记录信息
      */
-    CloudActivityRecord saveRecord(CloudActivityRecord record);
+    CloudActivityRecordVo saveRecord(CloudActivityRecordVo record);
 
 
     /**
      *  更新活动记录信息
      */
-    boolean updateRecord(CloudActivityRecord record);
+    boolean updateRecord(CloudActivityRecordVo record);
 
     /**
      *   删除活动记录信息
      */
     boolean deleteRecord(Long recordId);
 
-
-    CloudActivityRecord selectOneRecord(Long recordId);
+    /**
+     *      获取单个活动记录的详情
+     * @param id
+     * @return
+     */
+    CloudActivityRecordVo selectOneRecord(Long id);
 
 
 

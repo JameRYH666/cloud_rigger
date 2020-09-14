@@ -41,7 +41,6 @@ public class CloudActivityServiceImpl extends BaseServiceImpl<CloudActivityMappe
 
     /**
      * 获取活动信息
-     *
      * @param
      * @param pageHelper
      * @return
