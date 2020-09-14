@@ -1,5 +1,6 @@
 package com.jeeadmin.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.jeerigger.frame.base.model.BaseModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -23,6 +24,7 @@ public class CloudActivity extends BaseModel<CloudActivity> {
     /**
      * 活动类型名称
      */
+    @TableField(exist = false)
     private String activityTypeName;
     /**
      * 活动形式
@@ -31,6 +33,7 @@ public class CloudActivity extends BaseModel<CloudActivity> {
     /**
      * 活动形式名称
      */
+    @TableField(exist = false)
     private String formName;
     /**
      * 备注信息(冗余字段)
@@ -48,5 +51,6 @@ public class CloudActivity extends BaseModel<CloudActivity> {
     /**
      * 附件集合
      */
+    @TableField(exist = false)
     private List<CloudEnclosure> cloudEnclosureList;
 }
