@@ -3,7 +3,7 @@ package com.jeeadmin.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jeeadmin.api.ICloudActivityService;
 import com.jeeadmin.entity.CloudActivity;
-import com.jeeadmin.vo.activity.QueryActivityVo;
+import com.jeeadmin.vo.activity.CloudActivityVo;
 import com.jeerigger.frame.base.controller.BaseController;
 import com.jeerigger.frame.base.controller.ResultCodeEnum;
 import com.jeerigger.frame.base.controller.ResultData;
@@ -33,14 +33,14 @@ public class CloudActivityController extends BaseController {
 
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ApiOperation(value = "获取活动信息数据列表", notes = "获取活动信息数据列表")
-    public ResultData list(PageHelper<QueryActivityVo> pageHelper) {
+    public ResultData list(PageHelper<CloudActivity> pageHelper) {
         Page<CloudActivity> pageData = cloudActivityService.selectPage(pageHelper);
         return this.success(pageData);
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ApiOperation(value = "新增活动信息数据", notes = "新增活动信息数据列表")
-    public ResultData add(@RequestBody CloudActivity activity) {
+    public ResultData add(@RequestBody CloudActivityVo activity) {
         return this.success(cloudActivityService.saveActivity(activity));
     }
 
@@ -56,8 +56,8 @@ public class CloudActivityController extends BaseController {
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ApiOperation(value = "删除活动信息数据", notes = "删除活动信息数据")
-    public ResultData updateStatus(@SingleRequestBody(value = "activityId") Long activityId) {
-        if (cloudActivityService.deleteActivity(activityId)) {
+    public ResultData updateStatus(@SingleRequestBody(value = "activityId") Long id) {
+        if (cloudActivityService.deleteActivity(id)) {
             return this.success();
         } else {
             return this.failed(ResultCodeEnum.ERROR_UPDATE_FAIL, "删除活动信息数据数据失败！");

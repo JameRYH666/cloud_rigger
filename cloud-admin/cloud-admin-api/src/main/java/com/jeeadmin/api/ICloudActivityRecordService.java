@@ -25,18 +25,18 @@ public interface ICloudActivityRecordService extends BaseService<CloudActivityRe
 
 
     /**
-     *   新增活动记录信息
+     *      新增活动记录信息
      */
     CloudActivityRecordVo saveRecord(CloudActivityRecordVo record);
 
 
     /**
-     *  更新活动记录信息
+     *      更新活动记录信息
      */
     boolean updateRecord(CloudActivityRecordVo record);
 
     /**
-     *   删除活动记录信息
+     *      删除活动记录信息
      */
     boolean deleteRecord(Long recordId);
 

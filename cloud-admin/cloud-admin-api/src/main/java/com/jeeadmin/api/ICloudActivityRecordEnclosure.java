@@ -14,13 +14,13 @@ public interface ICloudActivityRecordEnclosure extends BaseService<CloudActivity
 
     /**
     * @Author: Ryh
-    * @Description:   删除活动记录和附件的关系
+    * @Description:   通过活动记录ID删除活动记录和附件的关系
     * @Param: [null]
     * @Date: Create in 2020/9/13
     * @Return: null
     * @Throws:
     */
-    boolean deleteRecordEnclosure(Long id);
+    boolean deleteRecordEnclosureByActivityRecordId(Long id);
 
 
 

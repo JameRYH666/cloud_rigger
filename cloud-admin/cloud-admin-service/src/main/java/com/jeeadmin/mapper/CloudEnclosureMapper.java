@@ -2,6 +2,7 @@ package com.jeeadmin.mapper;
 
 import com.jeeadmin.entity.CloudEnclosure;
 import com.jeerigger.frame.base.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Delete;
 
 /**
  * @author Seven Lee
@@ -10,4 +11,17 @@ import com.jeerigger.frame.base.mapper.BaseMapper;
  * @date 2020/9/8
 **/
 public interface CloudEnclosureMapper extends BaseMapper<CloudEnclosure> {
+
+    /**
+     *      根据活动记录id删除附件信息
+     * @param id
+     * @return
+     */
+    boolean deleteCloudEnclosureByActivityRecordId(Long id);
+
+    /**
+     *      通过活动id删除附件信息
+     */
+    boolean deleteCloudEnclosureByActivityId(Long id);
+
 }

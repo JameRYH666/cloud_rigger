@@ -17,4 +17,7 @@
   <sql id="Base_Column_List">
     activity_id, enclosure_id, create_user, create_date, update_user, update_date
   </sql>
+    <delete id="deleteActivityEnclosureByActivityId" parameterType="long">
+        delete cae.* from cloud_activity_enclosure cae where cae.activity_id = #{id}
+    </delete>
 </mapper>

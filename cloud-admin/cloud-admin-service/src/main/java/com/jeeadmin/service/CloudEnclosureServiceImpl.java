@@ -4,6 +4,7 @@ import com.jeeadmin.api.ICloudEnclosure;
 import com.jeeadmin.entity.CloudEnclosure;
 import com.jeeadmin.mapper.CloudEnclosureMapper;
 import com.jeerigger.frame.base.service.impl.BaseServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -14,8 +15,20 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class CloudEnclosureServiceImpl extends BaseServiceImpl<CloudEnclosureMapper, CloudEnclosure> implements ICloudEnclosure {
-    @Override
+
+   @Autowired
+   private CloudEnclosureMapper cloudEnclosureMapper;
+
+   /* @Override
     public boolean deleteEnclosure(Long id) {
-        return false;
-    }
+        CloudEnclosure oldData = this.getById(id);
+        if(null == oldData){
+            return true;
+        }else{
+            return cloudEnclosureMapper.deleteCloudEnclosureByActivityRecordId(id);
+        }
+    }*/
+
+
+
 }

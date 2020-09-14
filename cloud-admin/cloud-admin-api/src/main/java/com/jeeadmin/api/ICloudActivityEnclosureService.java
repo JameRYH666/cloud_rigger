@@ -16,5 +16,18 @@ import java.util.List;
  */
 public interface ICloudActivityEnclosureService extends BaseService<CloudActivityEnclosure> {
 
-    List<CloudEnclosure> findEnclosuresByActivityId(Long activityId);
+   // List<CloudEnclosure> findEnclosuresByActivityId(Long activityId);
+
+    /**
+     *  新增活动附件关系
+     * @param cloudActivityEnclosure
+     * @return
+     */
+    CloudActivityEnclosure saveActivityEnclosure(CloudActivityEnclosure cloudActivityEnclosure);
+
+    /**
+     *  删除活动附件关系
+     */
+    boolean deleteActivityEnclosure(Long id);
+
 }

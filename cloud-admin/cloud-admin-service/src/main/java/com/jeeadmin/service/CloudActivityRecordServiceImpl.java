@@ -9,7 +9,9 @@ import com.jeeadmin.api.ICloudEnclosure;
 import com.jeeadmin.entity.CloudActivityRecord;
 import com.jeeadmin.entity.CloudActivityRecordEnclosure;
 import com.jeeadmin.entity.CloudEnclosure;
+import com.jeeadmin.mapper.CloudActivityRecordEnclosureMapper;
 import com.jeeadmin.mapper.CloudActivityRecordMapper;
+import com.jeeadmin.mapper.CloudEnclosureMapper;
 import com.jeeadmin.vo.activity.CloudActivityRecordVo;
 import com.jeerigger.core.common.core.SnowFlake;
 import com.jeerigger.frame.base.service.impl.BaseServiceImpl;
@@ -22,6 +24,7 @@ import com.jeerigger.security.SecurityUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -44,6 +47,10 @@ public class CloudActivityRecordServiceImpl extends BaseServiceImpl<CloudActivit
     private CloudActivityRecordMapper cloudActivityRecordMapper;
     @Autowired
     private ICloudActivityRecordEnclosure cloudActivityRecordEnclosure;
+    @Autowired
+    private CloudActivityRecordEnclosureMapper cloudActivityRecordEnclosureMapper;
+    @Autowired
+    private CloudEnclosureMapper cloudEnclosureMapper;
 
     /**
     * @Author: Ryh
@@ -78,6 +85,7 @@ public class CloudActivityRecordServiceImpl extends BaseServiceImpl<CloudActivit
     * @Return: com.jeeadmin.entity.CloudActivityRecord
     * @Throws:
     */
+    @Transactional(rollbackFor = ValidateException.class)
     @Override
     public CloudActivityRecordVo saveRecord(CloudActivityRecordVo record) {
         // 检验活动数据是否存在
@@ -89,19 +97,13 @@ public class CloudActivityRecordServiceImpl extends BaseServiceImpl<CloudActivit
         record.setId(id);
         BeanUtils.copyProperties(record,cloudActivityRecord);
         BeanUtils.copyProperties(record,cloudActivityRecordEnclosure1);
-        // 创建id把
-
-        // cloudActivityRecord.setId(id);
-       // cloudActivityRecordEnclosure1.setActivityRecordId(id);
-
-       // cloudActivityRecordEnclosure1.setEnclosureId(record.getCloudEnclosureId());
-       // cloudActivityRecordEnclosure1.setId(snowFlake.nextId());
+        // 创建id
         cloudActivityRecordEnclosure1.setEnclosureId(record.getCloudEnclosureId());
         cloudActivityRecordEnclosure1.setActivityRecordId(id);
 
+        cloudActivityRecordEnclosure1.setCreateUser(SecurityUtil.getUserId());
         cloudActivityRecordEnclosure.saveRecordEnclosure(cloudActivityRecordEnclosure1);
         cloudActivityRecord.setCreateUser(SecurityUtil.getUserId());
-        cloudActivityRecordEnclosure1.setCreateUser(SecurityUtil.getUserId());
        if (this.save(cloudActivityRecord)){
            return record;
        }else {
@@ -137,13 +139,18 @@ public class CloudActivityRecordServiceImpl extends BaseServiceImpl<CloudActivit
     * @Return: boolean
     * @Throws:
     */
+    @Transactional(rollbackFor = ValidateException.class)
     @Override
     public boolean deleteRecord(Long recordId) {
         CloudActivityRecord oldData = this.getById(recordId);
-        if (oldData == null){
+        if (oldData == null ){
             return true;
         }else {
-                return this.removeById(recordId);
+            // 调用通过活动记录id删除活动记录和附件关系的信息
+           // cloudActivityRecordEnclosureMapper.deleteRecordEnclosureByActivityRecordId(recordId);
+            // 调用通过活动记录id删除附件信息和活动附件关系信息
+            cloudEnclosureMapper.deleteCloudEnclosureByActivityRecordId(recordId);
+            return this.removeById(recordId);
         }
     }
 

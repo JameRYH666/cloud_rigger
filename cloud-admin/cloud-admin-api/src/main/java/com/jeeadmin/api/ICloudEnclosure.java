@@ -6,9 +6,6 @@ import com.jeerigger.frame.base.service.BaseService;
 public interface ICloudEnclosure extends BaseService<CloudEnclosure> {
 
 
-
-
-
     /**
     * @Author: Ryh
     * @Description:     删除附件信息
@@ -17,7 +14,7 @@ public interface ICloudEnclosure extends BaseService<CloudEnclosure> {
     * @Return: null
     * @Throws:
     */
-    boolean deleteEnclosure(Long id);
+   // boolean deleteEnclosure(Long id);
 
 
 }

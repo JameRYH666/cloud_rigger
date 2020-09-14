@@ -2,7 +2,7 @@ package com.jeeadmin.api;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jeeadmin.entity.CloudActivity;
-import com.jeeadmin.vo.activity.QueryActivityVo;
+import com.jeeadmin.vo.activity.CloudActivityVo;
 import com.jeerigger.frame.base.service.BaseService;
 import com.jeerigger.frame.page.PageHelper;
 
@@ -20,19 +20,17 @@ public interface ICloudActivityService extends BaseService<CloudActivity> {
      *   获取活动信息
      * @param pageHelper
      */
-    Page<CloudActivity> selectPage(PageHelper<QueryActivityVo> pageHelper);
+    Page<CloudActivity> selectPage(PageHelper<CloudActivity> pageHelper);
     /**
      * 新增活动数据
      */
-    CloudActivity saveActivity(CloudActivity activity);
-
+    CloudActivityVo saveActivity(CloudActivityVo activity);
     /**
      * 修改活动信息
      */
     boolean updateActivity(CloudActivity activity);
-
     /**
      * 删除活动信息
      */
-    boolean deleteActivity(Long activityId);
+    boolean deleteActivity(Long id);
 }

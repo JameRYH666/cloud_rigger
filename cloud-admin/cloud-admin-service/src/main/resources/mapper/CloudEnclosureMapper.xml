@@ -20,4 +20,19 @@
   <sql id="Base_Column_List">
     id, md5_code, enclosure_type, remark, enclosure_path, enclosure_name, create_user, create_date, update_user, update_date
   </sql>
+    <delete id="deleteCloudEnclosureByActivityRecordId" parameterType="long" >
+        delete ce,care
+        from cloud_enclosure ce
+        inner join cloud_activity_record_enclosure care on ce.id = care.enclosure_id
+        where care.activity_record_id = #{id}
+    </delete>
+
+    <delete id="deleteCloudEnclosureByActivityId" parameterType="long">
+
+        delete ce,cae
+        from cloud_enclosure ce inner join cloud_activity_enclosure cae
+        on ce.id = cae.enclosure_id
+        where cae.activity_id = #{id}
+    </delete>
+
 </mapper>

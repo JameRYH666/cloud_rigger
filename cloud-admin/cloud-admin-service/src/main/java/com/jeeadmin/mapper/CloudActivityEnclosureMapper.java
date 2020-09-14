@@ -20,4 +20,12 @@ public interface CloudActivityEnclosureMapper extends BaseMapper<CloudActivityEn
             "cloud_activity_enclosure cae left join  cloud_enclosure ce on cae.enclosure_id = ce.id where cae" +
             ".activity_id =#{activityId}")
     List<CloudEnclosure> findEnclosuresByActivityId(Long activityId);
+
+    /**
+     *      通过活动id删除活动附件关系表
+     * @param id
+     * @return
+     */
+    boolean deleteActivityEnclosureByActivityId(Long id);
+
 }
