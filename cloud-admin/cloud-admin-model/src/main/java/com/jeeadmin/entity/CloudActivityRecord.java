@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.Pattern;
 import java.util.Date;
 
 /**
@@ -33,7 +34,11 @@ public class CloudActivityRecord extends BaseModel<CloudActivityRecord> {
      * 备注信息(冗余字段)
      */
     private String remark;
-
+    /**
+     *  活动记录状态(1：正常，2：删除，3：驳回，4：未审核)
+     */
+    @Pattern(regexp = "[1234]",message = "活动记录状态必须为1或者2或者3或者4")
+    private String recordStatus;
     /**
      * 活动记录内容
      */

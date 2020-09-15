@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.Pattern;
+
 
 /**
  * @author Seven Lee
@@ -41,5 +43,10 @@ public class CloudEnclosure extends BaseModel<CloudEnclosure> {
      * 文件名称
      */
     private String enclosureName;
+    /**
+     *  附件状态(1：正常，2：删除)
+     */
+    @Pattern(regexp = "[12]",message = "附件状态必须为1或者2")
+    private String enclosureStatus;
 
 }
