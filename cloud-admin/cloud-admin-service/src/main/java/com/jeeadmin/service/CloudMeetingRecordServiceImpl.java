@@ -67,7 +67,7 @@ public class CloudMeetingRecordServiceImpl extends BaseServiceImpl<CloudMeetingR
     * @Return: com.jeeadmin.entity.CloudMeetingRecord
     * @Throws:
     * @Description:
-    *   新增会议记录信息
+    *   新增会议记录信息,同时添加会议记录附件信息
     *
     */
     @Override

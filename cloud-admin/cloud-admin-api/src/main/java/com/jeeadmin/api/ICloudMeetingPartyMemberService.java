@@ -2,6 +2,8 @@ package com.jeeadmin.api;
 
 import com.jeeadmin.entity.CloudMeetingEnclosure;
 import com.jeeadmin.entity.CloudMeetingPartyMember;
+import com.jeeadmin.vo.meeting.CloudMeetingDetailVo;
+import com.jeerigger.frame.base.mapper.BaseMapper;
 import com.jeerigger.frame.base.service.BaseService;
 import com.jeerigger.frame.page.PageHelper;
 
@@ -13,52 +15,27 @@ import java.util.List;
  * @description:
  * 会议参会人员表接口
  */
-public interface ICloudMeetingPartyMemberService extends BaseService<CloudMeetingPartyMember> {
+public interface ICloudMeetingPartyMemberService extends BaseService<CloudMeetingDetailVo> {
     /**
-     * @Author: Sgz
-     * @Time: 10:02 2020/9/12
-     * @Params: [pageHelper]
-     * @Return: java.util.List<com.jeeadmin.entity.CloudMeetingPartyMember>
-     * @Throws:
-     * @Description:
-     *  查询所有的会议参与人员，并通过分页进行展示数据
-     *
+     * 通过会议id获取所有的参会人员
+     * @param meetingId
+     * @return
      */
-    List<CloudMeetingPartyMember> selectPage(PageHelper<CloudMeetingPartyMember> pageHelper);
-
+    List<CloudMeetingDetailVo> getAllMeetingMembers(Long meetingId);
 
     /**
-     * @Author: Sgz
-     * @Time: 10:21 2020/9/12
-     * @Params: [cloudMeetingPartyMember]
-     * @Return: com.jeeadmin.entity.CloudMeetingPartyMember
-     * @Throws:
-     * @Description:
-     *  新增会议参会人员
+     * 保存参会人员信息
+     * @param cloudMeetingPartyMembers
+     * @return
      */
+    boolean saveMeetingMember(List<CloudMeetingPartyMember> cloudMeetingPartyMembers);
 
-    CloudMeetingPartyMember saveMeetingPartyMember(CloudMeetingPartyMember cloudMeetingPartyMember);
     /**
-     * @Author: Sgz
-     * @Time: 10:23 2020/9/12
-     * @Params: [cloudMeetingPartyMember]
-     * @Return: boolean
-     * @Throws:
-     * @Description:
-     *  修改会议参会人员
+     * 根据会议id删除参会人员，也就是当删除会议的时候，同时删除参会人员
+     * @param meetingId
+     * @return
      */
-    boolean updateMeetingPartyMember(CloudMeetingPartyMember cloudMeetingPartyMember);
-    /**
-     * @Author: Sgz
-     * @Time: 10:24 2020/9/12
-     * @Params: [id]
-     * @Return: boolean
-     * @Throws:
-     * @Description:
-     *      通过附件id删除参会人员
-     *
-     */
-    boolean deleteMeetingPartyMember(Long id);
+    boolean deleteMeetingMember(Long meetingId);
 
 
 

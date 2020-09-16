@@ -19,6 +19,7 @@ import java.util.Date;
 @Accessors(chain = true)
 public class CloudMeeting extends BaseModel<CloudMeeting> {
 
+
     /**
      * 会议名称
      */
@@ -62,5 +63,13 @@ public class CloudMeeting extends BaseModel<CloudMeeting> {
      * 会议内容
      */
     private String meetingComment;
+    /**
+     * 类型外键
+     */
+    private Long maId;
+    /**
+     * 会议状态
+     */
+    private String meetingStatus;
 
 }

@@ -35,4 +35,13 @@
         where cae.activity_id = #{id}
     </delete>
 
+    <delete id="deleteEnclosure">
+      DELETE ce,
+cme
+FROM
+	cloud_enclosure ce
+	INNER JOIN cloud_meeting_enclosure cme ON ce.id = cme.enclosure_id
+WHERE
+	cme.meeting_id =#{meetingId}
+    </delete>
 </mapper>

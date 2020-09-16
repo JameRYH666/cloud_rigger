@@ -21,11 +21,23 @@
 
   <!-- 通用查询结果列 -->
   <sql id="Base_Column_List">
-    id, meeting_tile, type_code, meeting_address, meeting_time, form_code, remark, meeting_comment, create_user, create_date, update_user, update_date
+    id, meeting_tile, type_code, meeting_address, meeting_time, form_code, remark, meeting_comment, create_user, create_date, update_user, update_date,ma_id,meeting_status
   </sql>
+    <insert id="saveOne">
+    INSERT INTO
+        cloud_meeting ( id, meeting_tile, type_code, meeting_address, meeting_comment, form_code, remark, meeting_time, create_date,meeting_status )
+    VALUES
+	( ?, ?, ?, ?, ?, ?, ?, ?, ?,?)
+    </insert>
+    <update id="updateStatus">
+               UPDATE cloud_meeting
+SET meeting_status= #{meetingStatus}
+WHERE
+	id =#{meetingId}
+    </update>
 
 
-  <select id="selectAllMeetings" resultType="com.jeeadmin.vo.meeting.CloudMeetingVo">
+    <select id="selectAllMeetings" resultType="com.jeeadmin.vo.meeting.CloudMeetingVo">
     select cm.id, cm.meeting_time, cm.meeting_tile, cm.meeting_address, cm.meeting_comment,
 	cdd.dict_value formName, cdd2.dict_value typeName, cpm.member_name memberName, cmpm.create_date oneCreateDate
         from cloud_meeting cm
@@ -46,6 +58,7 @@
             cm.meeting_tile,
             cm.meeting_address,
             cm.meeting_comment,
+            cm.meeting_meeting_status,
             cdd.dict_value formName,
             cdd2.dict_value typeName,
             cpm.member_name memberName,
@@ -59,6 +72,7 @@
         WHERE
             cmpm.promoter_flag = 1
             AND cm.id = #{id}
+            AND cm.status != 2
     </select>
 
     <select id="selectJoinMembersByMeetingId" parameterType="long" resultType="string">
@@ -81,5 +95,6 @@
         WHERE
             cme.meeting_id = #{id}
     </select>
+
 
 </mapper>

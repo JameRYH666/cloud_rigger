@@ -1,6 +1,6 @@
 package com.jeeadmin.controller;
 
-import com.jeeadmin.api.ICloudEnclosure;
+import com.jeeadmin.api.ICloudEnclosureSerivce;
 import com.jeerigger.frame.base.controller.BaseController;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/enclosure")
 @Api(value = "附件信息", tags = "附件信息")
-public class CloudEnclosure extends BaseController {
+public class CloudEnclosureController extends BaseController {
 
     @Autowired
-    private ICloudEnclosure cloudEnclosure;
+    private ICloudEnclosureSerivce cloudEnclosure;
 
 }

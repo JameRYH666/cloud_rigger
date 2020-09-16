@@ -70,8 +70,11 @@ public class CloudUserDetailsServiceImpl implements JeeUserDetailsService {
             SimpleGrantedAuthority authority = new SimpleGrantedAuthority(permission);
             auths.add(authority);
         }
+
         return new JeeUser(baseUser.getId(), baseUser.getLoginName(), baseUser.getLoginName(), baseUser.getPassword(),
                 new ArrayList<>(),new ArrayList<>(),userTypeEnum, "0".equals(baseUser.getUserStatus()), true,
                 true, !"3".equals(baseUser.getUserStatus()), auths);
+
     }
+
 }

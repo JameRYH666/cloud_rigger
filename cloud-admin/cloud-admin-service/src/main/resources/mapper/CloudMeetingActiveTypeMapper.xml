@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jeeadmin.mapper.CloudMeetingActiveTypeMapper" >
+  <resultMap id="BaseResultMap" type="com.jeeadmin.entity.CloudMeetingActiveType" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="ma_type_name" property="maTypeName" jdbcType="VARCHAR" />
+    <result column="ma_code" property="maCode" jdbcType="VARCHAR" />
+    <result column="ma_times" property="maTimes" jdbcType="INTEGER" />
+    <result column="ma_interval_ unit_code" property="maIntervalUnitCode" jdbcType="VARCHAR" />
+    <result column="ma_interval_cycle" property="maIntervalCycle" jdbcType="INTEGER" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="type_status" property="typeStatus" jdbcType="CHAR" />
+  </resultMap>
+  <!-- 通用查询结果列 -->
+  <sql id="Base_Column_List">
+    id, ma_type_name, ma_code, ma_times, ma_interval_ unit_code, ma_interval_cycle, create_user, create_date, update_user, update_date, remark,type_status
+  </sql>
+  <select id="selectAll" resultType="com.jeeadmin.entity.CloudMeetingActiveType">
+    SELECT
+	id,
+	ma_type_name,
+	ma_code,
+	ma_times,
+	ma_interval_ unit_code,
+	ma_interval_cycle,
+	create_user,
+	create_date,
+	update_user,
+	update_date,
+	remark,
+	type_status
+FROM
+	cloud_meeting_active_type
+	WHERE
+	type_status =1
+  </select>
+</mapper>

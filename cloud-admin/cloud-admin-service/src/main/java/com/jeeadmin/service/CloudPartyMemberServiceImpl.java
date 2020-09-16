@@ -98,7 +98,6 @@ public class CloudPartyMemberServiceImpl extends BaseServiceImpl<CloudPartyMembe
      * @Return: java.util.List<com.jeeadmin.entity.CloudPartyMember>
      * @Throws:
      * @Description: 根据党支部的名字查询该党支部的所有党员信息
-     * todo 查询不到数据
      */
     @Override
     public Page<CloudPartyMember> detailPartyMemberList(PageHelper<CloudOrg> pageHelper) {

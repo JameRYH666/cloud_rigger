@@ -2,7 +2,6 @@ package com.jeeadmin.mapper;
 
 import com.jeeadmin.entity.CloudEnclosure;
 import com.jeerigger.frame.base.mapper.BaseMapper;
-import org.apache.ibatis.annotations.Delete;
 
 /**
  * @author Seven Lee
@@ -24,4 +23,5 @@ public interface CloudEnclosureMapper extends BaseMapper<CloudEnclosure> {
      */
     boolean deleteCloudEnclosureByActivityId(Long id);
 
+    boolean deleteEnclosure(Long meetingId);
 }

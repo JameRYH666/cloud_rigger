@@ -8,6 +8,7 @@ import com.jeeadmin.api.ICloudMeetingEnclosureService;
 import com.jeeadmin.entity.CloudMeetingEnclosure;
 
 
+import com.jeeadmin.entity.CloudMeetingRecordEnclosure;
 import com.jeeadmin.mapper.CloudMeetingEnclosureMapper;
 import com.jeerigger.core.common.core.SnowFlake;
 import com.jeerigger.frame.base.service.impl.BaseServiceImpl;
@@ -33,7 +34,7 @@ public class CloudMeetingEnclosureServiceImpl extends BaseServiceImpl<CloudMeeti
 
 
     /**
-     * @param pageHelper
+     *
      * @Author: Sgz
      * @Time: 10:02 2020/9/12
      * @Params: [pageHelper]
@@ -44,6 +45,7 @@ public class CloudMeetingEnclosureServiceImpl extends BaseServiceImpl<CloudMeeti
     @Override
     public List<CloudMeetingEnclosure> selectAll() {
         QueryWrapper<CloudMeetingEnclosure> queryWrapper = new QueryWrapper<>();
+
         queryWrapper.lambda().select();
         List<CloudMeetingEnclosure> list = this.list(queryWrapper);
         if (list.size()>0){
@@ -115,6 +117,23 @@ public class CloudMeetingEnclosureServiceImpl extends BaseServiceImpl<CloudMeeti
      */
     @Override
     public boolean deleteMeetingEnclosure(Long id) {
-        return false;
+        if (Objects.isNull(id)){
+            throw new ValidateException("没有获取到附件信息id");
+        }
+        return this.removeById(id);
+    }
+
+    @Override
+    public List<CloudMeetingEnclosure> selectMeetingEnclosuresByMeetingId(Long meetingId) {
+        QueryWrapper<CloudMeetingEnclosure> queryWrapper = new QueryWrapper<>();
+        if (Objects.isNull(meetingId)){
+            throw new ValidateException("没有获取到会议ID");
+        }
+        queryWrapper.lambda().eq(CloudMeetingEnclosure::getMeetingId,meetingId);
+        if (Objects.isNull(queryWrapper)){
+            throw new ValidateException("没有会议附件信息");
+
+        }
+        return  this.list(queryWrapper);
     }
 }

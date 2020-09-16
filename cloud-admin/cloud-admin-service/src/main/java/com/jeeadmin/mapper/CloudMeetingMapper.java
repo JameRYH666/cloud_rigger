@@ -1,6 +1,7 @@
 package com.jeeadmin.mapper;
 
 import com.jeeadmin.entity.CloudEnclosure;
+import com.jeeadmin.entity.CloudMeeting;
 import com.jeeadmin.vo.meeting.CloudMeetingDetailVo;
 import com.jeeadmin.vo.meeting.CloudMeetingVo;
 import com.jeerigger.frame.base.mapper.BaseMapper;
@@ -59,5 +60,19 @@ public interface CloudMeetingMapper extends BaseMapper<CloudMeetingVo> {
      * @throws
     **/
     List<CloudEnclosure> selectEnclosuresByMeetingId(Long id);
+
+    /**
+     * 新增会议信息
+     * @param cloudMeeting
+     * @return
+     */
+    boolean saveOne(CloudMeeting cloudMeeting);
+
+    /**
+     * 通过修改状态码实现逻辑删除
+     * @param meetingId
+     * @return
+     */
+    boolean updateStatus(CloudMeeting cloudMeeting);
 
 }
