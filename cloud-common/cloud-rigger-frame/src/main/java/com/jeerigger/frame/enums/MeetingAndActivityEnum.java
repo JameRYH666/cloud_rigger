@@ -1,17 +1,6 @@
 package com.jeerigger.frame.enums;
 
-<<<<<<< Updated upstream
-/**
-* @Author: Ryh
-* @Description:     会议/活动的状态枚举
-* @Param: [null]
-* @Date: Create in 2020/9/15
-* @Return: null
-* @Throws:
-*/
-=======
 
->>>>>>> Stashed changes
 public enum MeetingAndActivityEnum {
 
     NORMAL("1", "正常"),

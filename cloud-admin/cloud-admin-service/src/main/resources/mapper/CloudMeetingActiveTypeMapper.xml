@@ -20,7 +20,7 @@
   </resultMap>
   <!-- 通用查询结果列 -->
   <sql id="Base_Column_List">
-    id, ma_type_name, ma_code, ma_times, ma_interval_ unit_code, ma_interval_cycle, create_user, create_date, update_user, update_date, remark,type_status
+    id, ma_type_name, ma_code, ma_times,ma_interval_ unit_code, ma_interval_cycle, create_user, create_date, update_user, update_date, remark,type_status
   </sql>
   <select id="selectAll" resultType="com.jeeadmin.entity.CloudMeetingActiveType">
     SELECT
@@ -39,6 +39,6 @@
 FROM
 	cloud_meeting_active_type
 	WHERE
-	type_status =1
-  </select>
+	type_status = 1
+</select>
 </mapper>

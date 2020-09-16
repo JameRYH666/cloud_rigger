@@ -1,5 +1,6 @@
 package com.jeeadmin.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.jeerigger.frame.base.model.BaseModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -35,7 +36,7 @@ public class CloudMeetingActiveType extends BaseModel<CloudMeetingActiveType> {
     /**
      * 间隔单位
      */
-
+    @TableField("`ma_interval_ unit_code`")
     private String maIntervalUnitCode;
 
     /**

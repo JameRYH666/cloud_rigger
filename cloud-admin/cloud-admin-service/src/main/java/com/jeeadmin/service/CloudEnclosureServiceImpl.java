@@ -61,21 +61,6 @@ public class CloudEnclosureServiceImpl extends BaseServiceImpl<CloudEnclosureMap
         }
         throw  new ValidateException("附件信息不能为空");
     }
-public class CloudEnclosureServiceImpl extends BaseServiceImpl<CloudEnclosureMapper, CloudEnclosure> implements ICloudEnclosure {
-
-   @Autowired
-   private CloudEnclosureMapper cloudEnclosureMapper;
-
-   /* @Override
-    public boolean deleteEnclosure(Long id) {
-        CloudEnclosure oldData = this.getById(id);
-        if(null == oldData){
-            return true;
-        }else{
-            return cloudEnclosureMapper.deleteCloudEnclosureByActivityRecordId(id);
-        }
-    }*/
-
 
 
 }

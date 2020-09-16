@@ -13,6 +13,7 @@ import com.jeerigger.frame.exception.ValidateException;
 import com.jeerigger.frame.support.validate.ValidateUtil;
 import com.jeerigger.security.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
@@ -25,6 +26,7 @@ import java.util.Objects;
  *     会议活动类型表的实现
  *
  */
+@Service
 public class CloudMeetingActiveTypeServiceImpl extends BaseServiceImpl<CloudMeetingActiveTypeMapper, CloudMeetingActiveType>
                                                 implements ICloudMeetingActiveTypeService {
 

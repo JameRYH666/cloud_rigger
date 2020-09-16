@@ -8,7 +8,7 @@ import com.jeerigger.frame.base.controller.BaseController;
 import com.jeerigger.frame.base.controller.ResultCodeEnum;
 import com.jeerigger.frame.base.controller.ResultData;
 import com.jeerigger.frame.page.PageHelper;
-import com.jeerigger.frame.support.resolver.annotation.SingleRequestBody;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
