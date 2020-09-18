@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jeeadmin.mapper.CloudNoticeMapper" >
+  <resultMap id="BaseResultMap" type="com.jeeadmin.entity.CloudNotice" >
+      <!--
+          WARNING - @mbg.generated
+        -->
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="notice_title" property="noticeTitle" jdbcType="VARCHAR" />
+    <result column="party_member_id" property="partyMemberId" jdbcType="BIGINT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="notice_status" property="noticeStatus" jdbcType="CHAR" />
+    <result column="notice_content" property="noticeContent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+    <sql id="Base_Column_List">
+    id, notice_title, party_member_id, remark, create_user, create_date, update_user, update_date, notice_status, notice_content
+  </sql>
+    <select id="selectAllNotice" resultType="com.jeeadmin.vo.notice.CloudNoticeVo">
+        select
+            cn.id,
+            cn.notice_title,
+            cpm.member_name,
+            cne.portal_flag,
+            cn.remark,
+            cn.notice_content,
+            cn.create_user,
+            cn.create_date,
+            cn.update_user,
+            cn.update_date
+        from
+            cloud_notice cn inner join cloud_party_member cpm on cn.party_member_id = cpm.id
+            inner join cloud_notice_enclosure cne on cne.notice_id = cn.id
+        where
+            cn.notice_status = 1
+        and
+            cn.id in
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="selectOne" parameterType="long" resultType="com.jeeadmin.vo.notice.CloudNoticeVo">
+        SELECT
+            cn.id,
+            cn.notice_title,
+            cpm.member_name,
+            cn.remark,
+            cn.notice_content,
+            cn.create_user,
+            cn.create_date,
+            cn.update_user,
+            cn.update_date
+        FROM
+            cloud_notice cn
+            INNER JOIN cloud_party_member cpm ON cn.party_member_id = cpm.id
+            where cn.id = #{id}
+    </select>
+
+
+
+
+
+    <select id="selectEnclosuresByNoticeId" parameterType="long" resultType="com.jeeadmin.entity.CloudEnclosure">
+        SELECT
+	        ce.*
+        FROM
+	        cloud_enclosure ce
+	    INNER JOIN cloud_notice_enclosure cne ON cne.enclosure_id = ce.id
+        WHERE
+	        cne.notice_id = #{id}
+    </select>
+
+    <select id="selectOneNotice" parameterType="long" resultType="com.jeeadmin.vo.notice.CloudNoticeVo">
+        SELECT
+            cn.id,
+            cn.notice_title,
+            cpm.member_name,
+            ce.enclosure_name,
+            cn.remark,
+            cn.notice_content,
+            cn.create_user,
+            cn.create_date,
+            cn.update_user,
+            cn.update_date
+        FROM
+            cloud_notice cn
+            INNER JOIN cloud_party_member cpm ON cn.party_member_id = cpm.id
+            INNER JOIN cloud_notice_enclosure cne ON cne.notice_id = cn.id
+            INNER JOIN cloud_enclosure ce ON ce.id = cne.enclosure_id
+        WHERE
+            cn.notice_status = 1
+        and cn.id = #{id}
+    </select>
+
+
+</mapper>
