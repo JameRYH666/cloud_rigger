@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/meeting/record")
 @Api(value = "会议记录信息", tags = "会议记录信息")
-public class MeetingRecordController extends BaseController {
+public class CloudMeetingRecordController extends BaseController {
 
     @Autowired
     private ICloudMeetingRecordService cloudMeetingRecordService;

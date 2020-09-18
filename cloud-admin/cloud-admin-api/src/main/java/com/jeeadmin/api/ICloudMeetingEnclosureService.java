@@ -1,6 +1,7 @@
 package com.jeeadmin.api;
 
 import com.jeeadmin.entity.CloudMeetingEnclosure;
+import com.jeeadmin.entity.CloudMeetingRecordEnclosure;
 import com.jeerigger.frame.base.service.BaseService;
 import com.jeerigger.frame.page.PageHelper;
 
@@ -68,6 +69,8 @@ public interface ICloudMeetingEnclosureService extends BaseService<CloudMeetingE
      *
      */
     boolean deleteMeetingEnclosure(Long id);
+
+    List<CloudMeetingEnclosure> selectMeetingEnclosuresByMeetingId(Long meetingId);
 
 
 

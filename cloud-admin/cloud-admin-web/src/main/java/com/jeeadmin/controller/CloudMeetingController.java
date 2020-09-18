@@ -8,14 +8,11 @@ import com.jeerigger.frame.base.controller.BaseController;
 import com.jeerigger.frame.base.controller.ResultCodeEnum;
 import com.jeerigger.frame.base.controller.ResultData;
 import com.jeerigger.frame.page.PageHelper;
-import com.jeerigger.frame.support.resolver.annotation.SingleRequestBody;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 /**
@@ -38,13 +35,14 @@ public class CloudMeetingController extends BaseController {
 
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     @ApiOperation(value = "新增活动会议数据",notes = "新增活动会议数据列表")
-    public ResultData add(@RequestBody CloudMeetingVo meeting){
+    public ResultData add( CloudMeetingVo meeting){
+        this.getClass().getAnnotationsByType(RequestMapping.class);
         return this.success(cloudMeetingService.saveMeeting(meeting));
     }
 
     @RequestMapping(value = "/update",method = RequestMethod.POST)
     @ApiOperation(value = "更新活动会议数据",notes = "更新活动会议数据")
-    public ResultData update(@RequestBody CloudMeetingVo meeting){
+    public ResultData update( CloudMeetingVo meeting){
         if (cloudMeetingService.updateMeeting(meeting)){
             return this.success();
         }else {
@@ -54,11 +52,11 @@ public class CloudMeetingController extends BaseController {
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ApiOperation(value = "删除会议信息数据", notes = "删除会议信息数据")
-    public ResultData updateStatus(@SingleRequestBody(value = "id") Long id) {
+    public ResultData updateStatus( Long id) {
         if (cloudMeetingService.deleteMeeting(id)) {
             return this.success();
         } else {
-            return this.failed(ResultCodeEnum.ERROR_UPDATE_FAIL, "删除活动信息数据数据失败！");
+            return this.failed(ResultCodeEnum.ERROR_UPDATE_FAIL, "删除会议信息数据数据失败！");
         }
     }
 

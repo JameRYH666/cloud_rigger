@@ -14,7 +14,7 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("cloud_meeting_record_enclosure")
+
 public class CloudMeetingRecordEnclosure extends BaseModel<CloudMeetingRecordEnclosure> {
     /**
      * 会议记录id

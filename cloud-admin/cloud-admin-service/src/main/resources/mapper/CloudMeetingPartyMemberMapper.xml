@@ -18,4 +18,26 @@
   <sql id="Base_Column_List">
     meeting_id, party_member_id, promoter_flag, create_user, create_date, update_user, update_date
   </sql>
+    <insert id="savaMeetingMember">
+    INSERT INTO cloud_meeting_party_member ( id, meeting_id, party_member_id ,promoter_flag,create_user,create_date)
+VALUES
+	( ?, ?, ?,?,?,? )
+
+    </insert>
+
+    <select id="getAllMeetingMembers" resultType="com.jeeadmin.vo.meeting.CloudMeetingDetailVo">
+    SELECT
+        cpm.id,
+        cpm.member_name
+    FROM
+        cloud_party_member cpm
+   INNER JOIN
+        cloud_meeting_party_member cmpm
+    ON
+        cmpm.party_member_id = cpm.id
+    WHERE
+	cmpm.meeting_id = #{meetingId}
+
+
+  </select>
 </mapper>

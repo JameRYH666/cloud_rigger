@@ -5,7 +5,7 @@ import com.jeeadmin.entity.CloudActivityRecord;
 import com.jeeadmin.entity.CloudMeetingRecord;
 import com.jeerigger.frame.base.service.BaseService;
 import com.jeerigger.frame.page.PageHelper;
-import org.springframework.stereotype.Service;
+
 
 
 /**

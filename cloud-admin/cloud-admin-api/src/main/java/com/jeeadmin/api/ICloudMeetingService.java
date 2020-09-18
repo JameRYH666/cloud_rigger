@@ -51,7 +51,7 @@ public interface ICloudMeetingService extends BaseService<CloudMeetingVo> {
      *  新增会议信息
      *
      */
-    CloudMeetingVo saveMeeting(CloudMeetingVo cloudMeeting);
+    boolean  saveMeeting(CloudMeetingVo cloudMeeting);
 
     /**
      * @Author: Sgz
@@ -78,7 +78,9 @@ public interface ICloudMeetingService extends BaseService<CloudMeetingVo> {
     boolean deleteMeeting(Long id);
 
 
+    boolean saveOne(CloudMeeting cloudMeeting);
 
+    boolean updateStatus(CloudMeeting cloudMeeting);
 
 
 

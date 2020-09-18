@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jeeadmin.api.ICloudActivityRecordEnclosure;
 import com.jeeadmin.api.ICloudActivityRecordService;
 import com.jeeadmin.api.ICloudActivityService;
-import com.jeeadmin.api.ICloudEnclosure;
+
 import com.jeeadmin.entity.CloudActivityRecord;
 import com.jeeadmin.entity.CloudActivityRecordEnclosure;
 import com.jeeadmin.entity.CloudEnclosure;
