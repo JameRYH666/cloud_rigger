@@ -19,6 +19,7 @@ import javax.validation.constraints.Pattern;
 @Accessors(chain = true)
 public class CloudEnclosure extends BaseModel<CloudEnclosure> {
 
+
     /**
      * 文件MD5码
      */

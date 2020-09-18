@@ -17,7 +17,7 @@ import com.jeerigger.frame.page.PageHelper;
  *  会议信息表接口
  */
 
-public interface ICloudMeetingService extends BaseService<CloudMeetingVo> {
+public interface ICloudMeetingService extends BaseService<CloudMeeting> {
     /**
      * @Author: Sgz
      * @Time: 16:56 2020/9/11

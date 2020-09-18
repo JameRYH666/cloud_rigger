@@ -9,6 +9,7 @@ import com.jeerigger.frame.base.controller.ResultCodeEnum;
 import com.jeerigger.frame.base.controller.ResultData;
 import com.jeerigger.frame.page.PageHelper;
 
+import com.jeerigger.frame.support.resolver.annotation.SingleRequestBody;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +53,7 @@ public class CloudMeetingController extends BaseController {
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ApiOperation(value = "删除会议信息数据", notes = "删除会议信息数据")
-    public ResultData updateStatus( Long id) {
+    public ResultData updateStatus( @SingleRequestBody(value = "id") Long id) {
         if (cloudMeetingService.deleteMeeting(id)) {
             return this.success();
         } else {
@@ -62,7 +63,7 @@ public class CloudMeetingController extends BaseController {
 
     @RequestMapping(value = "/selectOne",method = RequestMethod.POST)
     @ApiOperation(value = "查询单个会议信息",notes = "查询单个会议的信息")
-        public  ResultData selectOneActivity(Long id){
+        public  ResultData selectOneActivity(@SingleRequestBody(value = "id") Long id){
         return this.success(cloudMeetingService.selectOneMeeting(id));
     }
 }

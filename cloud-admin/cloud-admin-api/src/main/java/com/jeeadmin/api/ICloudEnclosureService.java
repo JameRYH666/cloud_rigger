@@ -3,7 +3,9 @@ package com.jeeadmin.api;
 import com.jeeadmin.entity.CloudEnclosure;
 import com.jeerigger.frame.base.service.BaseService;
 
-public interface ICloudEnclosureSerivce extends BaseService<CloudEnclosure> {
+import java.util.List;
+
+public interface ICloudEnclosureService extends BaseService<CloudEnclosure> {
 
 
 
@@ -29,6 +31,9 @@ public interface ICloudEnclosureSerivce extends BaseService<CloudEnclosure> {
      *
      */
     boolean saveEnclosure(CloudEnclosure cloudEnclosure);
+
+    List<CloudEnclosure> selectEnclosuresByMeetingId(Long meetingId);
+    boolean deleteEnclosures(Long enclosureId);
 
 
 }

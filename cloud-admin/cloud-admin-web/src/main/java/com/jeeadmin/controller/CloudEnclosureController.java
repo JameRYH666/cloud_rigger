@@ -1,6 +1,6 @@
 package com.jeeadmin.controller;
 
-import com.jeeadmin.api.ICloudEnclosureSerivce;
+import com.jeeadmin.api.ICloudEnclosureService;
 import com.jeerigger.frame.base.controller.BaseController;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class CloudEnclosureController extends BaseController {
 
     @Autowired
-    private ICloudEnclosureSerivce cloudEnclosure;
+    private ICloudEnclosureService cloudEnclosure;
 
 }

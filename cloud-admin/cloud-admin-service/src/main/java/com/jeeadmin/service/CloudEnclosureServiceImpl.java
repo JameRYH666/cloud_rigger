@@ -1,7 +1,8 @@
 package com.jeeadmin.service;
 
 
-import com.jeeadmin.api.ICloudEnclosureSerivce;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.jeeadmin.api.ICloudEnclosureService;
 import com.jeeadmin.entity.CloudEnclosure;
 import com.jeeadmin.mapper.CloudEnclosureMapper;
 import com.jeerigger.core.common.core.SnowFlake;
@@ -9,9 +10,9 @@ import com.jeerigger.frame.base.service.impl.BaseServiceImpl;
 import com.jeerigger.frame.exception.ValidateException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -21,7 +22,7 @@ import java.util.Objects;
  * @Description:
  */
 @Service
-public class CloudEnclosureServiceImpl extends BaseServiceImpl<CloudEnclosureMapper, CloudEnclosure> implements ICloudEnclosureSerivce {
+public class CloudEnclosureServiceImpl extends BaseServiceImpl<CloudEnclosureMapper, CloudEnclosure> implements ICloudEnclosureService {
     @Autowired
     private SnowFlake snowFlake;
     @Autowired
@@ -60,6 +61,34 @@ public class CloudEnclosureServiceImpl extends BaseServiceImpl<CloudEnclosureMap
            return this.save(cloudEnclosure);
         }
         throw  new ValidateException("附件信息不能为空");
+    }
+
+    /**
+     * @Author: Sgz
+     * @Time: 21:29 2020/9/17
+     * @Params: [meetingId]
+     * @Return: java.util.List<com.jeeadmin.entity.CloudEnclosure>
+     * @Throws:
+     * @Description:
+     * 根据会议id查询会议附件信息
+     *
+     */
+    @Override
+    public List<CloudEnclosure> selectEnclosuresByMeetingId(Long meetingId) {
+        List<CloudEnclosure> list = cloudEnclosureMapper.selectEnclosuresByMeetingId(meetingId);
+        if (list.size()>0){
+            return list;
+
+        }
+        throw new ValidateException("查询不到该会议附件");
+    }
+
+    @Override
+    public boolean deleteEnclosures(Long enclosureId) {
+        if (Objects.isNull(enclosureId)){
+            throw new ValidateException("附件id不能为空");
+        }
+        return this.removeById(enclosureId);
     }
 
 

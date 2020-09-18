@@ -15,7 +15,7 @@ import java.util.Map;
  *      会议mapper接口
  * @date 2020/9/8
 **/
-public interface CloudMeetingMapper extends BaseMapper<CloudMeetingVo> {
+public interface CloudMeetingMapper extends BaseMapper<CloudMeeting> {
 
     /**
      * @author Seven Lee

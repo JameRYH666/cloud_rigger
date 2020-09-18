@@ -3,6 +3,8 @@ package com.jeeadmin.mapper;
 import com.jeeadmin.entity.CloudEnclosure;
 import com.jeerigger.frame.base.mapper.BaseMapper;
 
+import java.util.List;
+
 /**
  * @author Seven Lee
  * @description
@@ -24,4 +26,5 @@ public interface CloudEnclosureMapper extends BaseMapper<CloudEnclosure> {
     boolean deleteCloudEnclosureByActivityId(Long id);
 
     boolean deleteEnclosure(Long meetingId);
+    List<CloudEnclosure> selectEnclosuresByMeetingId(Long meetingId);
 }

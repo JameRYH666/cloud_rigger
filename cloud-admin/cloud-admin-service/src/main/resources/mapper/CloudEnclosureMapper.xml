@@ -39,9 +39,22 @@
       DELETE ce,
 cme
 FROM
+	cloud_enclosure ce,
+	 cloud_meeting_enclosure cme
+    WHERE
+	  ce.id = cme.enclosure_id
+        AND
+	  cme.meeting_id =#{meetingId}
+    </delete>
+    <select id="selectEnclosuresByMeetingId" resultType="com.jeeadmin.entity.CloudEnclosure">
+SELECT
+	ce.*,
+	cme.*
+FROM
 	cloud_enclosure ce
 	INNER JOIN cloud_meeting_enclosure cme ON ce.id = cme.enclosure_id
 WHERE
 	cme.meeting_id =#{meetingId}
-    </delete>
+
+    </select>
 </mapper>

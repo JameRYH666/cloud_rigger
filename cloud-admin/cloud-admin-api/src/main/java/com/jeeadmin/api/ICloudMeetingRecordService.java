@@ -6,6 +6,7 @@ import com.jeeadmin.entity.CloudMeetingRecord;
 import com.jeerigger.frame.base.service.BaseService;
 import com.jeerigger.frame.page.PageHelper;
 
+import java.util.List;
 
 
 /**
@@ -40,14 +41,14 @@ public interface ICloudMeetingRecordService extends BaseService<CloudMeetingReco
     boolean deleteRecord(Long recordId);
 
     /**
-     *  根据
+     *  根据会议记录id获取会议记录详情
      */
 
     CloudMeetingRecord selectOneRecord(Long recordId);
 
 
 
-
+    List<CloudMeetingRecord> selectRecords(Long meetingId);
 
 
 

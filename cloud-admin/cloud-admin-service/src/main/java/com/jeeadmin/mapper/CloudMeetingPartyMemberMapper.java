@@ -12,7 +12,7 @@ import java.util.List;
  *      参加会议党员mapper接口
  * @date 2020/9/8
 **/
-public interface CloudMeetingPartyMemberMapper extends BaseMapper<CloudMeetingDetailVo> {
+public interface CloudMeetingPartyMemberMapper extends BaseMapper<CloudMeetingPartyMember> {
     /**
      * @Author: Sgz
      * @Time: 17:50 2020/9/12

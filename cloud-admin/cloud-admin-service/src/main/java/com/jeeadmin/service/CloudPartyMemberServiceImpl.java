@@ -23,6 +23,8 @@ import com.jeerigger.security.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.xml.crypto.Data;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -44,6 +46,16 @@ public class CloudPartyMemberServiceImpl extends BaseServiceImpl<CloudPartyMembe
     @Autowired
     private SnowFlake snowFlake;
 
+    /**
+     * @Author: Sgz
+     * @Time: 9:57 2020/9/17
+     * @Params: [pageHelper]
+     * @Return: com.baomidou.mybatisplus.extension.plugins.pagination.Page<com.jeeadmin.entity.CloudPartyMember>
+     * @Throws:
+     * @Description:
+     * TODO 这块有bug
+     *
+     */
     @Override
     public Page<CloudPartyMember> selectPage(PageHelper<PartyMemberVo> pageHelper) {
         Page<CloudPartyMember> page = new Page<>(pageHelper.getCurrent(), pageHelper.getSize());
@@ -63,8 +75,8 @@ public class CloudPartyMemberServiceImpl extends BaseServiceImpl<CloudPartyMembe
             if (StringUtil.isNotEmpty(partyMemberVo.getMemberName())) {
                 queryWrapper.lambda().like(CloudPartyMember::getMemberName, partyMemberVo.getMemberName());
             }
-            if (StringUtil.isNotEmpty(partyMemberVo.getMemeberStatus())) {
-                queryWrapper.lambda().eq(CloudPartyMember::getMemeberStatus, partyMemberVo.getMemeberStatus());
+            if (StringUtil.isNotEmpty(partyMemberVo.getMemberStatus())) {
+                queryWrapper.lambda().eq(CloudPartyMember::getMemeberStatus, partyMemberVo.getMemberStatus());
             }
         }
         this.page(page, queryWrapper);
@@ -153,6 +165,7 @@ public class CloudPartyMemberServiceImpl extends BaseServiceImpl<CloudPartyMembe
 
         //验证党员手机号
         validateUserNumber(cloudPartyMember);
+
         cloudPartyMember.setMemeberStatus(UserStatusEnum.NORMAL.getCode());
 
         //保存用户信息
@@ -173,13 +186,24 @@ public class CloudPartyMemberServiceImpl extends BaseServiceImpl<CloudPartyMembe
     @Override
     public boolean updateUser(CloudPartyMember cloudPartyMember) {
         QueryWrapper<CloudPartyMember> queryWrapper = new QueryWrapper<>();
-        if (this.getById(cloudPartyMember.getId()) == null) {
+        CloudPartyMember oldData = this.getById(cloudPartyMember.getId());
+        if (oldData == null) {
             throw new ValidateException("该用户不存在！");
 
         }
+
+        if (!oldData.getCreateUser().equals(cloudPartyMember.getCreateUser())){
+
+            throw new ValidateException("创建用户不允许修改");
+        }
+        if (!oldData.getCreateDate().equals(cloudPartyMember.getCreateDate())){
+
+            throw new ValidateException("创建时间不允许修改");
+        }
         //验证数据
         ValidateUtil.validateObject(cloudPartyMember);
-        cloudPartyMember.setUpdateUser(SecurityUtil.getUserId());
+        cloudPartyMember.setUpdateUser(SecurityUtil.getUserId())
+                .setUpdateDate(new Date());
 
         CloudPartyMember partyMember = this.getPartyMemberById(cloudPartyMember.getId());
         if (!partyMember.getMemberPhoneNumber().equals(cloudPartyMember.getMemberPhoneNumber())) {
@@ -218,7 +242,9 @@ public class CloudPartyMemberServiceImpl extends BaseServiceImpl<CloudPartyMembe
         if (Objects.isNull(cloudPartyMember)) {
             throw new ValidateException("党员信息不能为空");
         }
-        cloudPartyMember.setMemeberStatus(UserStatusEnum.REMOVE.getCode());
+        cloudPartyMember.setMemeberStatus(UserStatusEnum.DISABLE.getCode())
+                .setUpdateUser(SecurityUtil.getUserId())
+                .setUpdateDate(new Date());
         return this.updateById(cloudPartyMember);
 
     }

@@ -1,11 +1,10 @@
 package com.jeeadmin.api;
 
-import com.jeeadmin.entity.CloudMeetingEnclosure;
 import com.jeeadmin.entity.CloudMeetingPartyMember;
 import com.jeeadmin.vo.meeting.CloudMeetingDetailVo;
-import com.jeerigger.frame.base.mapper.BaseMapper;
+
 import com.jeerigger.frame.base.service.BaseService;
-import com.jeerigger.frame.page.PageHelper;
+
 
 import java.util.List;
 
@@ -15,7 +14,7 @@ import java.util.List;
  * @description:
  * 会议参会人员表接口
  */
-public interface ICloudMeetingPartyMemberService extends BaseService<CloudMeetingDetailVo> {
+public interface ICloudMeetingPartyMemberService extends BaseService<CloudMeetingPartyMember> {
     /**
      * 通过会议id获取所有的参会人员
      * @param meetingId

@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -149,4 +150,19 @@ public class CloudMeetingRecordServiceImpl extends BaseServiceImpl<CloudMeetingR
         }
         return cloudMeetingRecord;
     }
+
+    @Override
+    public List<CloudMeetingRecord> selectRecords(Long meetingId) {
+        QueryWrapper<CloudMeetingRecord> queryWrapper = new QueryWrapper<>();
+        if (Objects.isNull(meetingId)){
+            throw new ValidateException("会议id不能为空");
+        }
+        queryWrapper.lambda().eq(CloudMeetingRecord::getMeetingId,meetingId);
+        List<CloudMeetingRecord> cloudMeetingRecords = this.list(queryWrapper);
+        if (cloudMeetingRecords.size()>0){
+            return cloudMeetingRecords;
+        }
+        throw new ValidateException("没有该会议的会议记录");
+    }
+
 }

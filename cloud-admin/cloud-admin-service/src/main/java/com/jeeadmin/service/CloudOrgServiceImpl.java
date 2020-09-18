@@ -79,8 +79,8 @@ public class CloudOrgServiceImpl extends BaseTreeServiceImpl<CloudOrgMapper, Clo
         if (StringUtil.isNotEmpty(sysOrg.getOrgShortName())) {
             wrapper.lambda().like(CloudOrg::getOrgShortName, sysOrg.getOrgShortName());
         }
-        if (StringUtil.isNotEmpty(sysOrg.getOrgType())) {
-            wrapper.lambda().like(CloudOrg::getOrgType, sysOrg.getOrgType());
+        if (StringUtil.isNotEmpty(sysOrg.getOrgTypeCode())) {
+            wrapper.lambda().like(CloudOrg::getOrgTypeCode, sysOrg.getOrgTypeCode());
         }
         if (StringUtil.isNotEmpty(sysOrg.getOrgStatus())) {
             wrapper.lambda().eq(CloudOrg::getOrgStatus, sysOrg.getOrgStatus());
@@ -116,9 +116,9 @@ public class CloudOrgServiceImpl extends BaseTreeServiceImpl<CloudOrgMapper, Clo
     private List<CloudOrg> getListOrg(QueryWrapper<CloudOrg> wrapper) {
         List<CloudOrg> listOrg = this.list(wrapper);
         for (CloudOrg sysOrg : listOrg) {
-            if (StringUtil.isNotEmpty(sysOrg.getOrgType())) {
-                String orgTypeName = SysDictUtil.getDictLable(SysConstant.SYS_ORG_TYPE, sysOrg.getOrgType());
-                sysOrg.setOrgTypeName(orgTypeName);
+            if (StringUtil.isNotEmpty(sysOrg.getOrgTypeCode())) {
+                String orgTypeName = SysDictUtil.getDictLable(SysConstant.SYS_ORG_TYPE, sysOrg.getOrgTypeCode());
+                //sysOrg.setOrgTypeName(orgTypeName);
             }
         }
         return listOrg;
@@ -128,11 +128,21 @@ public class CloudOrgServiceImpl extends BaseTreeServiceImpl<CloudOrgMapper, Clo
     public CloudOrg detailOrg(Long orgId) {
         CloudOrg sysOrg = this.getById(orgId);
         if (sysOrg != null && Objects.nonNull(sysOrg.getParentId()) && !sysOrg.getParentId().equals(0L)) {
-            sysOrg.setParentOrg(this.getById(sysOrg.getParentId()));
+            //sysOrg.setParentOrg(this.getById(sysOrg.getParentId()));
         }
         return sysOrg;
     }
 
+    /**
+     * @Author: Sgz
+     * @Time: 9:40 2020/9/17
+     * @Params: [sysOrg]
+     * @Return: com.jeeadmin.entity.CloudOrg
+     * @Throws:
+     * @Description:
+     * 保存的时候，是根据父结构来进行操作，也就是说parentId是自动获取
+     *
+     */
     @Override
     public CloudOrg saveSysOrg(CloudOrg sysOrg) {
         // 通过安全框架拿取userId

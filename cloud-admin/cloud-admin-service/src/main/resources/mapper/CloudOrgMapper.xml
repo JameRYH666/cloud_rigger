@@ -20,11 +20,15 @@
     <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
     <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
-    <result column="org_type" property="orgType" jdbcType="VARCHAR" />
+    <result column="org_type_code" property="orgTypeCode" jdbcType="VARCHAR" />
+    <result column="org_tel_number" property="orgTelNumber" jdbcType="VARCHAR" />
+    <result column="org_address" property="orgAddress" jdbcType="VARCHAR" />
+
   </resultMap>
 
   <!-- 通用查询结果列 -->
   <sql id="Base_Column_List">
-    id, parent_id, org_code, org_name, org_short_name, org_leader, org_type, org_sort, org_status, leaf_flag, remark, top_level, create_user, create_date, update_user, update_date
+    id, parent_id, org_code, org_name, org_short_name, org_leader,  org_sort, org_status, leaf_flag, remark, top_level, create_user, create_date, update_user, update_date,org_type_code,
+    org_tel_number,org_address
   </sql>
 </mapper>

@@ -96,4 +96,30 @@ public class CloudMeetingRecordEnclosureImpl extends BaseServiceImpl<CloudMeetin
         }
        return this.updateById(cloudMeetingRecordEnclosure);
     }
+
+    /**
+     * @param meetingRecordId
+     * @Author: Sgz
+     * @Time: 9:04 2020/9/18
+     * @Params: [meetingRecordId]
+     * @Return: java.util.List<com.jeeadmin.entity.CloudMeetingRecordEnclosure>
+     * @Throws:
+     * @Description: 根据会议记录id查询会议记录附件
+     */
+    @Override
+    public List<CloudMeetingRecordEnclosure> selectMeetingRecordEnclosures(Long meetingRecordId) {
+        QueryWrapper<CloudMeetingRecordEnclosure> queryWrapper = new QueryWrapper<>();
+        if (Objects.isNull(meetingRecordId)){
+            throw new ValidateException("会议记录id不能为空");
+        }
+        queryWrapper.lambda().eq(CloudMeetingRecordEnclosure::getMeetingRecordId,meetingRecordId);
+        List<CloudMeetingRecordEnclosure> cloudMeetingRecordEnclosures = this.list(queryWrapper);
+        if (cloudMeetingRecordEnclosures.size()>0){
+            return cloudMeetingRecordEnclosures;
+        }
+        throw new ValidateException("没有查询到会议记录附件信息");
+
+    }
+
+
 }

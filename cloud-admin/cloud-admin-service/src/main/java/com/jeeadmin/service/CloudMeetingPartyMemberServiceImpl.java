@@ -5,11 +5,10 @@ import com.jeeadmin.entity.CloudMeetingPartyMember;
 import com.jeeadmin.mapper.CloudMeetingPartyMemberMapper;
 import com.jeeadmin.vo.meeting.CloudMeetingDetailVo;
 import com.jeerigger.core.common.core.SnowFlake;
-import com.jeerigger.frame.base.service.BaseService;
+
 import com.jeerigger.frame.base.service.impl.BaseServiceImpl;
 import com.jeerigger.frame.exception.ValidateException;
-import com.jeerigger.frame.page.PageHelper;
-import com.jeerigger.frame.support.validate.ValidateUtil;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,9 +20,10 @@ import java.util.Objects;
  * @author: Sgz
  * @time: 2020/9/12 17:06
  * @description:
+ * todo 更改所有的vo类型
  */
 @Service
-public class CloudMeetingPartyMemberServiceImpl extends BaseServiceImpl<CloudMeetingPartyMemberMapper,CloudMeetingDetailVo> implements ICloudMeetingPartyMemberService {
+public class CloudMeetingPartyMemberServiceImpl extends BaseServiceImpl<CloudMeetingPartyMemberMapper,CloudMeetingPartyMember> implements ICloudMeetingPartyMemberService {
     @Autowired
     private CloudMeetingPartyMemberMapper cloudMeetingPartyMemberMapper;
     @Autowired

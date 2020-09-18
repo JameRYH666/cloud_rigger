@@ -1,6 +1,7 @@
 package com.jeeadmin.api;
 
 
+import com.jeeadmin.entity.CloudMeetingRecord;
 import com.jeeadmin.entity.CloudMeetingRecordEnclosure;
 
 import com.jeerigger.frame.base.service.BaseService;
@@ -47,5 +48,16 @@ public interface ICloudMeetingRecordEnclosureService extends BaseService<CloudMe
      * @return
      */
     boolean updateMeetingRecordEnclosure(CloudMeetingRecordEnclosure cloudMeetingRecordEnclosure);
+
+    /**
+     * @Author: Sgz
+     * @Time: 9:04 2020/9/18
+     * @Params: [meetingRecordId]
+     * @Return: java.util.List<com.jeeadmin.entity.CloudMeetingRecordEnclosure>
+     * @Throws:
+     * @Description:
+     *      根据会议记录id查询会议记录附件
+     */
+    List<CloudMeetingRecordEnclosure> selectMeetingRecordEnclosures(Long meetingRecordId);
 
 }

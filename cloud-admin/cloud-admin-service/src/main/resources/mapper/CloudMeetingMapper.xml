@@ -58,7 +58,7 @@ WHERE
             cm.meeting_tile,
             cm.meeting_address,
             cm.meeting_comment,
-            cm.meeting_meeting_status,
+            cm.meeting_status ,
             cdd.dict_value formName,
             cdd2.dict_value typeName,
             cpm.member_name memberName,
@@ -72,7 +72,7 @@ WHERE
         WHERE
             cmpm.promoter_flag = 1
             AND cm.id = #{id}
-            AND cm.status != 2
+            AND cm.meeting_status != 2
     </select>
 
     <select id="selectJoinMembersByMeetingId" parameterType="long" resultType="string">

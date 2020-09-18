@@ -53,7 +53,7 @@ public class PartyMemberVo {
     /**
      * 党员状态（0:正常 2:停用 3:冻结）
      */
-    private String memeberStatus;
+    private String memberStatus;
     /**
      * 党员邮箱
      */
