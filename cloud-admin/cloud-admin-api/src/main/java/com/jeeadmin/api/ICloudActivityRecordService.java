@@ -23,12 +23,10 @@ public interface ICloudActivityRecordService extends BaseService<CloudActivityRe
      */
     Page<CloudActivityRecord> selectData(PageHelper<CloudActivityRecord> pageHelper);
 
-
     /**
      *      新增活动记录信息
      */
     CloudActivityRecordVo saveRecord(CloudActivityRecordVo record);
-
 
     /**
      *      更新活动记录信息
@@ -47,8 +45,12 @@ public interface ICloudActivityRecordService extends BaseService<CloudActivityRe
      */
     CloudActivityRecordVo selectOneRecord(Long id);
 
-
-
+    /**
+     *      更新活动记录的状态(逻辑删除)
+     * @param cloudActivityRecord
+     * @return
+     */
+    boolean updateStatus(CloudActivityRecord cloudActivityRecord);
 
 
 

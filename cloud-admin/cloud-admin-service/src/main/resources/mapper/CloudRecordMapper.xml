@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jeeadmin.mapper.CloudRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.jeeadmin.entity.CloudRecord" >
+      <!--
+          WARNING - @mbg.generated
+        -->
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="record_start_time" property="recordStartTime" jdbcType="TIMESTAMP" />
+    <result column="record_end_time" property="recordEndTime" jdbcType="TIMESTAMP" />
+    <result column="record_day" property="recordDay" jdbcType="INTEGER" />
+    <result column="record_address" property="recordAddress" jdbcType="VARCHAR" />
+    <result column="record_with_person" property="recordWithPerson" jdbcType="VARCHAR" />
+    <result column="record_contact" property="recordContact" jdbcType="VARCHAR" />
+    <result column="record_contact_phone_number" property="recordContactPhoneNumber" jdbcType="VARCHAR" />
+    <result column="record_job_contact" property="recordJobContact" jdbcType="VARCHAR" />
+    <result column="record_job_contact_phone_number" property="recordJobContactPhoneNumber" jdbcType="VARCHAR" />
+    <result column="type_code" property="typeCode" jdbcType="VARCHAR" />
+    <result column="party_member_id" property="partyMemberId" jdbcType="BIGINT" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="record_status" property="recordStatus" jdbcType="CHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="record_reason" property="recordReason" jdbcType="LONGVARCHAR" />
+  </resultMap>
+
+    <sql id="Base_Column_List">
+    id,record_start_time,record_end_time,record_day,record_address,record_with_person,record_contact,
+    record_contact_phone_number,record_job_contact,record_job_contact_phone_number,type_code,party_member_id
+    create_user,create_date,update_user,update_date,record_status,remark,record_reason
+    </sql>
+
+
+</mapper>

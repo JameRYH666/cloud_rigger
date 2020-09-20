@@ -8,6 +8,7 @@ import lombok.experimental.Accessors;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.util.Date;
 
 /**
  * @author Seven Lee
@@ -91,4 +92,6 @@ public class CloudDictData extends BaseModel<CloudDictData> {
      * 字典描述
      */
     private String dictDesc;
+
+    private Date createDate;
 }

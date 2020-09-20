@@ -56,4 +56,5 @@ public class CloudParam extends BaseModel<CloudParam> {
      */
     private String remark;
 
+    private Date createDate;
 }

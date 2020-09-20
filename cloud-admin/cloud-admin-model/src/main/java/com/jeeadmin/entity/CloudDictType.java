@@ -61,4 +61,6 @@ public class CloudDictType extends BaseModel<CloudDictType> {
      * 分类id
      */
     private Long dictCat;
+
+    private Date createDate;
 }

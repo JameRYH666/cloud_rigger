@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -38,4 +39,6 @@ public class CloudActivityRecordVo extends CloudActivityRecord {
      *    附件的ID
      */
     private Long cloudEnclosureId;
+
+    private Date createDate;
 }

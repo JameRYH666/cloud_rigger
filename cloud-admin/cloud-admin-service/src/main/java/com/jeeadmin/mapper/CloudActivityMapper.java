@@ -1,7 +1,10 @@
 package com.jeeadmin.mapper;
 
 import com.jeeadmin.entity.CloudActivity;
+import com.jeeadmin.vo.activity.CloudActivityVo;
 import com.jeerigger.frame.base.mapper.BaseMapper;
+
+import java.util.List;
 
 /**
  * @author Seven Lee
@@ -10,4 +13,11 @@ import com.jeerigger.frame.base.mapper.BaseMapper;
  * @date 2020/9/8
 **/
 public interface CloudActivityMapper extends BaseMapper<CloudActivity> {
+
+    /**
+     *      根据用户ID查询已经发起的活动
+     */
+    List<CloudActivityVo> selectByUserId(Long id);
+
+
 }

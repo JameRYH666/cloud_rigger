@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import java.util.Date;
+
 /**
  * @author Seven Lee
  * @description 会议党员关系表
@@ -30,4 +32,6 @@ public class CloudMeetingPartyMember extends BaseModel<CloudMeetingPartyMember> 
      * 是否为发起人(1:是，2:不是)
      */
     private String promoterFlag;
+
+    private Date createDate;
 }

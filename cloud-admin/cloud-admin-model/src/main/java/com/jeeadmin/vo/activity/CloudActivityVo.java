@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -34,6 +35,6 @@ public class CloudActivityVo extends CloudActivity {
      */
     private Long cloudEnclosureId;
 
-
+    private Date createDate;
 
 }

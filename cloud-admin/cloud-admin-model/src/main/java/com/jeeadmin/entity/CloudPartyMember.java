@@ -98,4 +98,5 @@ public class CloudPartyMember extends BaseModel<CloudPartyMember> {
      */
     private String memberEmail;
 
+    private Date createDate;
 }

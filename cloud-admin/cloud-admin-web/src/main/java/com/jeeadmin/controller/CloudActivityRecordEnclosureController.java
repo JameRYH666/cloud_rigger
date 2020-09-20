@@ -1,6 +1,6 @@
 package com.jeeadmin.controller;
 
-import com.jeeadmin.api.ICloudActivityRecordEnclosure;
+
 import com.jeerigger.frame.base.controller.BaseController;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/activity/record/enclosure")
-    @Api(value = "活动记录信息附件关系", tags = "活动记录信息附件关系")
-    public class CloudActivityRecordEnclosureController extends BaseController {
+@Api(value = "活动记录信息附件关系", tags = "活动记录信息附件关系")
+public class CloudActivityRecordEnclosureController extends BaseController {
 
-        @Autowired
-        private ICloudActivityRecordEnclosure cloudActivityRecordEnclosure;
+
 
 }

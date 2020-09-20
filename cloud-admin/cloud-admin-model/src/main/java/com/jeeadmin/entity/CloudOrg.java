@@ -42,7 +42,7 @@ public class CloudOrg extends BaseTreeModel<CloudOrg> {
     private String orgCode;
 
 
-
+    private Date createDate;
 
 
 

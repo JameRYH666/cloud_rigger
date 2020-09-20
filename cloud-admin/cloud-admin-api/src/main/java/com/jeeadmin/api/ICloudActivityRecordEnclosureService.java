@@ -3,7 +3,7 @@ package com.jeeadmin.api;
 import com.jeeadmin.entity.CloudActivityRecordEnclosure;
 import com.jeerigger.frame.base.service.BaseService;
 
-public interface ICloudActivityRecordEnclosure extends BaseService<CloudActivityRecordEnclosure> {
+public interface ICloudActivityRecordEnclosureService extends BaseService<CloudActivityRecordEnclosure> {
 
 
     /**

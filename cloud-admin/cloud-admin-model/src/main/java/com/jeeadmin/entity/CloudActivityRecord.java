@@ -44,4 +44,5 @@ public class CloudActivityRecord extends BaseModel<CloudActivityRecord> {
      */
     private String recordComment;
 
+    private Date createDate;
 }

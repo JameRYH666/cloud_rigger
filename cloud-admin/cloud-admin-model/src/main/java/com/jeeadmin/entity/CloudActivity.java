@@ -8,6 +8,7 @@ import lombok.experimental.Accessors;
 import org.apache.ibatis.annotations.Param;
 
 import javax.validation.constraints.Pattern;
+import java.util.Date;
 import java.util.List;
 
 
@@ -63,4 +64,6 @@ public class CloudActivity extends BaseModel<CloudActivity> {
      */
     @TableField(exist = false)
     private List<CloudEnclosure> cloudEnclosureList;
+
+    private Date createDate;
 }

@@ -6,6 +6,8 @@ import com.jeeadmin.vo.activity.CloudActivityVo;
 import com.jeerigger.frame.base.service.BaseService;
 import com.jeerigger.frame.page.PageHelper;
 
+import java.util.List;
+
 /**
  * @Author: Ryh
  * @Description: 活动信息表的实现类
@@ -16,7 +18,7 @@ import com.jeerigger.frame.page.PageHelper;
  */
 public interface ICloudActivityService extends BaseService<CloudActivity> {
 
-    /***
+    /**
      *   获取活动信息
      * @param pageHelper
      */
@@ -33,4 +35,17 @@ public interface ICloudActivityService extends BaseService<CloudActivity> {
      * 删除活动信息
      */
     boolean deleteActivity(Long id);
+
+    /**
+     *  修改活动的状态(逻辑删除)
+     */
+    boolean updateStatus(CloudActivity cloudActivity);
+
+    /**
+     *  根据党员ID查询已经发起的活动
+     */
+    List<CloudActivityVo> selectByPartyMemberId(Long id);
+
+
+
 }

@@ -64,6 +64,6 @@ public class CloudMeeting extends BaseModel<CloudMeeting> {
      */
     private String meetingComment;
 
-
+    private Date createDate;
 
 }

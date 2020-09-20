@@ -62,6 +62,19 @@ public class CloudActivityRecordController extends BaseController {
         }
     }
 
+
+    @RequestMapping(value = "/updateStatus", method = RequestMethod.POST)
+    @ApiOperation(value = "逻辑删除活动记录信息数据", notes = "逻辑删除活动记录信息数据")
+    public ResultData delete(@RequestBody CloudActivityRecord cloudActivityRecord) {
+        if (cloudActivityRecordService.updateStatus(cloudActivityRecord)) {
+            return this.success();
+        } else {
+            return this.failed(ResultCodeEnum.ERROR_UPDATE_FAIL, "删除活动信息数据数据失败！");
+        }
+    }
+
+
+
     @RequestMapping(value = "/selectOne", method = RequestMethod.POST)
     @ApiOperation(value = "查询单个活动记录信息数据", notes = "查询单个活动记录信息数据")
     public ResultData selectOne(@SingleRequestBody("recordId") Long id) {

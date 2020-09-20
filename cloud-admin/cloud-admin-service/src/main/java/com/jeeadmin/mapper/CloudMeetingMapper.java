@@ -21,7 +21,7 @@ public interface CloudMeetingMapper extends BaseMapper<CloudMeeting> {
      * @author Seven Lee
      * @description
      *      查询复合会议信息
-     * @param [ids]
+     * @param
      * @date 2020/9/12
      * @return java.util.List<com.jeeadmin.vo.meeting.CloudMeetingVo>
      * @throws
@@ -32,7 +32,7 @@ public interface CloudMeetingMapper extends BaseMapper<CloudMeeting> {
      * @author Seven Lee
      * @description
      *      查询某个会议详情
-     * @param []
+     * @param
      * @date 2020/9/12
      * @return java.util.List<com.jeeadmin.vo.meeting.CloudMeetingDetailVo>
      * @throws
@@ -43,7 +43,7 @@ public interface CloudMeetingMapper extends BaseMapper<CloudMeeting> {
      * @author Seven Lee
      * @description
      *      通过会议id查询参与人信息
-     * @param [id]
+     * @param
      * @date 2020/9/12
      * @return java.util.List<java.lang.String>
      * @throws
@@ -54,7 +54,7 @@ public interface CloudMeetingMapper extends BaseMapper<CloudMeeting> {
      * @author Seven Lee
      * @description
      *      通过会议id查询所有的附件信息
-     * @param [id]
+     * @param
      * @date 2020/9/12
      * @return java.util.List<com.jeeadmin.entity.CloudEnclosure>
      * @throws

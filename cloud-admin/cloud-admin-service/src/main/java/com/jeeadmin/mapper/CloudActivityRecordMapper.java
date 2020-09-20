@@ -4,6 +4,7 @@ import com.jeeadmin.entity.CloudActivityRecord;
 import com.jeeadmin.entity.CloudEnclosure;
 import com.jeeadmin.vo.activity.CloudActivityRecordVo;
 import com.jeerigger.frame.base.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -34,5 +35,11 @@ public interface CloudActivityRecordMapper extends BaseMapper<CloudActivityRecor
     * @Throws:
     */
     CloudActivityRecordVo selectActivityRecordDetail(Long id);
+
+    /**
+     *  查询所有活动记录
+     */
+    @Select("select * from cloud_activity ca where ca.activity_status != #{recordStatus} ")
+    List<CloudActivityRecord> selectAllActivityRecord(String recordStatus);
 
 }

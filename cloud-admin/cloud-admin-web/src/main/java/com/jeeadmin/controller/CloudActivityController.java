@@ -64,9 +64,29 @@ public class CloudActivityController extends BaseController {
         }
     }
 
+    @RequestMapping(value = "/updateStatus", method = RequestMethod.POST)
+    @ApiOperation(value = "逻辑删除删除活动信息数据", notes = "逻辑删除活动信息数据")
+    public ResultData updateActivityStatus(@RequestBody CloudActivity cloudActivity) {
+        if (cloudActivityService.updateStatus(cloudActivity)) {
+            return this.success();
+        } else {
+            return this.failed(ResultCodeEnum.ERROR_UPDATE_FAIL, "删除活动信息数据数据失败！");
+        }
+    }
+
     @RequestMapping(value = "/selectOne", method = RequestMethod.POST)
     @ApiOperation(value = "查询单个活动信息", notes = "查询单个活动的信息")
     public ResultData selectOneActivity(@SingleRequestBody(value = "activityId") Long activityId) {
         return this.success(cloudActivityService.getById(activityId));
     }
+
+
+    @RequestMapping(value = "/selectByPartyMemberId", method = RequestMethod.POST)
+    @ApiOperation(value = "查询已经发起活动信息", notes = "查询已经发起活动信息")
+    public ResultData selectOldActivity(@SingleRequestBody(value = "activityId") Long id) {
+        return this.success(cloudActivityService.selectByPartyMemberId(id));
+    }
+
+
+
 }

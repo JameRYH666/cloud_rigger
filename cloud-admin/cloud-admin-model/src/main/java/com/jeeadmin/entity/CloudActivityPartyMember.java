@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import java.util.Date;
+
 /**
  * @author Seven Lee
  * @description 活动附件关系表
@@ -30,4 +32,6 @@ public class CloudActivityPartyMember extends BaseModel<CloudActivityPartyMember
      * 是否为发起人
      */
     private String promoterFlag;
+
+    private Date createDate;
 }

@@ -5,11 +5,13 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import java.util.Date;
+
 
 @Data
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = false)
-public class CloudExmaine extends BaseModel<CloudExmaine> {
+public class CloudExamine extends BaseModel<CloudExamine> {
 
 
     /**
@@ -37,6 +39,7 @@ public class CloudExmaine extends BaseModel<CloudExmaine> {
 
     private String examineRejectReason;
 
+    private Date createDate;
 
   private String remark;
 }

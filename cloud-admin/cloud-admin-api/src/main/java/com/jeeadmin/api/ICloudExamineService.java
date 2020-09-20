@@ -1,7 +1,7 @@
 package com.jeeadmin.api;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.jeeadmin.entity.CloudExmaine;
+import com.jeeadmin.entity.CloudExamine;
 import com.jeerigger.frame.base.service.BaseService;
 import com.jeerigger.frame.page.PageHelper;
 
@@ -11,7 +11,7 @@ import com.jeerigger.frame.page.PageHelper;
  * @description:
  *  审核表
  */
-public interface ICloudExmaineService extends BaseService<CloudExmaine> {
+public interface ICloudExamineService extends BaseService<CloudExamine> {
     /**
      * @Author: Sgz
      * @Time: 17:48 2020/9/16
@@ -22,7 +22,7 @@ public interface ICloudExmaineService extends BaseService<CloudExmaine> {
      *  查询所有审核信息，并进行分页处理
      *
      */
-    Page<CloudExmaine> selectAll(PageHelper<CloudExmaine> cloudExmaine);
+    Page<CloudExamine> selectAll(PageHelper<CloudExamine> cloudExmaine);
 
 
     /**
@@ -35,7 +35,7 @@ public interface ICloudExmaineService extends BaseService<CloudExmaine> {
      *  查询单个审核的详细信息
      *
      */
-    CloudExmaine getDetail(CloudExmaine cloudExmaine);
+    CloudExamine getDetail(CloudExamine cloudExamine);
 
 
     /**
@@ -47,7 +47,7 @@ public interface ICloudExmaineService extends BaseService<CloudExmaine> {
      * @Description:
      * 新增审核信息，新增审核应该在活动、会议、以及外出报备中实现
      */
-    boolean saveExmaine(CloudExmaine cloudExmaine);
+    CloudExamine saveExamine(CloudExamine cloudExamine);
     /**
      * @Author: Sgz
      * @Time: 18:03 2020/9/16
@@ -60,6 +60,6 @@ public interface ICloudExmaineService extends BaseService<CloudExmaine> {
      *
      */
 
-    boolean updateStatus(CloudExmaine cloudExmaine);
+    boolean updateStatus(CloudExamine cloudExamine);
 
 }

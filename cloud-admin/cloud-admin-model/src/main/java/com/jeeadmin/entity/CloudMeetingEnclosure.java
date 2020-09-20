@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import java.util.Date;
+
 /**
  * @author Seven Lee
  * @description 会议附件关系表
@@ -25,4 +27,6 @@ public class CloudMeetingEnclosure extends BaseModel<CloudMeetingEnclosure> {
      * 附件id
      */
     private Long enclosureId;
+
+    private Date createDate;
 }

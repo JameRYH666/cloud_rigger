@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.Pattern;
+import java.util.Date;
 
 
 /**
@@ -50,4 +51,6 @@ public class CloudEnclosure extends BaseModel<CloudEnclosure> {
     @Pattern(regexp = "[12]",message = "附件状态必须为1或者2")
     private String enclosureStatus;
 
+
+    private Date createDate;
 }

@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 import javax.validation.constraints.Pattern;
+import java.util.Date;
 
 
 /**
@@ -44,5 +45,7 @@ public class CloudMeetingRecord extends BaseModel<CloudMeetingRecord> {
      * 会议记录内容
      */
     private String recordComment;
+
+    private Date createDate;
 
 }

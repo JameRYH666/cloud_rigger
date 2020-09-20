@@ -10,6 +10,7 @@ import lombok.experimental.Accessors;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.util.Date;
 
 /**
  * @author Seven Lee
@@ -112,5 +113,7 @@ public class CloudMenu extends BaseTreeModel<CloudMenu> {
      * 备注信息(冗余字段)
      */
     private String remark;
+
+    private Date createDate;
 
 }

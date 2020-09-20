@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
-
+import java.util.Date;
 
 
 @Data
@@ -58,7 +58,7 @@ public class CloudMeetingActiveType extends BaseModel<CloudMeetingActiveType> {
     private String typeStatus;
 
 
-
+    private Date createDate;
 
 
 

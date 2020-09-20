@@ -88,4 +88,5 @@ public class CloudLog extends BaseModel<CloudLog> {
      */
     private String remark;
 
+    private Date createDate;
 }
