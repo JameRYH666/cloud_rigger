@@ -40,7 +40,6 @@ public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper,
 
     @Autowired
     private SnowFlake snowFlake;
-
     @Autowired
     private CloudMeetingMapper cloudMeetingMapper;
     @Autowired
@@ -52,9 +51,7 @@ public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper,
     @Autowired
     private ICloudMeetingActiveTypeService cloudMeetingActiveTypeServiceImpl;
     @Autowired
-    private ICloudMeetingRecordService cloudMeetingRecordServiceImpl;
-    @Autowired
-    private ICloudMeetingRecordEnclosureService cloudMeetingRecordEnclosureServiceImpl;
+    private ICloudExamineService cloudExamineService;
     /**
      * @param pageHelper
      * @Author: Sgz
@@ -67,7 +64,7 @@ public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper,
     @Override
     public Page<CloudMeetingVo> selectPage(PageHelper<CloudMeetingVo> pageHelper) {
         Page<CloudMeeting> page = new Page<>(pageHelper.getCurrent(), pageHelper.getSize());
-        QueryWrapper<CloudMeeting> queryWrapper = new QueryWrapper<>();
+        QueryWrapper<CloudMeeting> queryWrapper = new QueryWrapper<CloudMeeting>();
         if(pageHelper.getData() != null){
             CloudMeeting meetingData = pageHelper.getData();
             // 根据活动地址进行条件查询
@@ -82,6 +79,7 @@ public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper,
             if (StringUtil.isNotEmpty(meetingData.getTypeCode())){
                 queryWrapper.lambda().eq(CloudMeeting::getTypeCode,meetingData.getTypeCode());
             }
+            queryWrapper.lambda().ne(CloudMeeting::getMeetingStatus,MeetingAndActivityEnum.REMOVE.getCode());
         }
         queryWrapper.lambda().orderByAsc(CloudMeeting::getMeetingTime);
         // 查询所有符合条件的会议分页信息
@@ -140,7 +138,7 @@ public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper,
     * @Throws:
     * @Description:
     *   增加会议信息
-    *todo bug Cause: java.sql.SQLException: No value specified for parameter 1
+    *
     */
     @Override
     public boolean saveMeeting(CloudMeetingVo meeting) {
@@ -150,10 +148,11 @@ public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper,
 
         // 检验会议数据是否存在
         ValidateUtil.validateObject(meeting);
-
-
-
-
+        // 由雪花算法生成主键id
+        meeting.setId(snowFlake.nextId());
+        // 通过安全框架获取到userId
+        meeting.setCreateUser(SecurityUtil.getUserId());
+        meeting.setCreateDate(new Date());
         // todo 增加会议信息的同时增加参会人员和附件信息 以及会议类型
        // 判断是否拿到了会议信息
         if (Objects.nonNull(meeting)) {
@@ -169,6 +168,11 @@ public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper,
                     .setCreateUser(SecurityUtil.getUserId())
                     .setCreateDate(new Date());
             cloudMeeting.setMeetingStatus(MeetingAndActivityEnum.NOREVIEWED.getCode());
+            // 新增审核信息
+            CloudExamine cloudExamine = new CloudExamine();
+            cloudExamine.setForeignId(cloudMeeting.getId());
+            cloudExamine.setExamineTypeCode("3");
+            cloudExamineService.saveExamine(cloudExamine);
             // 保存会议信息
             if (this.saveOne(cloudMeeting)) {
 
@@ -190,10 +194,6 @@ public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper,
                             return cloudEnclosureServiceImpl.saveEnclosure(cloudEnclosure);
                         }
                     }
-
-
-
-
             }
         }
             throw new FrameException("新增会议信息数据失败");
@@ -231,7 +231,6 @@ public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper,
         meeting.setUpdateDate(new Date());
         // 如果数据更新成功，要判断参会人员是否更新，如果更新，要同步到参会人员表
 
-
             return true;
 
     }
@@ -245,7 +244,7 @@ public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper,
     * @Description:
     * 删除会议信息,同时也要删除参会人员信息和附件信息
     * 如果中间有一个环节出错，就执行代码回滚，全部返回数据
-    *   todo 删除会议记录及其附件
+    *
     *
     */
     @Override
@@ -255,89 +254,15 @@ public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper,
         if (oldData == null){
            throw new ValidateException("该会议不存在");
         }
-        // 如果删除会议成功，就同步删除参会人员和附件信息
-        boolean b = this.removeById(meetingId);
-        if(!b){
-            throw new ValidateException("删除会议失败");
-        }
-        // 先证明参会人员存在，才能进行删除操作
-        List<CloudMeetingDetailVo> allMeetingMembers = cloudMeetingPartyMemberServiceImpl.getAllMeetingMembers(meetingId);
-        if (allMeetingMembers.size()>0) {
+        // TODO 如果删除会议成功，就同步删除参会人员和附件信息
+        if (this.removeById(meetingId)){
             // 删除参会人员信息
-            b = cloudMeetingPartyMemberServiceImpl.deleteMeetingMember(meetingId);
-            if (!b) {
-                throw new ValidateException("删除参会人员失败");
-            }
-
+           if (cloudMeetingPartyMemberServiceImpl.deleteMeetingMember(meetingId)){
+                // 删除附件以及会议附件中间表
+              return cloudEnclosureServiceImpl.deleteEnclosure(meetingId);
+           }
         }
-        // 删除附件以及会议附件中间表
-        // 这里也需要验证会议附件是存在的
-        List<CloudEnclosure> cloudEnclosures = cloudEnclosureServiceImpl.selectEnclosuresByMeetingId(meetingId);
-
-        if (cloudEnclosures.size()>0) {
-            b = cloudEnclosureServiceImpl.deleteEnclosure(meetingId);
-            if (!b) {
-                throw new ValidateException("删除会议附件失败");
-            }
-            // 通过会议id拿到会议附件的信息
-            List<CloudMeetingEnclosure> cloudMeetingEnclosures = cloudMeetingEnclosureServiceImpl.selectMeetingEnclosuresByMeetingId(meetingId);
-            if (cloudEnclosures.size() > 0) {
-                for (CloudMeetingEnclosure cloudMeetingEnclosure : cloudMeetingEnclosures) {
-                    b = cloudMeetingEnclosureServiceImpl.deleteMeetingEnclosure(cloudMeetingEnclosure.getId());
-                    if (!b) {
-                        throw new ValidateException("删除会议附件信息失败");
-                    }
-                }
-            }
-
-        }
-        // 删除会议记录
-        List<CloudMeetingRecord> cloudMeetingRecords = cloudMeetingRecordServiceImpl.selectRecords(meetingId);
-       // list用于存储会议记录的id，方便下面使用
-        List<Long> idList = new ArrayList<>();
-        if (cloudEnclosures.size()>0){
-            // 只有当会议记录存在的时候才能删除
-            for (CloudMeetingRecord cloudMeetingRecord : cloudMeetingRecords) {
-                b = cloudMeetingRecordServiceImpl.deleteRecord(cloudMeetingRecord.getId());
-                idList.add(cloudMeetingRecord.getId());
-                if (!b){
-                    throw new ValidateException("删除会议记录失败");
-                }
-            }
-        }
-        // 删除会议记录附件表
-            // 存储的是附件id
-        ArrayList<Long> ids = new ArrayList<>();
-        if (idList.size()>0){
-          // 如果可以获取到list说明会议记录含有数据
-          for (Long meetingRecordId : idList) {
-              // 通过遍历循环获取数据
-              List<CloudMeetingRecordEnclosure> cloudMeetingRecordEnclosures = cloudMeetingRecordEnclosureServiceImpl.selectMeetingRecordEnclosures(meetingRecordId);
-              if (cloudMeetingRecordEnclosures.size()>0){
-                  for (CloudMeetingRecordEnclosure cloudMeetingRecordEnclosure : cloudMeetingRecordEnclosures) {
-                      ids.add(cloudMeetingRecordEnclosure.getEnclosureId());
-                      b = cloudMeetingRecordEnclosureServiceImpl.deleteMeetingRecordEnclosure(cloudMeetingRecordEnclosure.getId());
-                      if (!b){
-                          throw new ValidateException("删除会议记录附件失败");
-                      }
-                  }
-              }
-
-          }
-      }
-        // 删除会议附件信息
-        if(ids.size()>0){
-            for (Long id : ids) {
-                b = cloudEnclosureServiceImpl.deleteEnclosures(id);
-                if (!b){
-                    throw new ValidateException("删除会议附件失败");
-                }
-            }
-        }
-
-        return true;
-
-
+        throw new ValidateException("删除会议失败");
     }
 
     /**

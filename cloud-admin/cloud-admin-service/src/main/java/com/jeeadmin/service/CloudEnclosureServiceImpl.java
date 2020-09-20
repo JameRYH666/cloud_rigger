@@ -1,7 +1,6 @@
 package com.jeeadmin.service;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.jeeadmin.api.ICloudEnclosureService;
 import com.jeeadmin.entity.CloudEnclosure;
 import com.jeeadmin.mapper.CloudEnclosureMapper;

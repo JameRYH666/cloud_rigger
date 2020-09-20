@@ -26,6 +26,7 @@ import lombok.experimental.PackagePrivate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.util.ArrayList;
@@ -141,6 +142,7 @@ public class CloudNoticeServiceImpl extends BaseServiceImpl<CloudNoticeMapper, C
     * @Return: com.jeeadmin.vo.notice.CloudNoticeVo
     * @Throws:
     */
+    @Transactional(rollbackFor = ValidateException.class)
     @Override
     public CloudNoticeVo saveNotice(CloudNoticeVo cloudNotice) {
         ValidateUtil.validateObject(cloudNotice);

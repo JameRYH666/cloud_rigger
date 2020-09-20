@@ -77,7 +77,7 @@ public class CloudUserServiceImpl extends BaseServiceImpl<CloudUserMapper, Cloud
         //验证登录名
         validateLoginName(cloudUser);
         // cloudUser.setMgrType(UserTypeEnum.SYSTEM_ADMIN_USER.getCode());
-        //校验数据准确性
+        // 校验数据准确性
         ValidateUtil.validateObject(cloudUser);
         //cloudUser.setPassword(StringUtil.md5(SysParamUtil.getInitPassword()));
         // todo 暂时默认密码写死

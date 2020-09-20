@@ -1,20 +1,20 @@
 package com.jeeadmin.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.jeeadmin.api.ICloudActivityRecordEnclosure;
+import com.jeeadmin.api.ICloudActivityRecordEnclosureService;
 import com.jeeadmin.api.ICloudActivityRecordService;
 import com.jeeadmin.api.ICloudActivityService;
-
-import com.jeeadmin.entity.CloudActivityRecord;
-import com.jeeadmin.entity.CloudActivityRecordEnclosure;
-import com.jeeadmin.entity.CloudEnclosure;
+import com.jeeadmin.api.ICloudExamineService;
+import com.jeeadmin.entity.*;
 import com.jeeadmin.mapper.CloudActivityRecordEnclosureMapper;
 import com.jeeadmin.mapper.CloudActivityRecordMapper;
 import com.jeeadmin.mapper.CloudEnclosureMapper;
 import com.jeeadmin.vo.activity.CloudActivityRecordVo;
 import com.jeerigger.core.common.core.SnowFlake;
 import com.jeerigger.frame.base.service.impl.BaseServiceImpl;
+import com.jeerigger.frame.enums.MeetingAndActivityEnum;
 import com.jeerigger.frame.exception.FrameException;
 import com.jeerigger.frame.exception.ValidateException;
 import com.jeerigger.frame.page.PageHelper;
@@ -46,11 +46,13 @@ public class CloudActivityRecordServiceImpl extends BaseServiceImpl<CloudActivit
     @Autowired
     private CloudActivityRecordMapper cloudActivityRecordMapper;
     @Autowired
-    private ICloudActivityRecordEnclosure cloudActivityRecordEnclosure;
+    private ICloudActivityRecordEnclosureService cloudActivityRecordEnclosure;
     @Autowired
     private CloudActivityRecordEnclosureMapper cloudActivityRecordEnclosureMapper;
     @Autowired
     private CloudEnclosureMapper cloudEnclosureMapper;
+    @Autowired
+    private ICloudExamineService cloudExamineService;
 
     /**
     * @Author: Ryh
@@ -71,8 +73,9 @@ public class CloudActivityRecordServiceImpl extends BaseServiceImpl<CloudActivit
             if (StringUtil.isNotEmpty(activityRecordData.getRecordTitle())){
                 queryWrapper.lambda().like(CloudActivityRecord::getRecordTitle,activityRecordData.getRecordTitle());
             }
+           queryWrapper.lambda().ne(CloudActivityRecord::getRecordStatus, MeetingAndActivityEnum.REMOVE.getCode());
         }
-        queryWrapper.lambda().orderByAsc(CloudActivityRecord::getRecordTitle);
+        queryWrapper.lambda().orderByAsc(CloudActivityRecord::getCreateDate);
         this.page(page,queryWrapper);
         return page;
     }
@@ -104,7 +107,12 @@ public class CloudActivityRecordServiceImpl extends BaseServiceImpl<CloudActivit
         cloudActivityRecordEnclosure1.setCreateUser(SecurityUtil.getUserId());
         cloudActivityRecordEnclosure.saveRecordEnclosure(cloudActivityRecordEnclosure1);
         cloudActivityRecord.setCreateUser(SecurityUtil.getUserId());
-       if (this.save(cloudActivityRecord)){
+        // 新增活动记录审核信息
+        CloudExamine cloudExamine = new CloudExamine();
+        cloudExamine.setForeignId(cloudActivityRecord.getId());
+        cloudExamine.setExamineTypeCode("6");
+        cloudExamineService.saveExamine(cloudExamine);
+        if (this.save(cloudActivityRecord)){
            return record;
        }else {
            throw new FrameException("新增活动记录数据失败");
@@ -176,9 +184,9 @@ public class CloudActivityRecordServiceImpl extends BaseServiceImpl<CloudActivit
         CloudActivityRecordVo cloudActivityRecordVo = cloudActivityRecordMapper.selectActivityRecordDetail(id);
         // 查询活动记录的附件(所有附件中的活动记录信息ID时一样的)
         List<CloudEnclosure> cloudEnclosures = cloudActivityRecordMapper.selectEnclosuresByActivityRecordId(id);
-        if (null == cloudEnclosures || "".equals(cloudEnclosures)){
+       /* if (null == cloudEnclosures || "".equals(cloudEnclosures)){
             throw new ValidateException("活动记录附件未上传");
-        }
+        }*/
         if (cloudEnclosures.size() > 0){
             cloudActivityRecordVo.setEnclosureList(cloudEnclosures);
         }
@@ -188,5 +196,24 @@ public class CloudActivityRecordServiceImpl extends BaseServiceImpl<CloudActivit
             throw new ValidateException("活动记录数据为空");
         }
         return cloudActivityRecordVo;
+    }
+
+    /**
+     *          修改活动记录的状态，逻辑删除
+     * @param cloudActivityRecord
+     * @return
+     */
+    @Override
+    public boolean updateStatus(CloudActivityRecord cloudActivityRecord) {
+        CloudActivityRecord byId = this.getById(cloudActivityRecord.getId());
+        if (null == byId){
+            throw new ValidateException("当前活动记录数据为空");
+        }
+        UpdateWrapper<CloudActivityRecord> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.lambda().set(CloudActivityRecord::getRecordStatus,cloudActivityRecord.getRecordStatus());
+        updateWrapper.lambda().set(CloudActivityRecord::getUpdateDate,new Date());
+        updateWrapper.lambda().set(CloudActivityRecord::getUpdateUser,SecurityUtil.getUserId());
+        updateWrapper.lambda().eq(CloudActivityRecord::getId,cloudActivityRecord.getId());
+        return this.update(new CloudActivityRecord(),updateWrapper);
     }
 }

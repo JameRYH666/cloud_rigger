@@ -1,9 +1,8 @@
 package com.jeeadmin.service;
 
-import com.jeeadmin.api.ICloudActivityRecordEnclosure;
+import com.jeeadmin.api.ICloudActivityRecordEnclosureService;
 import com.jeeadmin.entity.CloudActivityRecordEnclosure;
 import com.jeeadmin.mapper.CloudActivityRecordEnclosureMapper;
-import com.jeeadmin.mapper.CloudActivityRecordMapper;
 import com.jeerigger.core.common.core.SnowFlake;
 import com.jeerigger.frame.base.service.impl.BaseServiceImpl;
 import com.jeerigger.frame.exception.ValidateException;
@@ -12,7 +11,6 @@ import com.jeerigger.security.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.security.Security;
 import java.util.Date;
 
 /**
@@ -22,7 +20,7 @@ import java.util.Date;
  * @Description:
  */
 @Service
-public class CloudActivityRecordEnclosureImpl extends BaseServiceImpl<CloudActivityRecordEnclosureMapper, CloudActivityRecordEnclosure> implements ICloudActivityRecordEnclosure {
+public class CloudActivityRecordEnclosureServiceImpl extends BaseServiceImpl<CloudActivityRecordEnclosureMapper, CloudActivityRecordEnclosure> implements ICloudActivityRecordEnclosureService {
 
 
     @Autowired

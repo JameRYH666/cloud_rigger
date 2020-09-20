@@ -2,16 +2,15 @@ package com.jeeadmin.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.jeeadmin.api.ICloudActivityRecordService;
-import com.jeeadmin.api.ICloudActivityService;
-import com.jeeadmin.api.ICloudMeetingRecordService;
-import com.jeeadmin.api.ICloudMeetingService;
+import com.jeeadmin.api.*;
 import com.jeeadmin.entity.CloudActivityRecord;
+import com.jeeadmin.entity.CloudExamine;
 import com.jeeadmin.entity.CloudMeetingRecord;
 import com.jeeadmin.mapper.CloudActivityRecordMapper;
 import com.jeeadmin.mapper.CloudMeetingRecordMapper;
 import com.jeerigger.core.common.core.SnowFlake;
 import com.jeerigger.frame.base.service.impl.BaseServiceImpl;
+import com.jeerigger.frame.enums.MeetingAndActivityEnum;
 import com.jeerigger.frame.exception.FrameException;
 import com.jeerigger.frame.exception.ValidateException;
 import com.jeerigger.frame.page.PageHelper;
@@ -37,6 +36,8 @@ public class CloudMeetingRecordServiceImpl extends BaseServiceImpl<CloudMeetingR
     private ICloudMeetingService cloudMeetingServiceImpl;
     @Autowired
     private SnowFlake snowFlake;
+    @Autowired
+    private ICloudExamineService cloudExamineService;
   /**
    * @Author: Sgz
    * @Time: 18:04 2020/9/11
@@ -55,6 +56,7 @@ public class CloudMeetingRecordServiceImpl extends BaseServiceImpl<CloudMeetingR
             if (StringUtil.isNotEmpty(cloudMeetingData.getRecordTitle())){
                 queryWrapper.lambda().like(CloudMeetingRecord::getRecordTitle,cloudMeetingData.getRecordTitle());
             }
+            queryWrapper.lambda().ne(CloudMeetingRecord::getRecordStatus,MeetingAndActivityEnum.REMOVE.getCode());
         }
         queryWrapper.lambda().orderByAsc(CloudMeetingRecord::getRecordTitle);
         this.page(page,queryWrapper);
@@ -79,6 +81,12 @@ public class CloudMeetingRecordServiceImpl extends BaseServiceImpl<CloudMeetingR
         record.setId(snowFlake.nextId());
         record.setCreateDate(new Date());
        record.setCreateUser(SecurityUtil.getUserId());
+       record.setRecordStatus(MeetingAndActivityEnum.NOREVIEWED.getCode());
+       // 新增会议记录审核信息
+        CloudExamine cloudExamine = new CloudExamine();
+        cloudExamine.setForeignId(record.getId());
+        cloudExamine.setExamineTypeCode("4");
+        cloudExamineService.saveExamine(cloudExamine);
        if (this.save(record)){
            return record;
        }else {

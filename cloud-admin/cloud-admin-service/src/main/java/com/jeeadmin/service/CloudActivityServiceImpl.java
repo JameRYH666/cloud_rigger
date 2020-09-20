@@ -1,11 +1,12 @@
 package com.jeeadmin.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jeeadmin.api.ICloudActivityService;
-import com.jeeadmin.entity.CloudActivity;
-import com.jeeadmin.entity.CloudActivityEnclosure;
-import com.jeeadmin.entity.CloudEnclosure;
+import com.jeeadmin.api.ICloudEnclosureService;
+import com.jeeadmin.api.ICloudExamineService;
+import com.jeeadmin.entity.*;
 import com.jeeadmin.mapper.CloudActivityEnclosureMapper;
 import com.jeeadmin.mapper.CloudActivityMapper;
 import com.jeeadmin.mapper.CloudEnclosureMapper;
@@ -13,6 +14,7 @@ import com.jeeadmin.vo.activity.CloudActivityVo;
 import com.jeerigger.core.common.core.SnowFlake;
 import com.jeerigger.core.module.sys.util.SysDictUtil;
 import com.jeerigger.frame.base.service.impl.BaseServiceImpl;
+import com.jeerigger.frame.enums.MeetingAndActivityEnum;
 import com.jeerigger.frame.exception.FrameException;
 import com.jeerigger.frame.exception.ValidateException;
 import com.jeerigger.frame.page.PageHelper;
@@ -21,7 +23,6 @@ import com.jeerigger.frame.util.StringUtil;
 import com.jeerigger.security.SecurityUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,6 +49,12 @@ public class CloudActivityServiceImpl extends BaseServiceImpl<CloudActivityMappe
     private CloudActivityEnclosureMapper cloudActivityEnclosureMapper;
     @Autowired
     private CloudEnclosureMapper cloudEnclosureMapper;
+    @Autowired
+    private ICloudEnclosureService cloudEnclosureService;
+    @Autowired
+    private CloudActivityMapper cloudActivityMapper;
+    @Autowired
+    private ICloudExamineService cloudExamineService;
 
     /**
      * 获取活动信息
@@ -65,7 +72,7 @@ public class CloudActivityServiceImpl extends BaseServiceImpl<CloudActivityMappe
             if (StringUtil.isNotEmpty(data.getActivityAddress())) {
                 queryWrapper.lambda().like(CloudActivity::getActivityAddress, data.getActivityAddress());
             }
-            //根据活动形式进行条件查询
+            // 根据活动形式进行条件查询
             if (StringUtil.isNotEmpty(data.getFormCode())) {
                 queryWrapper.lambda().eq(CloudActivity::getFormCode, data.getFormCode());
             }
@@ -73,6 +80,7 @@ public class CloudActivityServiceImpl extends BaseServiceImpl<CloudActivityMappe
             if (StringUtil.isNotEmpty(data.getActivityCode())) {
                 queryWrapper.lambda().eq(CloudActivity::getActivityCode, data.getActivityCode());
             }
+            queryWrapper.lambda().ne(CloudActivity::getActivityStatus,MeetingAndActivityEnum.REMOVE.getCode());
         }
         queryWrapper.lambda().orderByAsc(CloudActivity::getActivityTile);
         this.page(page, queryWrapper);
@@ -110,7 +118,6 @@ public class CloudActivityServiceImpl extends BaseServiceImpl<CloudActivityMappe
 
     /**
      * 新增活动信息数据
-     *
      * @param activity
      * @return
      */
@@ -119,6 +126,7 @@ public class CloudActivityServiceImpl extends BaseServiceImpl<CloudActivityMappe
     public CloudActivityVo saveActivity(CloudActivityVo activity) {
         // 检验活动数据是否存在
         ValidateUtil.validateObject(activity);
+
         CloudActivity cloudActivity = new CloudActivity();
         CloudActivityEnclosure cloudActivityEnclosure = new CloudActivityEnclosure();
         long id = snowFlake.nextId();
@@ -131,12 +139,18 @@ public class CloudActivityServiceImpl extends BaseServiceImpl<CloudActivityMappe
         cloudActivityEnclosureService.saveActivityEnclosure(cloudActivityEnclosure);
         activity.setCreateUser(SecurityUtil.getUserId());
         activity.setCreateDate(new Date());
+        //  新增活动为未审核状态
+        activity.setActivityStatus(MeetingAndActivityEnum.NOREVIEWED.getCode());
+        // 新增审核信息
+        CloudExamine cloudExamine = new CloudExamine();
+        cloudExamine.setForeignId(activity.getId());
+        cloudExamine.setExamineTypeCode("5");
+        cloudExamineService.saveExamine(cloudExamine);
         if (this.save(activity)) {
             return activity;
         } else {
             throw new FrameException("新增活动信息数据失败");
         }
-
     }
 
     /**
@@ -171,11 +185,57 @@ public class CloudActivityServiceImpl extends BaseServiceImpl<CloudActivityMappe
         if (oldData == null) {
             return true;
         }else {
-           // cloudActivityEnclosureMapper.deleteActivityEnclosureByActivityId(id);
+            // cloudActivityEnclosureMapper.deleteActivityEnclosureByActivityId(id);
             // 通过活动id删除附件信息和活动附件关系信息
             cloudEnclosureMapper.deleteCloudEnclosureByActivityId(id);
         }
         return this.removeById(id);
+    }
+
+    /**
+    * @Author: Ryh
+    * @Description:         修改活动的状态(逻辑删除)
+    * @Param: [cloudActivity]
+    * @Date: Create in 2020/9/15
+    * @Return: com.jeeadmin.entity.CloudActivity
+    * @Throws:
+    */
+    @Override
+    public boolean updateStatus(CloudActivity cloudActivity) {
+        CloudActivity oldData = this.getById(cloudActivity.getId());
+        // 验证活动数据是否存在
+        if (null == oldData) {
+            throw new ValidateException("该活动数据不存在,不能进行");
+        }
+        // 执行更新操作
+        UpdateWrapper<CloudActivity> updateWrapper = new UpdateWrapper<CloudActivity>();
+        updateWrapper.lambda().set(CloudActivity::getActivityStatus, cloudActivity.getActivityStatus());
+        updateWrapper.lambda().eq(CloudActivity::getId,cloudActivity.getId());
+        boolean update = this.update(new CloudActivity(), updateWrapper);
+        return update;
+    }
+
+    /**
+    * @Author: Ryh
+    * @Description:     根据党员ID查询已经发起的活动
+    * @Param: [id]
+    * @Date: Create in 2020/9/18
+    * @Return: com.jeeadmin.vo.activity.CloudActivityVo
+    * @Throws:
+    */
+    @Override
+    public List<CloudActivityVo> selectByPartyMemberId(Long id) {
+        if (Objects.isNull(id)){
+            throw new ValidateException("当前党员的ID为空");
+        }
+        QueryWrapper<CloudActivity> queryWrapper = new QueryWrapper<>();
+        // id = SecurityUtil.getUserId();
+
+        List<CloudActivityVo> cloudActivityVo = cloudActivityMapper.selectByUserId(id);
+
+
+
+        return null;
     }
 
 
