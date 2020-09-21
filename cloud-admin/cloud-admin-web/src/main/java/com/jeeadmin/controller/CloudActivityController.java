@@ -80,15 +80,23 @@ public class CloudActivityController extends BaseController {
         return this.success(cloudActivityService.getById(activityId));
     }
 
-
     @RequestMapping(value = "/selectInitiated", method = RequestMethod.POST)
     @ApiOperation(value = "查询已经发起活动信息", notes = "查询已经发起活动信息")
     public ResultData selectOldActivity(  PageHelper<CloudActivity> pageHelper) {
         return this.success(cloudActivityService.selectByUserId(pageHelper));
     }
 
+    @RequestMapping(value = "/selectProcessed", method = RequestMethod.POST)
+    @ApiOperation(value = "查询已经处理活动信息", notes = "查询已经处理活动信息")
+    public ResultData selectProcessed() {
+        return this.success(cloudActivityService.selectProcessed());
+    }
 
-
+    @RequestMapping(value = "/selectUntreated", method = RequestMethod.POST)
+    @ApiOperation(value = "查询未处理活动信息", notes = "查询未处理活动信息")
+    public ResultData selectUntreated() {
+        return this.success(cloudActivityService.selectUntreated());
+    }
 
 
 }

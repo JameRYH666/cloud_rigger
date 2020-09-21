@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.jeeadmin.api.ICloudActivityEnclosureService;
 import com.jeeadmin.api.ICloudActivityService;
 import com.jeeadmin.api.ICloudEnclosureService;
 import com.jeeadmin.api.ICloudExamineService;
@@ -46,7 +45,7 @@ public class CloudActivityServiceImpl extends BaseServiceImpl<CloudActivityMappe
     private SnowFlake snowFlake;
 
     @Autowired
-    private ICloudActivityEnclosureService cloudActivityEnclosureService;
+    private com.jeeadmin.api.ICloudActivityEnclosureService cloudActivityEnclosureService;
     @Autowired
     private CloudActivityEnclosureMapper cloudActivityEnclosureMapper;
     @Autowired
@@ -229,8 +228,6 @@ public class CloudActivityServiceImpl extends BaseServiceImpl<CloudActivityMappe
     public Page<CloudActivity> selectByUserId(PageHelper<CloudActivity> pageHelper) {
 
         Page<CloudActivity> page = new Page<>(pageHelper.getCurrent(), pageHelper.getSize());
-
-
         Long userId = SecurityUtil.getUserId();
         List<CloudActivity> cloudActivityList = cloudActivityMapper.selectByUserId(userId);
         if (null == cloudActivityList || "".equals(cloudActivityList)){
@@ -249,12 +246,21 @@ public class CloudActivityServiceImpl extends BaseServiceImpl<CloudActivityMappe
     * @Date: Create in 2020/9/21
     * @Return: java.util.List<com.jeeadmin.entity.CloudActivity>
     * @Throws:
-     * todo 接收不到前段数据
     */
     @Override
     public List<CloudActivity> selectProcessed() {
         Long userId = SecurityUtil.getUserId();
         List<CloudActivity> cloudActivities = cloudActivityMapper.selectProcessed(userId);
+        if (null == cloudActivities || "".equals(cloudActivities)){
+            throw new ValidateException("当前已处理的数据为空");
+        }
+        return cloudActivities;
+    }
+
+    @Override
+    public List<CloudActivity> selectUntreated() {
+        Long userId = SecurityUtil.getUserId();
+        List<CloudActivity> cloudActivities = cloudActivityMapper.selectUntreated(userId);
         if (null == cloudActivities || "".equals(cloudActivities)){
             throw new ValidateException("当前已处理的数据为空");
         }

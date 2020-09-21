@@ -49,4 +49,18 @@
             AND ca.activity_status in (1,3)
     </select>
 
+    <select id="selectUntreated" parameterType="long" resultType="com.jeeadmin.entity.CloudActivity">
+        SELECT
+            ca.*
+        FROM
+            cloud_activity ca
+            INNER JOIN cloud_activity_party_member capm ON capm.activity_id = ca.id
+            INNER JOIN cloud_party_member cpm ON cpm.id = capm.party_member_id
+            INNER JOIN cloud_user cu ON cu.id = cpm.user_id
+        WHERE
+            cu.id = #{id}
+            AND ca.activity_status = 4
+    </select>
+
+
 </mapper>

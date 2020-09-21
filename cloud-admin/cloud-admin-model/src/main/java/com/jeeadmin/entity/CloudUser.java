@@ -68,4 +68,79 @@ public class CloudUser extends BaseModel<CloudUser> {
      */
     @Pattern(regexp = "[023]",message = "用户状态值必须为0或2或3（0：正常 2：停用 3：冻结）！")
     private String userStatus;
+
+    /**
+     *      是否为管理员(1：是，2：不是)
+     */
+    @Pattern(regexp = "[12]",message = "是否为管理员(1：是，2：不是)")
+    private String adminFlag;
+
+    /**
+     *      用户头像
+     */
+    private Long EnclosureId;
+
+    /**
+     *  用户地址
+     */
+    private String address;
+
+    /**
+     *  用户学历
+     */
+    private String educationCode;
+
+    /**
+     *  用户籍贯
+     */
+    private String hometown;
+
+    /**
+     *  用户邮箱
+     */
+    private String email;
+
+    /**
+     *  用户年龄
+     */
+    private Integer age;
+
+    /**
+     *  用户民族
+     */
+    private String nationCode;
+
+    /**
+     *  用户联系电话
+     */
+    private Long phoneNumber;
+
+    /**
+     *  用户生日
+     */
+    private Date birthday;
+
+    /**
+     *  用户证件号码
+     */
+    private String certificateNumber;
+
+    /**
+     *  用户证件类型
+     */
+    private String certificateCode;
+
+    /**
+     *  用户性别
+     */
+    private String sexCode;
+
+    /**
+     *  用户姓名
+     */
+    private String realName;
+
+
+
+
 }

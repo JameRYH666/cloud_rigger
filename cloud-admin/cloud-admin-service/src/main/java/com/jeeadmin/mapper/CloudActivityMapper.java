@@ -25,4 +25,8 @@ public interface CloudActivityMapper extends BaseMapper<CloudActivity> {
      */
     List<CloudActivity> selectProcessed(Long id);
 
+    /**
+     *      根据用户id查询未处理的活动
+     */
+    List<CloudActivity> selectUntreated(Long id);
 }
