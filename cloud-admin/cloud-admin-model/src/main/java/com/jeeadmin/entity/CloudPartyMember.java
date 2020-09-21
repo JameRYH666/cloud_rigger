@@ -91,12 +91,57 @@ public class CloudPartyMember extends BaseModel<CloudPartyMember> {
     /**
      * 党员状态（0:正常 2:停用 3:冻结）
      */
-    private String memeberStatus;
+    private String memberStatus;
 
     /**
      * 党员邮箱
      */
     private String memberEmail;
 
-    private Date createDate;
+    /**
+     * 证件类型
+     */
+    private String memberCardTypeCode;
+    /**
+     * 证件号码
+     */
+    private String memberCardNumber;
+    /**
+     *民族
+     */
+    private String memberNationCode;
+
+    /**
+     * 党员籍贯
+     */
+    private String memberNativePlace;
+    /**
+     * 党员学历
+     */
+    private String educationCode;
+    /**
+     * 党员住址
+     */
+    private String memberAddress;
+
+    /**
+     * 党员类型
+     */
+    private String typeCode;
+    /**
+     * 用户外键
+     */
+    private Long userId;
+    /**
+     * 党员企业职务
+     */
+    private String memberEnterpriseJob;
+    /**
+     * 党员入党时所在支部
+     */
+    private String memberJoinPartyJob;
+    /**
+     * 党员生日
+     */
+    private Date memberBirthday;
 }

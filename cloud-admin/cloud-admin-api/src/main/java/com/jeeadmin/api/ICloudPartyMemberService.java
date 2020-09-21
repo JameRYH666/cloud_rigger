@@ -3,6 +3,7 @@ package com.jeeadmin.api;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jeeadmin.entity.CloudOrg;
 import com.jeeadmin.entity.CloudPartyMember;
+import com.jeeadmin.vo.member.CloudPartyMemberVo;
 import com.jeeadmin.vo.member.PartyMemberVo;
 import com.jeeadmin.vo.user.AssignRoleVo;
 import com.jeerigger.frame.base.service.BaseService;
@@ -108,4 +109,14 @@ public interface ICloudPartyMemberService extends BaseService<CloudPartyMember> 
      * @return
      */
     boolean assignRole(AssignRoleVo assignRoleVo);
+
+    /**
+     * 根据登录用户的id查询党员个人信息
+     * useId直接从security中获取
+     * @param
+     * @return
+     */
+    CloudPartyMemberVo selectPartyMemberByUserId();
+
+
 }

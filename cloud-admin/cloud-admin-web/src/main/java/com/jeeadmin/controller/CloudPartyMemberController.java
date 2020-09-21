@@ -65,5 +65,11 @@ public class CloudPartyMemberController extends BaseController {
     public ResultData deleteUser(@RequestBody CloudPartyMember cloudPartyMember){
         return this.success(cloudPartyMemberService.deleteUser(cloudPartyMember));
     }
+    @ResponseBody
+    @RequestMapping(value = "/selectOne", method = RequestMethod.POST)
+    @ApiOperation(value = "根据登录用户获取到该党员的全部信息", notes = "根据登录用户获取到该党员的全部信息")
+    public ResultData selectOneByUserId(){
+        return this.success(cloudPartyMemberService.selectPartyMemberByUserId());
+    }
 
 }

@@ -1,5 +1,6 @@
 package com.jeeadmin.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jeeadmin.api.ICloudOrgService;
@@ -9,6 +10,7 @@ import com.jeeadmin.api.ICloudUserRoleService;
 import com.jeeadmin.entity.CloudOrg;
 import com.jeeadmin.entity.CloudPartyMember;
 import com.jeeadmin.mapper.CloudPartyMemberMapper;
+import com.jeeadmin.vo.member.CloudPartyMemberVo;
 import com.jeeadmin.vo.member.PartyMemberVo;
 import com.jeeadmin.vo.user.AssignRoleVo;
 import com.jeerigger.core.common.core.SnowFlake;
@@ -76,7 +78,7 @@ public class CloudPartyMemberServiceImpl extends BaseServiceImpl<CloudPartyMembe
                 queryWrapper.lambda().like(CloudPartyMember::getMemberName, partyMemberVo.getMemberName());
             }
             if (StringUtil.isNotEmpty(partyMemberVo.getMemberStatus())) {
-                queryWrapper.lambda().eq(CloudPartyMember::getMemeberStatus, partyMemberVo.getMemberStatus());
+                queryWrapper.lambda().eq(CloudPartyMember::getMemberStatus, partyMemberVo.getMemberStatus());
             }
         }
         this.page(page, queryWrapper);
@@ -166,7 +168,7 @@ public class CloudPartyMemberServiceImpl extends BaseServiceImpl<CloudPartyMembe
         //验证党员手机号
         validateUserNumber(cloudPartyMember);
 
-        cloudPartyMember.setMemeberStatus(UserStatusEnum.NORMAL.getCode());
+        cloudPartyMember.setMemberStatus(UserStatusEnum.NORMAL.getCode());
 
         //保存用户信息
         return this.save(cloudPartyMember);
@@ -242,7 +244,7 @@ public class CloudPartyMemberServiceImpl extends BaseServiceImpl<CloudPartyMembe
         if (Objects.isNull(cloudPartyMember)) {
             throw new ValidateException("党员信息不能为空");
         }
-        cloudPartyMember.setMemeberStatus(UserStatusEnum.DISABLE.getCode())
+        cloudPartyMember.setMemberStatus(UserStatusEnum.DISABLE.getCode())
                 .setUpdateUser(SecurityUtil.getUserId())
                 .setUpdateDate(new Date());
         return this.updateById(cloudPartyMember);
@@ -257,6 +259,46 @@ public class CloudPartyMemberServiceImpl extends BaseServiceImpl<CloudPartyMembe
     @Override
     public boolean assignRole(AssignRoleVo assignRoleVo) {
         return false;
+    }
+
+
+    /**
+     * 根据用户id查询党员的信息
+     * @param userId
+     * @return
+     */
+
+    @Override
+    public CloudPartyMemberVo selectPartyMemberByUserId() {
+        QueryWrapper<CloudPartyMember> queryWrapper = new QueryWrapper<>();
+        CloudPartyMemberVo cloudPartyMemberVo = new CloudPartyMemberVo();
+        // 从security中查询userId
+        Long userId = SecurityUtil.getUserId();
+
+        if (Objects.isNull(userId)){
+            throw new ValidateException("用户ID不能为空");
+        }
+        queryWrapper.lambda().eq(CloudPartyMember::getUserId, userId);
+        CloudPartyMember cloudPartyMember = this.getOne(queryWrapper);
+        if (Objects.isNull(cloudPartyMember)){
+            throw new ValidateException("查询不到该党员信息");
+        }
+
+      if (Objects.isNull(cloudPartyMember.getOrgId())  ){
+           cloudPartyMemberVo.setOrgName("该党员没有分配党支部");
+           cloudPartyMemberVo.setCloudPartyMember(cloudPartyMember);
+           return cloudPartyMemberVo;
+      }
+        CloudOrg cloudOrg = sysOrgService.detailOrg(cloudPartyMember.getOrgId());
+      if (Objects.isNull(cloudOrg)){
+          cloudPartyMemberVo.setOrgName("没有该党支部信息");
+          cloudPartyMemberVo.setCloudPartyMember(cloudPartyMember);
+          return cloudPartyMemberVo;
+      }
+      cloudPartyMemberVo.setCloudPartyMember(cloudPartyMember)
+              .setOrgName(cloudOrg.getOrgName());
+      return cloudPartyMemberVo;
+
     }
 
     /**
