@@ -44,7 +44,7 @@ public interface ICloudActivityService extends BaseService<CloudActivity> {
     /**
      *  根据用户ID查询已经发起的活动
      */
-    List<CloudActivity> selectByUserId(PageHelper<CloudActivity> pageHelper);
+    Page<CloudActivity> selectByUserId(PageHelper<CloudActivity> pageHelper);
 
 
     /**

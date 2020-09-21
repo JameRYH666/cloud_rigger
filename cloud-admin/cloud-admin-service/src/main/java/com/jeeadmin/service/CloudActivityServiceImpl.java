@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.jeeadmin.api.ICloudActivityEnclosureService;
 import com.jeeadmin.api.ICloudActivityService;
 import com.jeeadmin.api.ICloudEnclosureService;
 import com.jeeadmin.api.ICloudExamineService;
@@ -45,7 +46,7 @@ public class CloudActivityServiceImpl extends BaseServiceImpl<CloudActivityMappe
     private SnowFlake snowFlake;
 
     @Autowired
-    private com.jeeadmin.api.ICloudActivityEnclosureService cloudActivityEnclosureService;
+    private ICloudActivityEnclosureService cloudActivityEnclosureService;
     @Autowired
     private CloudActivityEnclosureMapper cloudActivityEnclosureMapper;
     @Autowired
@@ -225,14 +226,20 @@ public class CloudActivityServiceImpl extends BaseServiceImpl<CloudActivityMappe
     * @Throws:
     */
     @Override
-    public List<CloudActivity> selectByUserId(PageHelper<CloudActivity> pageHelper) {
+    public Page<CloudActivity> selectByUserId(PageHelper<CloudActivity> pageHelper) {
+
+        Page<CloudActivity> page = new Page<>(pageHelper.getCurrent(), pageHelper.getSize());
+
 
         Long userId = SecurityUtil.getUserId();
-        List<CloudActivity> cloudActivity = cloudActivityMapper.selectByUserId(userId);
-        if (null == cloudActivity || "".equals(cloudActivity)){
+        List<CloudActivity> cloudActivityList = cloudActivityMapper.selectByUserId(userId);
+        if (null == cloudActivityList || "".equals(cloudActivityList)){
             throw new ValidateException("当前已发起的数据为空");
         }
-        return cloudActivity;
+        page.setRecords(cloudActivityList);
+        return page;
+
+
     }
 
     /**

@@ -13,6 +13,7 @@ import com.jeerigger.frame.exception.ValidateException;
 import com.jeerigger.frame.page.PageHelper;
 import com.jeerigger.security.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
@@ -22,6 +23,7 @@ import java.util.Date;
  * @Date Create in 2020/9/19 10:54
  * @Description:
  */
+@Service
 public class CloudExamineServiceImpl extends BaseServiceImpl<CloudExamineMapper, CloudExamine> implements ICloudExamineService {
 
    @Autowired

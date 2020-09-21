@@ -8,6 +8,7 @@ import com.jeerigger.frame.base.service.impl.BaseServiceImpl;
 import com.jeerigger.frame.exception.ValidateException;
 import com.jeerigger.frame.support.validate.ValidateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * @Company YXH
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @Date Create in 2020/9/19 11:02
  * @Description:
  */
+@Service
 public class CloudExamineUserServiceImpl extends BaseServiceImpl<CloudExamineUserMapper, CloudExamineUser> implements ICloudExamineUserService {
 
     @Autowired
