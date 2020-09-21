@@ -2,6 +2,7 @@ package com.jeeadmin.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jeeadmin.api.ICloudActivityService;
 import com.jeeadmin.api.ICloudEnclosureService;
@@ -82,7 +83,7 @@ public class CloudActivityServiceImpl extends BaseServiceImpl<CloudActivityMappe
             }
             queryWrapper.lambda().ne(CloudActivity::getActivityStatus,MeetingAndActivityEnum.REMOVE.getCode());
         }
-        queryWrapper.lambda().orderByAsc(CloudActivity::getActivityTile);
+        queryWrapper.lambda().orderByAsc(CloudActivity::getCreateDate);
         this.page(page, queryWrapper);
         page.getRecords().forEach(cloudActivity -> {
             // todo 需要添加字典类型中，活动类型的值。
@@ -217,25 +218,39 @@ public class CloudActivityServiceImpl extends BaseServiceImpl<CloudActivityMappe
 
     /**
     * @Author: Ryh
-    * @Description:     根据党员ID查询已经发起的活动
+    * @Description:     根据用户ID查询已经发起的活动
     * @Param: [id]
     * @Date: Create in 2020/9/18
     * @Return: com.jeeadmin.vo.activity.CloudActivityVo
     * @Throws:
     */
     @Override
-    public List<CloudActivityVo> selectByPartyMemberId(Long id) {
-        if (Objects.isNull(id)){
-            throw new ValidateException("当前党员的ID为空");
+    public List<CloudActivity> selectByUserId(PageHelper<CloudActivity> pageHelper) {
+
+        Long userId = SecurityUtil.getUserId();
+        List<CloudActivity> cloudActivity = cloudActivityMapper.selectByUserId(userId);
+        if (null == cloudActivity || "".equals(cloudActivity)){
+            throw new ValidateException("当前已发起的数据为空");
         }
-        QueryWrapper<CloudActivity> queryWrapper = new QueryWrapper<>();
-        // id = SecurityUtil.getUserId();
+        return cloudActivity;
+    }
 
-        List<CloudActivityVo> cloudActivityVo = cloudActivityMapper.selectByUserId(id);
-
-
-
-        return null;
+    /**
+    * @Author: Ryh
+    * @Description:
+    *           根据用户id查询已经处理的活动
+    * @Date: Create in 2020/9/21
+    * @Return: java.util.List<com.jeeadmin.entity.CloudActivity>
+    * @Throws:
+    */
+    @Override
+    public List<CloudActivity> selectProcessed() {
+        Long userId = SecurityUtil.getUserId();
+        List<CloudActivity> cloudActivities = cloudActivityMapper.selectProcessed(userId);
+        if (null == cloudActivities || "".equals(cloudActivities)){
+            throw new ValidateException("当前已处理的数据为空");
+        }
+        return cloudActivities;
     }
 
 

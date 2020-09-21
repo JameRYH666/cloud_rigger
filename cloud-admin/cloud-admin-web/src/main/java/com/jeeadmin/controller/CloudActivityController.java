@@ -81,11 +81,13 @@ public class CloudActivityController extends BaseController {
     }
 
 
-    @RequestMapping(value = "/selectByPartyMemberId", method = RequestMethod.POST)
+    @RequestMapping(value = "/selectInitiated", method = RequestMethod.POST)
     @ApiOperation(value = "查询已经发起活动信息", notes = "查询已经发起活动信息")
-    public ResultData selectOldActivity(@SingleRequestBody(value = "activityId") Long id) {
-        return this.success(cloudActivityService.selectByPartyMemberId(id));
+    public ResultData selectOldActivity(PageHelper<CloudActivity> pageHelper) {
+        return this.success(cloudActivityService.selectByUserId(pageHelper));
     }
+
+
 
 
 

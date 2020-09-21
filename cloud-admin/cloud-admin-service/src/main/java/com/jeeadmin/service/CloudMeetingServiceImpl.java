@@ -144,8 +144,6 @@ public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper,
     public boolean saveMeeting(CloudMeetingVo meeting) {
         CloudMeeting cloudMeeting = new CloudMeeting();
         CloudMeetingPartyMember cloudMeetingPartyMember = new CloudMeetingPartyMember();
-
-
         // 检验会议数据是否存在
         ValidateUtil.validateObject(meeting);
         // 由雪花算法生成主键id

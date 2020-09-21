@@ -42,10 +42,14 @@ public interface ICloudActivityService extends BaseService<CloudActivity> {
     boolean updateStatus(CloudActivity cloudActivity);
 
     /**
-     *  根据党员ID查询已经发起的活动
+     *  根据用户ID查询已经发起的活动
      */
-    List<CloudActivityVo> selectByPartyMemberId(Long id);
+    List<CloudActivity> selectByUserId(PageHelper<CloudActivity> pageHelper);
 
 
+    /**
+     *  根据用户id查询已经处理的活动
+     */
+    List<CloudActivity> selectProcessed();
 
 }
