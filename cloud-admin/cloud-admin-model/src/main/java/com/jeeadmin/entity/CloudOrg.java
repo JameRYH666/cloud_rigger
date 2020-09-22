@@ -41,10 +41,15 @@ public class CloudOrg extends BaseTreeModel<CloudOrg> {
     @Size(max = 64,message = "组织机构代码最大长度为64！")
     private String orgCode;
 
+    /**
+     * 组织机构类型
+     */
+    @NotNull(message = "组织机构类型不能为空！")
+    private String orgTypeCode;
 
-    private Date createDate;
 
-
+    @TableField(exist = false)
+    private String orgTypeName;
 
     /**
      * 组织机构名称
@@ -61,10 +66,10 @@ public class CloudOrg extends BaseTreeModel<CloudOrg> {
     private String orgShortName;
 
     /**
-     * 组织机构负责人
+     * 组织机构负责人(党员id)
      */
     @Size(max = 64,message = "组织机构负责人最大长度为64！")
-    private String orgLeader;
+    private Long orgPartyMemberId;
 
     /**
      * 显示顺序
@@ -93,16 +98,11 @@ public class CloudOrg extends BaseTreeModel<CloudOrg> {
     private String topLevel;
 
     /**
-     * 组织机构类型
+     * 上级组织机构信息
      */
-    private String orgTypeCode;
-    /**
-     * 组织机构电话
-     */
-    private String orgTelNumber;
-
-    /**
-     * 组织机构地址
-     */
-    private String orgAddress;
+    @ApiModelProperty(
+            hidden = true
+    )
+    @TableField(exist = false)
+    private CloudOrg  parentOrg;
 }

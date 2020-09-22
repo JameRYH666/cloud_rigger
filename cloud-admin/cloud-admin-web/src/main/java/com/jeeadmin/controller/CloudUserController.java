@@ -2,8 +2,10 @@ package com.jeeadmin.controller;
 
 
 import com.jeeadmin.api.ICloudUserService;
+import com.jeeadmin.api.ISendEmailService;
 import com.jeeadmin.entity.CloudUser;
 import com.jeeadmin.vo.user.QueryUserVo;
+import com.jeeadmin.vo.user.UpdatePwdVo;
 import com.jeerigger.frame.base.controller.BaseController;
 import com.jeerigger.frame.base.controller.ResultCodeEnum;
 import com.jeerigger.frame.base.controller.ResultData;
@@ -13,10 +15,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -33,6 +32,9 @@ public class CloudUserController extends BaseController {
 
     @Autowired
     private ICloudUserService cloudUserService;
+
+    @Autowired
+    private ISendEmailService sendEmailService;
 
     @ResponseBody
     @RequestMapping(value = "/list", method = RequestMethod.POST)
@@ -131,4 +133,33 @@ public class CloudUserController extends BaseController {
         }
     }*/
 
+    @ResponseBody
+    @RequestMapping(value = "/NotPartMemberList",method = RequestMethod.POST)
+    @ApiOperation(value = "获取非党员的用户",notes = "获取非党员的用户")
+    public ResultData selectNotPartyMember(){
+        return this.success(cloudUserService.selectNotPartyMember());
+    }
+
+    /**
+     * app端,用户忘记密码时，通过邮箱和验证码设置新的密码
+     * @param updatePwdVo
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/updateUserPassword",method = RequestMethod.POST)
+    @ApiOperation(value = "app端,用户忘记密码时，通过邮箱和验证码设置新的密码",notes = "app端,用户忘记密码时，通过邮箱和验证码设置新的密码")
+    public ResultData updateUserPassword(@RequestBody UpdatePwdVo updatePwdVo){
+        if (cloudUserService.updateUserPassword(updatePwdVo)){
+            return this.success();
+        }else {
+            return this.failed(ResultCodeEnum.ERROR_UPDATE_FAIL, "重置用户密码失败！");
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/sendEmailCode",method = RequestMethod.POST)
+    public ResultData sendEmailCode(@RequestParam(value = "mail") String mail){
+        sendEmailService.sendEmailCode(mail,"邮箱验证码");
+        return this.success();
+    }
 }

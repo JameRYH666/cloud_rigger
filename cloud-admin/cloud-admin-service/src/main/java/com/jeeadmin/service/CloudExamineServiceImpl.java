@@ -6,6 +6,7 @@ import com.jeeadmin.api.ICloudExamineUserService;
 import com.jeeadmin.entity.CloudExamine;
 import com.jeeadmin.entity.CloudExamineUser;
 import com.jeeadmin.mapper.CloudExamineMapper;
+import com.jeeadmin.mapper.CloudUserMapper;
 import com.jeerigger.core.common.core.SnowFlake;
 import com.jeerigger.frame.base.service.impl.BaseServiceImpl;
 import com.jeerigger.frame.enums.MeetingAndActivityEnum;
@@ -30,10 +31,12 @@ public class CloudExamineServiceImpl extends BaseServiceImpl<CloudExamineMapper,
    private SnowFlake snowFlake;
    @Autowired
    private ICloudExamineUserService cloudExamineUserService;
+   @Autowired
+   private CloudUserMapper cloudUserMapper;
 
 
     @Override
-    public Page<CloudExamine> selectAll(PageHelper<CloudExamine> cloudExmaine) {
+    public Page<CloudExamine> selectAll(PageHelper<CloudExamine> cloudExamine) {
         return null;
     }
 
@@ -60,9 +63,10 @@ public class CloudExamineServiceImpl extends BaseServiceImpl<CloudExamineMapper,
         CloudExamineUser cloudExamineUser = new CloudExamineUser();
         cloudExamineUser.setExamineId(cloudExamine.getId());
         cloudExamineUser.setId(snowFlake.nextId());
-        // todo 根据当前用户的ID获取上级用户的ID    先写死
+        //  根据当前用户的ID获取上级用户的党员ID
         Long userId = SecurityUtil.getUserId();
-        cloudExamineUser.setId(SecurityUtil.getUserId());
+        long id = cloudUserMapper.selectPartyMemberIdByUserId(userId);
+        cloudExamineUser.setId(id);
 
         cloudExamineUser.setCreateUser(SecurityUtil.getUserId());
         cloudExamineUser.setCreateDate(new Date());

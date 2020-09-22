@@ -16,4 +16,14 @@ public class UpdatePwdVo {
      * 新密码
      */
     private String newPassword;
+
+    /**
+     * 用户邮箱
+     */
+    private String email;
+
+    /**
+     * 手机短信验证码
+     */
+    private String imgCode;
 }

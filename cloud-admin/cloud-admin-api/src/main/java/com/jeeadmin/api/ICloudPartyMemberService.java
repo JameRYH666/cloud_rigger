@@ -29,10 +29,10 @@ public interface ICloudPartyMemberService extends BaseService<CloudPartyMember> 
     /**
      * 根据用户唯一标识获取用户信息
      *
-     * @param id
+     * @param userId
      * @return
      */
-    CloudPartyMember getPartyMemberById(Long id);
+    CloudPartyMember getPartyMemberByUserId(Long userId);
 
     /**
      * 查看角色已分配用户
@@ -117,8 +117,6 @@ public interface ICloudPartyMemberService extends BaseService<CloudPartyMember> 
      * @return
      */
     CloudPartyMemberVo selectPartyMemberByUserId();
-
-
 
 
 }

@@ -1,6 +1,7 @@
 package com.jeeadmin.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jeeadmin.api.ICloudUserService;
 import com.jeeadmin.entity.CloudMenu;
@@ -21,12 +22,15 @@ import com.jeerigger.frame.exception.FrameException;
 import com.jeerigger.frame.exception.ValidateException;
 import com.jeerigger.frame.page.PageHelper;
 import com.jeerigger.frame.support.validate.ValidateUtil;
+import com.jeerigger.frame.util.KeysUtil;
 import com.jeerigger.frame.util.StringUtil;
 import com.jeerigger.security.SecurityUtil;
+import com.jeerigger.security.user.JeeUser;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -40,6 +44,12 @@ import java.util.Objects;
 public class CloudUserServiceImpl extends BaseServiceImpl<CloudUserMapper, CloudUser> implements ICloudUserService {
     @Autowired
     private IUserService userService;
+
+    @Autowired
+    private CloudUserMapper cloudUserMapper;
+
+    @Autowired
+    private HttpSession httpSession;
 
     @Autowired
     private SnowFlake snowFlake;
@@ -77,7 +87,7 @@ public class CloudUserServiceImpl extends BaseServiceImpl<CloudUserMapper, Cloud
         //验证登录名
         validateLoginName(cloudUser);
         // cloudUser.setMgrType(UserTypeEnum.SYSTEM_ADMIN_USER.getCode());
-        // 校验数据准确性
+        //校验数据准确性
         ValidateUtil.validateObject(cloudUser);
         //cloudUser.setPassword(StringUtil.md5(SysParamUtil.getInitPassword()));
         // todo 暂时默认密码写死
@@ -186,5 +196,51 @@ public class CloudUserServiceImpl extends BaseServiceImpl<CloudUserMapper, Cloud
             }
         }
         return sysMenuList;
+    }
+
+    /**
+     * 获取非党员的用户
+     */
+    @Override
+    public List<CloudUser> selectNotPartyMember() {
+        //获取当前登录用户的信息
+        JeeUser jeeUser = SecurityUtil.getUserData();
+        //获取当前用户所在组织
+        List<String> orgIds = jeeUser.getOrgIds();
+        List<CloudUser> cloudUsers = new ArrayList<>();
+        if (null != orgIds && !orgIds.isEmpty()){
+            //查询该组织下的非党员用户
+            cloudUsers = cloudUserMapper.selectNotPartyMember(orgIds);
+        }
+        return cloudUsers;
+    }
+
+    @Override
+    public boolean updateUserPassword(UpdatePwdVo updatePwdVo) {
+
+        QueryWrapper<CloudUser> wrapper = new QueryWrapper<>();
+        wrapper.lambda().eq(CloudUser::getEmail,updatePwdVo.getEmail());
+        //通过邮箱查询用户
+        CloudUser cloudUser = this.getOne(wrapper);
+        //查不到说明用户不存在
+        if (null != cloudUser){
+            //从session中取出用户的邮箱验证码
+            String key = String.format(KeysUtil.MAIL_CODE_KEY, updatePwdVo.getEmail());
+            Object codeKey = httpSession.getAttribute(key);
+            if (null != codeKey){
+                if (null != updatePwdVo.getImgCode() && updatePwdVo.getImgCode().equals(codeKey)){
+                    UpdateWrapper<CloudUser> updateWrapper = new UpdateWrapper<>();
+                    updateWrapper.lambda().set(CloudUser::getPassword,updatePwdVo.getNewPassword()).eq(CloudUser::getEmail,updatePwdVo.getEmail());
+                    this.update(new CloudUser(),updateWrapper);
+                }else {
+                    throw new FrameException(ResultCodeEnum.ERROR_KAPTCHA_WRONG);
+                }
+                return true;
+            }else {
+                throw new FrameException(ResultCodeEnum.ERROR_KAPTCHA_FAILURE);
+            }
+        }else {
+            throw new FrameException(ResultCodeEnum.ERROR_NO_EMAIL);
+        }
     }
 }

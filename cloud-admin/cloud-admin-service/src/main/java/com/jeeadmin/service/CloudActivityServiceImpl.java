@@ -226,7 +226,6 @@ public class CloudActivityServiceImpl extends BaseServiceImpl<CloudActivityMappe
     */
     @Override
     public Page<CloudActivity> selectByUserId(PageHelper<CloudActivity> pageHelper) {
-
         Page<CloudActivity> page = new Page<>(pageHelper.getCurrent(), pageHelper.getSize());
         Long userId = SecurityUtil.getUserId();
         List<CloudActivity> cloudActivityList = cloudActivityMapper.selectByUserId(userId);
@@ -235,8 +234,6 @@ public class CloudActivityServiceImpl extends BaseServiceImpl<CloudActivityMappe
         }
         page.setRecords(cloudActivityList);
         return page;
-
-
     }
 
     /**
@@ -248,23 +245,27 @@ public class CloudActivityServiceImpl extends BaseServiceImpl<CloudActivityMappe
     * @Throws:
     */
     @Override
-    public List<CloudActivity> selectProcessed() {
+    public Page<CloudActivity> selectProcessed(PageHelper<CloudActivity> pageHelper) {
+        Page<CloudActivity> page = new Page<>(pageHelper.getCurrent(), pageHelper.getSize());
         Long userId = SecurityUtil.getUserId();
         List<CloudActivity> cloudActivities = cloudActivityMapper.selectProcessed(userId);
         if (null == cloudActivities || "".equals(cloudActivities)){
             throw new ValidateException("当前已处理的数据为空");
         }
-        return cloudActivities;
+        page.setRecords(cloudActivities);
+        return page;
     }
 
     @Override
-    public List<CloudActivity> selectUntreated() {
+    public Page<CloudActivity> selectUntreated(PageHelper<CloudActivity> pageHelper) {
+        Page<CloudActivity> page = new Page<>(pageHelper.getCurrent(), pageHelper.getSize());
         Long userId = SecurityUtil.getUserId();
         List<CloudActivity> cloudActivities = cloudActivityMapper.selectUntreated(userId);
         if (null == cloudActivities || "".equals(cloudActivities)){
             throw new ValidateException("当前已处理的数据为空");
         }
-        return cloudActivities;
+        page.setRecords(cloudActivities);
+        return page;
     }
 
 

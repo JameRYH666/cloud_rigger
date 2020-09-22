@@ -10,7 +10,7 @@
     <result column="org_code" property="orgCode" jdbcType="VARCHAR" />
     <result column="org_name" property="orgName" jdbcType="VARCHAR" />
     <result column="org_short_name" property="orgShortName" jdbcType="VARCHAR" />
-    <result column="org_leader" property="orgLeader" jdbcType="VARCHAR" />
+    <result column="org_party_member_id" property="orgLeader" jdbcType="VARCHAR" />
     <result column="org_sort" property="orgSort" jdbcType="INTEGER" />
     <result column="org_status" property="orgStatus" jdbcType="CHAR" />
     <result column="leaf_flag" property="leafFlag" jdbcType="CHAR" />
@@ -28,7 +28,7 @@
 
   <!-- 通用查询结果列 -->
   <sql id="Base_Column_List">
-    id, parent_id, org_code, org_name, org_short_name, org_leader,  org_sort, org_status, leaf_flag, remark, top_level, create_user, create_date, update_user, update_date,org_type_code,
+    id, parent_id, org_code, org_name, org_short_name, org_party_member_id,  org_sort, org_status, leaf_flag, remark, top_level, create_user, create_date, update_user, update_date,org_type_code,
     org_tel_number,org_address
   </sql>
 </mapper>

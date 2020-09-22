@@ -43,7 +43,7 @@ public class CloudPartyMemberController extends BaseController {
     @RequestMapping(value = "/detail", method = RequestMethod.POST)
     @ApiOperation(value = "根据党员id获取党员详细信息列表", notes = "根据党员id获取党员详细信息列表")
     public ResultData getPartyMemberById(@SingleRequestBody(value = "id") Long id){
-        return this.success(cloudPartyMemberService.getPartyMemberById(id));
+        return this.success(cloudPartyMemberService.getPartyMemberByUserId(id));
     }
 
     @ResponseBody
@@ -64,12 +64,6 @@ public class CloudPartyMemberController extends BaseController {
     @ApiOperation(value = "删除党员信息", notes = "删除党员信息")
     public ResultData deleteUser(@RequestBody CloudPartyMember cloudPartyMember){
         return this.success(cloudPartyMemberService.deleteUser(cloudPartyMember));
-    }
-    @ResponseBody
-    @RequestMapping(value = "/selectOne", method = RequestMethod.POST)
-    @ApiOperation(value = "根据登录用户获取到该党员的全部信息", notes = "根据登录用户获取到该党员的全部信息")
-    public ResultData selectOneByUserId(){
-        return this.success(cloudPartyMemberService.selectPartyMemberByUserId());
     }
 
 }

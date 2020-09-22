@@ -89,4 +89,16 @@ public interface ICloudUserService extends BaseService<CloudUser> {
      * @return
      */
     List<CloudMenu> getSysAdminMenu();
+
+    /**
+     * 获取非党员的用户
+     */
+    List<CloudUser> selectNotPartyMember();
+
+    /**
+     * app端,用户忘记密码时，通过邮箱和验证码设置新的密码
+     * @param updatePwdVo
+     * @return
+     */
+    boolean updateUserPassword(UpdatePwdVo updatePwdVo);
 }

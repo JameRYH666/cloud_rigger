@@ -35,5 +35,28 @@
       mgr_type,user_status,create_date,create_user,update_user,update_date,admin_flag
   </sql>
 
+    <select id="selectNotPartyMember" resultType="com.jeeadmin.entity.CloudUser">
+        SELECT DISTINCT
+        a.*
+        FROM
+        cloud_user a
+        RIGHT JOIN cloud_party_member b
+        ON b.org_id in
+        <foreach collection="orgIds" open="(" close=")" item="orgId" separator=",">
+            #{orgId}
+        </foreach>
+        WHERE b.memeber_status = '1'
+        AND a.id = b.user_id
+        AND a.email != b.member_email
+    </select>
+
+    <select id="selectPartyMemberIdByUserId" parameterType="long" resultType="long">
+        select
+            co.org_party_member_id
+            from cloud_org co
+        inner join cloud_party_member cpm on cpm.id = co.org_party_member_id
+        inner join cloud_user cu on cu.id = cpm.user_id
+        where cu.id = #{id}
+    </select>
 
 </mapper>

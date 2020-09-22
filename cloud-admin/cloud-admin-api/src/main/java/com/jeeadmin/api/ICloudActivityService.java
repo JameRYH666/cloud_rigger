@@ -49,12 +49,12 @@ public interface ICloudActivityService extends BaseService<CloudActivity> {
     /**
      *  根据用户id查询已经处理的活动
      */
-    List<CloudActivity> selectProcessed();
+    Page<CloudActivity> selectProcessed(PageHelper<CloudActivity> pageHelper);
 
     /**
      *  根据用户id查询未处理的活动
      */
-    List<CloudActivity> selectUntreated();
+    Page<CloudActivity> selectUntreated(PageHelper<CloudActivity> pageHelper);
 
 
 }

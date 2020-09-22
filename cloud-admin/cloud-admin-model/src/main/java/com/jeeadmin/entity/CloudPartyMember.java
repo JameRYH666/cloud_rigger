@@ -23,81 +23,63 @@ public class CloudPartyMember extends BaseModel<CloudPartyMember> {
      * 党员姓名
      */
     private String memberName;
-
     /**
      * 党员照片
      */
     private Long enclosureId;
-
     /**
      * 党员性别
      */
     private String sexCode;
-
     /**
      * 党员年龄
      */
     private Integer memberAge;
-
     /**
      * 党内职务
      */
     private String jobCode;
-
     /**
      * 党员电话
      */
     private Long memberPhoneNumber;
-
     /**
      * 党员简介
      */
     private String memberDesc;
-
     /**
      * 所属党支部
      */
     private Long orgId;
-
-
-    @TableField(exist = false)
-    private String orgName;
-
     /**
      * 入党时间
      */
     private Date memberEnterTime;
-
     /**
      * 党龄
      */
     private Integer partyTime;
-
     /**
      * 模范类型
      */
     private String modelCode;
-
     /**
      * 党员历程
      */
     private String memberProgress;
-
     /**
      * 备注信息(冗余字段)
      */
     private String remark;
-
     /**
-     * 党员状态（0:正常 2:停用 3:冻结）
+     * 党员状态（1:正常 2:停用 3:冻结）
      */
-    private String memberStatus;
+    private String memeberStatus;
 
     /**
      * 党员邮箱
      */
     private String memberEmail;
-
     /**
      * 证件类型
      */
@@ -107,10 +89,9 @@ public class CloudPartyMember extends BaseModel<CloudPartyMember> {
      */
     private String memberCardNumber;
     /**
-     *民族
+     * 民族
      */
     private String memberNationCode;
-
     /**
      * 党员籍贯
      */
@@ -123,9 +104,8 @@ public class CloudPartyMember extends BaseModel<CloudPartyMember> {
      * 党员住址
      */
     private String memberAddress;
-
     /**
-     * 党员类型
+     * 党员类型(比如:正式党员，预备党员，优秀党员等)
      */
     private String typeCode;
     /**
@@ -144,4 +124,7 @@ public class CloudPartyMember extends BaseModel<CloudPartyMember> {
      * 党员生日
      */
     private Date memberBirthday;
+
+    @TableField(exist = false)
+    private String orgName;
 }

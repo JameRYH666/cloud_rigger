@@ -66,6 +66,7 @@ public class CloudNoticeServiceImpl extends BaseServiceImpl<CloudNoticeMapper, C
             if (StringUtil.isNotEmpty(data.getNoticeTitle())) {
                 queryWrapper.lambda().like(CloudNotice::getNoticeTitle, data.getNoticeTitle());
             }
+            queryWrapper.lambda().eq(CloudNotice::getNoticeStatus,MeetingAndActivityEnum.NORMAL.getCode());
         }
         queryWrapper.lambda().orderByAsc(CloudNotice::getCreateDate);
         IPage<CloudNotice> noticeIPage = this.page(page, queryWrapper);

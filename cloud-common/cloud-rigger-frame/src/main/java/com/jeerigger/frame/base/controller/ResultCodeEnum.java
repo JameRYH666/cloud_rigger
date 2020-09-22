@@ -14,6 +14,7 @@ public enum ResultCodeEnum implements IResultCode {
     ERROR_LOGIN_WRONG("1010", "登录失败"),
     ERROR_KAPTCHA_FAILURE("1008", "验证码已失效"),
     ERROR_KAPTCHA_WRONG("1009", "验证码错误"),
+    ERROR_NO_EMAIL("1011","邮箱不存在"),
 
     ERROR_SAVE_FAIL("2001", "保存信息失败"),
     ERROR_DELETE_FAIL("2002", "删除信息失败"),

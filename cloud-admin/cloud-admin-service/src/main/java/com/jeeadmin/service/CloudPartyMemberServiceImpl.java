@@ -78,7 +78,7 @@ public class CloudPartyMemberServiceImpl extends BaseServiceImpl<CloudPartyMembe
                 queryWrapper.lambda().like(CloudPartyMember::getMemberName, partyMemberVo.getMemberName());
             }
             if (StringUtil.isNotEmpty(partyMemberVo.getMemberStatus())) {
-                queryWrapper.lambda().eq(CloudPartyMember::getMemberStatus, partyMemberVo.getMemberStatus());
+                queryWrapper.lambda().eq(CloudPartyMember::getMemeberStatus, partyMemberVo.getMemberStatus());
             }
         }
         this.page(page, queryWrapper);
@@ -91,7 +91,7 @@ public class CloudPartyMemberServiceImpl extends BaseServiceImpl<CloudPartyMembe
     }
 
     @Override
-    public CloudPartyMember getPartyMemberById(Long userId) {
+    public CloudPartyMember getPartyMemberByUserId(Long userId) {
         if (Objects.isNull(userId)) {
             throw new ValidateException("用户ID不能为空！");
         }
@@ -168,7 +168,7 @@ public class CloudPartyMemberServiceImpl extends BaseServiceImpl<CloudPartyMembe
         //验证党员手机号
         validateUserNumber(cloudPartyMember);
 
-        cloudPartyMember.setMemberStatus(UserStatusEnum.NORMAL.getCode());
+        cloudPartyMember.setMemeberStatus(UserStatusEnum.NORMAL.getCode());
 
         //保存用户信息
         return this.save(cloudPartyMember);
@@ -207,7 +207,7 @@ public class CloudPartyMemberServiceImpl extends BaseServiceImpl<CloudPartyMembe
         cloudPartyMember.setUpdateUser(SecurityUtil.getUserId())
                 .setUpdateDate(new Date());
 
-        CloudPartyMember partyMember = this.getPartyMemberById(cloudPartyMember.getId());
+        CloudPartyMember partyMember = this.getPartyMemberByUserId(cloudPartyMember.getId());
         if (!partyMember.getMemberPhoneNumber().equals(cloudPartyMember.getMemberPhoneNumber())) {
             validateUserNumber(cloudPartyMember);
         }
@@ -244,7 +244,7 @@ public class CloudPartyMemberServiceImpl extends BaseServiceImpl<CloudPartyMembe
         if (Objects.isNull(cloudPartyMember)) {
             throw new ValidateException("党员信息不能为空");
         }
-        cloudPartyMember.setMemberStatus(UserStatusEnum.DISABLE.getCode())
+        cloudPartyMember.setMemeberStatus(UserStatusEnum.DISABLE.getCode())
                 .setUpdateUser(SecurityUtil.getUserId())
                 .setUpdateDate(new Date());
         return this.updateById(cloudPartyMember);
@@ -264,10 +264,9 @@ public class CloudPartyMemberServiceImpl extends BaseServiceImpl<CloudPartyMembe
 
     /**
      * 根据用户id查询党员的信息
-     * @param userId
+     * @param
      * @return
      */
-
     @Override
     public CloudPartyMemberVo selectPartyMemberByUserId() {
         QueryWrapper<CloudPartyMember> queryWrapper = new QueryWrapper<>();

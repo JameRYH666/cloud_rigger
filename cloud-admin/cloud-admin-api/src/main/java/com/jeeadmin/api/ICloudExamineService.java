@@ -22,7 +22,7 @@ public interface ICloudExamineService extends BaseService<CloudExamine> {
      *  查询所有审核信息，并进行分页处理
      *
      */
-    Page<CloudExamine> selectAll(PageHelper<CloudExamine> cloudExmaine);
+    Page<CloudExamine> selectAll(PageHelper<CloudExamine> cloudExamine);
 
 
     /**
