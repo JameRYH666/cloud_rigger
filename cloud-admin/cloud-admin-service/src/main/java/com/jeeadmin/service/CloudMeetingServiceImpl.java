@@ -60,7 +60,9 @@ public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper,
      * @Return: com.baomidou.mybatisplus.extension.plugins.pagination.Page<com.jeeadmin.entity.CloudMeeting>
      * @Throws:
      * @Description: 查询所有的会议信息，并进行分页处理
+     * 根据多条件进行查询，并且还包含根据用户id的不同查询本人所发起的会议
      */
+
     @Override
     public Page<CloudMeetingVo> selectPage(PageHelper<CloudMeetingVo> pageHelper) {
         Page<CloudMeeting> page = new Page<>(pageHelper.getCurrent(), pageHelper.getSize());
@@ -79,8 +81,12 @@ public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper,
             if (StringUtil.isNotEmpty(meetingData.getTypeCode())){
                 queryWrapper.lambda().eq(CloudMeeting::getTypeCode,meetingData.getTypeCode());
             }
+            if (Objects.nonNull(meetingData.getCreateUser())){
+                queryWrapper.lambda().eq(CloudMeeting::getCreateUser,SecurityUtil.getUserId());
+            }
             queryWrapper.lambda().ne(CloudMeeting::getMeetingStatus,MeetingAndActivityEnum.REMOVE.getCode());
         }
+
         queryWrapper.lambda().orderByAsc(CloudMeeting::getMeetingTime);
         // 查询所有符合条件的会议分页信息
         IPage<CloudMeeting> meetingPage = this.page(page, queryWrapper);
@@ -332,5 +338,7 @@ public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper,
         }
         throw new ValidateException("没有获取到该会议的数据");
     }
+
+
 
 }

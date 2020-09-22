@@ -76,9 +76,9 @@ public class CloudUser extends BaseModel<CloudUser> {
     private String adminFlag;
 
     /**
-     *      用户头像
+     * 头像
      */
-    private Long EnclosureId;
+    private Long avatar;
 
     /**
      *  用户地址

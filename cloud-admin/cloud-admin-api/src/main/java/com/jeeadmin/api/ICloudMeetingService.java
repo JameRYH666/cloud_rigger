@@ -77,10 +77,23 @@ public interface ICloudMeetingService extends BaseService<CloudMeeting> {
      */
     boolean deleteMeeting(Long id);
 
+    /**
+     * 新增会议信息
+     * @param cloudMeeting
+     * @return
+     */
 
     boolean saveOne(CloudMeeting cloudMeeting);
 
+    /**
+     * 更新会议状态
+     * @param cloudMeeting
+     * @return
+     */
+
     boolean updateStatus(CloudMeeting cloudMeeting);
+
+
 
 
 
