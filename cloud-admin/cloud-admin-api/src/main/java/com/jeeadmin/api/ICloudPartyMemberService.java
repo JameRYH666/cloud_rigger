@@ -119,4 +119,6 @@ public interface ICloudPartyMemberService extends BaseService<CloudPartyMember> 
     CloudPartyMemberVo selectPartyMemberByUserId();
 
 
+
+
 }
