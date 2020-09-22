@@ -78,7 +78,7 @@ public class CloudUser extends BaseModel<CloudUser> {
     /**
      * 头像
      */
-    private Long avatar;
+    private Long enclosureId;
 
     /**
      *  用户地址

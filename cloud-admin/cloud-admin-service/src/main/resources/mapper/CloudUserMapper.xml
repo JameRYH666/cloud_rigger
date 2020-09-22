@@ -18,7 +18,7 @@
     <result column="hometown" property="hometown" jdbcType="VARCHAR" />
     <result column="education_code" property="educationCode" jdbcType="VARCHAR" />
     <result column="address" property="address" jdbcType="VARCHAR" />
-    <result column="avatar" property="avatar" jdbcType="BIGINT" />
+    <result column="enclosure_id" property="enclosureId" jdbcType="BIGINT" />
     <result column="user_sort" property="userSort" jdbcType="INTEGER" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="mgr_type" property="mgrType" jdbcType="CHAR" />
@@ -31,7 +31,7 @@
   </resultMap>
   <sql id="Base_Column_List">
       id,login_name,password,user_salt,real_name,sex_code,certificate_code,certificate_number,birthday,
-      phone_number,nation_code,age,email,hometown,education_code,address,avatar,user_sort,remark,
+      phone_number,nation_code,age,email,hometown,education_code,address,enclosure_id,user_sort,remark,
       mgr_type,user_status,create_date,create_user,update_user,update_date,admin_flag
   </sql>
 
