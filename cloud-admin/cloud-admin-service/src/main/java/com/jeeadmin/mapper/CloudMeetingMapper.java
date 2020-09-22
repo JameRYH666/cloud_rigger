@@ -1,5 +1,6 @@
 package com.jeeadmin.mapper;
 
+import com.jeeadmin.entity.CloudActivity;
 import com.jeeadmin.entity.CloudEnclosure;
 import com.jeeadmin.entity.CloudMeeting;
 import com.jeeadmin.vo.meeting.CloudMeetingDetailVo;
@@ -70,9 +71,28 @@ public interface CloudMeetingMapper extends BaseMapper<CloudMeeting> {
 
     /**
      * 通过修改状态码实现逻辑删除
-     * @param meetingId
+     * @param cloudMeeting
      * @return
      */
     boolean updateStatus(CloudMeeting cloudMeeting);
+
+    /**
+     *      根据用户ID查询已经发起的活动
+     */
+    List<CloudMeeting> selectByUserId(Long id);
+
+    /**
+     * 根据用户id查询已经处理的会议
+     * @param id
+     * @return
+     */
+    List<CloudMeeting> selectMeetingProcessed(Long id);
+
+    /**
+     * 根据用户id查询还未处理的会议
+     * @param id
+     * @return
+     */
+    List<CloudMeeting> selectMeetingUntreated(Long id);
 
 }

@@ -95,6 +95,42 @@ WHERE
         WHERE
             cme.meeting_id = #{id}
     </select>
+    <select id="selectByUserId" resultType="com.jeeadmin.entity.CloudMeeting">
+          SELECT
+            cp.*
+        FROM
+            cloud_meeting cp
+            INNER JOIN cloud_meeting_party_member cmpm ON cmpm.meeting_id = cp.id
+            INNER JOIN cloud_party_member cpm ON cpm.id = cmpm.party_member_id
+            INNER JOIN cloud_user cu ON cu.id = cpm.user_id
+        WHERE
+            cu.id = #{id}
+            AND cp.meeting_status != 2
+    </select>
+    <select id="selectMeetingProcessed" resultType="com.jeeadmin.entity.CloudMeeting">
+           SELECT
+            cp.*
+        FROM
+            cloud_meeting cp
+            INNER JOIN cloud_meeting_party_member cmpm ON cmpm.meeting_id = cp.id
+            INNER JOIN cloud_party_member cpm ON cpm.id = cmpm.party_member_id
+            INNER JOIN cloud_user cu ON cu.id = cpm.user_id
+        WHERE
+            cu.id = #{id}
+            AND cp.meeting_status in (1,3)
+    </select>
+    <select id="selectMeetingUntreated" resultType="com.jeeadmin.entity.CloudMeeting">
+         SELECT
+            cp.*
+        FROM
+            cloud_meeting cp
+            INNER JOIN cloud_meeting_party_member cmpm ON cmpm.meeting_id = cp.id
+            INNER JOIN cloud_party_member cpm ON cpm.id = cmpm.party_member_id
+            INNER JOIN cloud_user cu ON cu.id = cpm.user_id
+        WHERE
+            cu.id = #{id}
+            AND cp.meeting_status = 4
+    </select>
 
 
 </mapper>

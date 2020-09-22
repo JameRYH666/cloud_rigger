@@ -3,6 +3,8 @@ package com.jeeadmin.controller;
 
 import com.jeeadmin.api.ICloudMeetingService;
 
+import com.jeeadmin.entity.CloudActivity;
+import com.jeeadmin.entity.CloudMeeting;
 import com.jeeadmin.vo.meeting.CloudMeetingVo;
 import com.jeerigger.frame.base.controller.BaseController;
 import com.jeerigger.frame.base.controller.ResultCodeEnum;
@@ -65,5 +67,20 @@ public class CloudMeetingController extends BaseController {
     @ApiOperation(value = "查询单个会议信息",notes = "查询单个会议的信息")
         public  ResultData selectOneActivity(@SingleRequestBody(value = "id") Long id){
         return this.success(cloudMeetingService.selectOneMeeting(id));
+    }
+    @RequestMapping(value = "/selectInitiated", method = RequestMethod.POST)
+    @ApiOperation(value = "查询已经发起会议信息", notes = "查询已经发起会议信息")
+    public ResultData selectOldMeeting(  PageHelper<CloudMeeting> pageHelper) {
+        return this.success(cloudMeetingService.selectByUserId(pageHelper));
+    }
+    @RequestMapping(value = "/selectProcessed", method = RequestMethod.POST)
+    @ApiOperation(value = "查询已经处理过的会议信息", notes = "查询已经处理过的会议信息")
+    public ResultData selectMeetingProcessed(  PageHelper<CloudMeeting> pageHelper) {
+        return this.success(cloudMeetingService.selectMeetingProcessed(pageHelper));
+    }
+    @RequestMapping(value = "/selectUntreated", method = RequestMethod.POST)
+    @ApiOperation(value = "查询未处理的会议信息", notes = "查询未处理的会议信息")
+    public ResultData selectMeetingUntreated(  PageHelper<CloudMeeting> pageHelper) {
+        return this.success(cloudMeetingService.selectMeetingUntreated(pageHelper));
     }
 }

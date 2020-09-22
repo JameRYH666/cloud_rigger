@@ -3,11 +3,14 @@ package com.jeeadmin.api;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 
+import com.jeeadmin.entity.CloudActivity;
 import com.jeeadmin.entity.CloudMeeting;
 import com.jeeadmin.vo.meeting.CloudMeetingDetailVo;
 import com.jeeadmin.vo.meeting.CloudMeetingVo;
 import com.jeerigger.frame.base.service.BaseService;
 import com.jeerigger.frame.page.PageHelper;
+
+import java.util.List;
 
 
 /**
@@ -93,8 +96,21 @@ public interface ICloudMeetingService extends BaseService<CloudMeeting> {
 
     boolean updateStatus(CloudMeeting cloudMeeting);
 
+    Page<CloudMeeting> selectByUserId(PageHelper<CloudMeeting> pageHelper);
 
+    /**
+     * 根据用户id查询已经处理的会议
+     * @param pageHelper
+     * @return
+     */
+    Page<CloudMeeting> selectMeetingProcessed(PageHelper<CloudMeeting> pageHelper);
 
+    /**
+     * 根据用户id查询未处理的会议
+     * @param pageHelper
+     * @return
+     */
+    Page<CloudMeeting> selectMeetingUntreated(PageHelper<CloudMeeting> pageHelper);
 
 
 }

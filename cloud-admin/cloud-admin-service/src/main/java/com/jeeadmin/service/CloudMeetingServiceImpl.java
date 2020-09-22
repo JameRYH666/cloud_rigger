@@ -52,6 +52,7 @@ public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper,
     private ICloudMeetingActiveTypeService cloudMeetingActiveTypeServiceImpl;
     @Autowired
     private ICloudExamineService cloudExamineService;
+
     /**
      * @param pageHelper
      * @Author: Sgz
@@ -60,7 +61,8 @@ public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper,
      * @Return: com.baomidou.mybatisplus.extension.plugins.pagination.Page<com.jeeadmin.entity.CloudMeeting>
      * @Throws:
      * @Description: 查询所有的会议信息，并进行分页处理
-     * 根据多条件进行查询，并且还包含根据用户id的不同查询本人所发起的会议
+     * 根据多条件进行查询
+     *
      */
 
     @Override
@@ -81,9 +83,7 @@ public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper,
             if (StringUtil.isNotEmpty(meetingData.getTypeCode())){
                 queryWrapper.lambda().eq(CloudMeeting::getTypeCode,meetingData.getTypeCode());
             }
-            if (Objects.nonNull(meetingData.getCreateUser())){
-                queryWrapper.lambda().eq(CloudMeeting::getCreateUser,SecurityUtil.getUserId());
-            }
+
             queryWrapper.lambda().ne(CloudMeeting::getMeetingStatus,MeetingAndActivityEnum.REMOVE.getCode());
         }
 
@@ -339,6 +339,59 @@ public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper,
         throw new ValidateException("没有获取到该会议的数据");
     }
 
+    @Override
+    public Page<CloudMeeting> selectByUserId(PageHelper<CloudMeeting> pageHelper) {
+
+        Page<CloudMeeting> page = new Page<>(pageHelper.getCurrent(), pageHelper.getSize());
+        Long userId = SecurityUtil.getUserId();
+        List<CloudMeeting> cloudMeetingList = cloudMeetingMapper.selectByUserId(userId);
+        if (null == cloudMeetingList || "".equals(cloudMeetingList)){
+            throw new ValidateException("当前用户没有发起会议");
+        }
+        page.setRecords(cloudMeetingList);
+        return page;
+
+
+    }
+
+    /**
+     * 通过用户id查询该用户处理过的会议
+     * @param pageHelper
+     * @return
+     */
+    @Override
+    public Page<CloudMeeting> selectMeetingProcessed(PageHelper<CloudMeeting> pageHelper) {
+        Page<CloudMeeting> page = new Page<>(pageHelper.getCurrent(), pageHelper.getSize());
+        Long userId = SecurityUtil.getUserId();
+        List<CloudMeeting> cloudMeetingList = cloudMeetingMapper.selectMeetingProcessed(userId);
+        if (null == cloudMeetingList || "".equals(cloudMeetingList)){
+            throw new ValidateException("当前用户还没有处理会议");
+        }
+        page.setRecords(cloudMeetingList);
+        return page;
+
+
+    }
+
+    /**
+     * 通过用户id查询该用户没有处理过的会议
+     * @param pageHelper
+     * @return
+     */
+
+    @Override
+    public Page<CloudMeeting> selectMeetingUntreated(PageHelper<CloudMeeting> pageHelper) {
+        Page<CloudMeeting> page = new Page<>(pageHelper.getCurrent(), pageHelper.getSize());
+        Long userId = SecurityUtil.getUserId();
+        List<CloudMeeting> cloudMeetingList = cloudMeetingMapper.selectMeetingUntreated(userId);
+        if (null == cloudMeetingList || "".equals(cloudMeetingList)){
+            throw new ValidateException("当前用户没有未处理的会议");
+        }
+        page.setRecords(cloudMeetingList);
+        return page;
+
+
+    }
 
 
 }
