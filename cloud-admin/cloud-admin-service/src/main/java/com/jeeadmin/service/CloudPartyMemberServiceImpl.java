@@ -37,6 +37,7 @@ import java.util.Objects;
  **/
 @Service
 public class CloudPartyMemberServiceImpl extends BaseServiceImpl<CloudPartyMemberMapper, CloudPartyMember> implements ICloudPartyMemberService {
+
     @Autowired
     private ICloudOrgService sysOrgService;
     @Autowired
@@ -46,7 +47,25 @@ public class CloudPartyMemberServiceImpl extends BaseServiceImpl<CloudPartyMembe
     @Autowired
     private ICloudUserRoleService sysOrgAdminRoleService;
     @Autowired
+    private CloudPartyMemberMapper cloudPartyMemberMapper;
+    @Autowired
     private SnowFlake snowFlake;
+
+
+
+
+    /**
+     * 根据党支部的id获取党支部的人数
+     * @param orgId
+     * @return
+     */
+    @Override
+    public Integer selectCountByOrgId(Long orgId){
+        if (Objects.isNull(orgId)){
+            throw new  ValidateException("党组织id不能为空");
+        }
+        return cloudPartyMemberMapper.selectCountByOrgId(orgId);
+    }
 
     /**
      * @Author: Sgz
@@ -268,11 +287,11 @@ public class CloudPartyMemberServiceImpl extends BaseServiceImpl<CloudPartyMembe
      * @return
      */
     @Override
-    public CloudPartyMemberVo selectPartyMemberByUserId() {
+    public CloudPartyMemberVo selectPartyMemberByUserId(Long userId) {
         QueryWrapper<CloudPartyMember> queryWrapper = new QueryWrapper<>();
         CloudPartyMemberVo cloudPartyMemberVo = new CloudPartyMemberVo();
-        // 从security中查询userId
-        Long userId = SecurityUtil.getUserId();
+        //  todo 从security中查询userId
+
 
         if (Objects.isNull(userId)){
             throw new ValidateException("用户ID不能为空");

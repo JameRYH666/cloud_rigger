@@ -35,6 +35,13 @@ public interface ICloudPartyMemberService extends BaseService<CloudPartyMember> 
     CloudPartyMember getPartyMemberByUserId(Long userId);
 
     /**
+     * 根据党支部的id获取党支部的人数
+     * @param orgId
+     * @return
+     */
+    Integer selectCountByOrgId(Long orgId);
+
+    /**
      * 查看角色已分配用户
      *
      * @param roleId 暂时不用
@@ -116,7 +123,7 @@ public interface ICloudPartyMemberService extends BaseService<CloudPartyMember> 
      * @param
      * @return
      */
-    CloudPartyMemberVo selectPartyMemberByUserId();
+    CloudPartyMemberVo selectPartyMemberByUserId(Long userId);
 
 
 }

@@ -54,12 +54,12 @@ public class CloudMeetingController extends BaseController {
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    @ApiOperation(value = "删除会议信息数据", notes = "删除会议信息数据")
+    @ApiOperation(value = "逻辑删除会议信息数据", notes = "逻辑删除会议信息数据")
     public ResultData updateStatus( @SingleRequestBody(value = "id") Long id) {
         if (cloudMeetingService.deleteMeeting(id)) {
             return this.success();
         } else {
-            return this.failed(ResultCodeEnum.ERROR_UPDATE_FAIL, "删除会议信息数据数据失败！");
+            return this.failed(ResultCodeEnum.ERROR_DELETE_FAIL, "删除会议信息数据数据失败！");
         }
     }
 

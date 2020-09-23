@@ -10,6 +10,7 @@ import com.jeeadmin.entity.*;
 
 import com.jeeadmin.mapper.CloudMeetingMapper;
 import com.jeeadmin.vo.meeting.CloudMeetingDetailVo;
+import com.jeeadmin.vo.meeting.CloudMeetingPartyMemberVo;
 import com.jeeadmin.vo.meeting.CloudMeetingVo;
 import com.jeerigger.core.common.core.SnowFlake;
 import com.jeerigger.frame.base.service.impl.BaseServiceImpl;
@@ -112,15 +113,28 @@ public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper,
      */
     @Override
     public CloudMeetingDetailVo selectOneMeeting(Long id) {
+        QueryWrapper<CloudMeeting> queryWrapper = new QueryWrapper<>();
+        CloudMeetingDetailVo meeting = new CloudMeetingDetailVo();
+
         if(Objects.isNull(id)){
             throw new ValidateException("会议的Id不能为空");
         }
-        // 查询会议详情信息(没有参与人和附件信息)
-        CloudMeetingDetailVo meeting = cloudMeetingMapper.selectMeetingDetail(id);
+        // 通过会议id获取到会议信息
+        queryWrapper.lambda().eq(CloudMeeting::getId,id);
+        CloudMeeting cloudMeeting = this.getOne(queryWrapper);
+        if (Objects.nonNull(cloudMeeting)){
+            meeting.setCloudMeeting(cloudMeeting);
+        }
+
         // 查询该次会议参与人(所有的参与人信息中会议的id是一样的)
-        List<String> memberNameList = cloudMeetingMapper.selectJoinMembersByMeetingId(id);
-        if(memberNameList.size() > 0) {
-            meeting.setJoinMemberName(memberNameList);
+        List<CloudMeetingPartyMemberVo> memberList = cloudMeetingMapper.selectJoinMembersByMeetingId(id);
+        if(memberList.size() > 0) {
+            meeting.setJoinMember(memberList);
+        }
+        // 查询会议发起人信息
+        List<CloudMeetingPartyMemberVo> cloudMeetingPromoters = cloudMeetingMapper.selectMeetingPromotersByMeetingId(id);
+        if (null != cloudMeetingPromoters && cloudMeetingPromoters.size()>0){
+            meeting.setMeetingSponsor(cloudMeetingPromoters);
         }
         // 查询该次会议的附件(所有的附件信息中会议的id是一样的)
         List<CloudEnclosure> cloudEnclosureList = cloudMeetingMapper.selectEnclosuresByMeetingId(id);
@@ -273,7 +287,7 @@ public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper,
      * @Return: boolean
      * @Throws:
      * @Description:
-     *  新增会议信息 同时需要增加参会人员和附件记录
+     * todo  新增会议信息 同时需要增加参会人员和附件记录
      */
     @Override
     public boolean saveOne(CloudMeeting cloudMeeting) {
@@ -341,6 +355,7 @@ public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper,
 
         Page<CloudMeeting> page = new Page<>(pageHelper.getCurrent(), pageHelper.getSize());
         Long userId = SecurityUtil.getUserId();
+        userId=1L;
         List<CloudMeeting> cloudMeetingList = cloudMeetingMapper.selectByUserId(userId);
         if (null == cloudMeetingList || "".equals(cloudMeetingList)){
             throw new ValidateException("当前用户没有发起会议");
@@ -360,6 +375,7 @@ public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper,
     public Page<CloudMeeting> selectMeetingProcessed(PageHelper<CloudMeeting> pageHelper) {
         Page<CloudMeeting> page = new Page<>(pageHelper.getCurrent(), pageHelper.getSize());
         Long userId = SecurityUtil.getUserId();
+        userId=1L;
         List<CloudMeeting> cloudMeetingList = cloudMeetingMapper.selectMeetingProcessed(userId);
         if (null == cloudMeetingList || "".equals(cloudMeetingList)){
             throw new ValidateException("当前用户还没有处理会议");
@@ -379,13 +395,21 @@ public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper,
     @Override
     public Page<CloudMeeting> selectMeetingUntreated(PageHelper<CloudMeeting> pageHelper) {
         Page<CloudMeeting> page = new Page<>(pageHelper.getCurrent(), pageHelper.getSize());
+
+
+
         Long userId = SecurityUtil.getUserId();
+        userId=1L;
         List<CloudMeeting> cloudMeetingList = cloudMeetingMapper.selectMeetingUntreated(userId);
         if (null == cloudMeetingList || "".equals(cloudMeetingList)){
             throw new ValidateException("当前用户没有未处理的会议");
         }
+
         page.setRecords(cloudMeetingList);
         return page;
+
+
+
 
 
     }

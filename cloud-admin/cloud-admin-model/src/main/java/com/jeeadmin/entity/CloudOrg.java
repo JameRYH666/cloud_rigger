@@ -67,9 +67,10 @@ public class CloudOrg extends BaseTreeModel<CloudOrg> {
 
     /**
      * 组织机构负责人(党员id)
+     * @Size(max = 64,message = "组织机构负责人最大长度为64！")
      */
-    @Size(max = 64,message = "组织机构负责人最大长度为64！")
-    private Long orgPartyMemberId;
+
+    private String orgLeader;
 
     /**
      * 显示顺序

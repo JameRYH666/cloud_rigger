@@ -28,6 +28,14 @@ public interface ICloudOrgService extends BaseTreeService<CloudOrg> {
      * @return
      */
     List<CloudOrg> selectOrgList(CloudOrg sysOrg);
+
+    /**
+     * 查询组织机构列表
+     *
+     * @return
+     */
+    List<CloudOrg> selectAll();
+
     /**
      * @Author: Sgz
      * @Time: 9:37 2020/9/10

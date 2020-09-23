@@ -89,6 +89,17 @@ public class CloudOrgServiceImpl extends BaseTreeServiceImpl<CloudOrgMapper, Clo
         return this.getListOrg(wrapper);
     }
 
+    @Override
+    public List<CloudOrg> selectAll() {
+        QueryWrapper<CloudOrg> wrapper = new QueryWrapper<CloudOrg>();
+        wrapper.lambda().orderByAsc(CloudOrg::getParentId, CloudOrg::getOrgSort);
+        List<CloudOrg> listOrg = this.getListOrg(wrapper);
+        if (Objects.nonNull(listOrg) && listOrg.size()>0){
+            return listOrg;
+        }
+        throw new ValidateException("没有获取到数据信息");
+    }
+
     /**
      * @param orgName
      * @Author: Sgz

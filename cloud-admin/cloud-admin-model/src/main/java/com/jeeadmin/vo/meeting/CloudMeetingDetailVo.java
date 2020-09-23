@@ -19,7 +19,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 public class CloudMeetingDetailVo extends CloudMeeting {
-
+    private CloudMeeting cloudMeeting;
     private String formName;
     private String typeName;
     /**
@@ -30,7 +30,8 @@ public class CloudMeetingDetailVo extends CloudMeeting {
     /**
      * 参会人员名称
      */
-    private List<String> joinMemberName;
+    private List<CloudMeetingPartyMemberVo> joinMember;
+    private List<CloudMeetingPartyMemberVo> meetingSponsor;
     /**
      * 附件信息
      */

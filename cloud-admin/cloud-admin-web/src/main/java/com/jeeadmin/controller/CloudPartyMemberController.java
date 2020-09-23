@@ -66,4 +66,16 @@ public class CloudPartyMemberController extends BaseController {
         return this.success(cloudPartyMemberService.deleteUser(cloudPartyMember));
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/selectOne", method = RequestMethod.POST)
+    @ApiOperation(value = "根据党员id获取党员详细信息列表", notes = "根据党员id获取党员详细信息列表")
+    public ResultData getPartyMemberByUserId(@SingleRequestBody(value = "id") Long id){
+        return this.success(cloudPartyMemberService.selectPartyMemberByUserId(id));
+    }
+    @ResponseBody
+    @RequestMapping(value = "/selectCount", method = RequestMethod.POST)
+    @ApiOperation(value = "根据党支部id获取党员数量", notes = "根据党支部id获取党员数量")
+    public ResultData selectCountByOrgId(@SingleRequestBody(value = "orgId") Long orgId){
+        return this.success(cloudPartyMemberService.selectCountByOrgId(orgId));
+    }
 }

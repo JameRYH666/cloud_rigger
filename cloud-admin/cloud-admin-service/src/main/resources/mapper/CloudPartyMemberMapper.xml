@@ -19,7 +19,7 @@
     <result column="model_code" property="modelCode" jdbcType="VARCHAR" />
     <result column="member_progress" property="memberProgress" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
-    <result column="member_status" property="memberStatus" jdbcType="CHAR" />
+    <result column="memeber_status" property="memeberStatus" jdbcType="CHAR" />
     <result column="create_user" property="createUser" jdbcType="VARCHAR" />
     <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
     <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
@@ -41,7 +41,15 @@
 
   <!-- 通用查询结果列 -->
   <sql id="Base_Column_List">
-    id, member_name, enclosure_id, sex_code, member_age, job_code, member_phone_number, member_desc, org_id, member_enter_time, party_time, model_code, member_progress, remark, member_status, create_user, create_date, update_user, update_date, member_email,
+    id, member_name, enclosure_id, sex_code, member_age, job_code, member_phone_number, member_desc, org_id, member_enter_time, party_time, model_code, member_progress, remark, memeber_status, create_user, create_date, update_user, update_date, member_email,
     member_card_type_code,member_card_number,member_nation_code,member_native_place,education_code,member_address,type_code,user_id,member_enterprise_job,member_join_party_job,member_birthday
   </sql>
+    <select id="selectCountByOrgId" resultType="java.lang.Integer">
+      SELECT
+	count( id )
+FROM
+	cloud_party_member
+WHERE
+	org_id = #{orgId}
+    </select>
 </mapper>

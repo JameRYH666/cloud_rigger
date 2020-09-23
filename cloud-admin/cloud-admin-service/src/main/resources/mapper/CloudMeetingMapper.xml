@@ -75,15 +75,16 @@ WHERE
             AND cm.meeting_status != 2
     </select>
 
-    <select id="selectJoinMembersByMeetingId" parameterType="long" resultType="string">
+    <select id="selectJoinMembersByMeetingId" parameterType="long" resultType="com.jeeadmin.vo.meeting.CloudMeetingPartyMemberVo">
         SELECT
-            cpm.member_name joinMemberName
+            cpm.*,cmpm.*
         FROM
             cloud_party_member cpm
             INNER JOIN cloud_meeting_party_member cmpm ON cpm.id = cmpm.party_member_id
         WHERE
             cmpm.promoter_flag = 2
-            AND cmpm.meeting_id = #{id}
+            AND
+             cmpm.meeting_id = #{id}
     </select>
 
     <select id="selectEnclosuresByMeetingId" parameterType="long" resultType="com.jeeadmin.entity.CloudEnclosure">
@@ -130,6 +131,19 @@ WHERE
         WHERE
             cu.id = #{id}
             AND cp.meeting_status = 4
+    </select>
+    <select id="selectMeetingPromotersByMeetingId"
+            resultType="com.jeeadmin.vo.meeting.CloudMeetingPartyMemberVo">
+
+         SELECT
+            cpm.*,cmpm.*
+        FROM
+            cloud_party_member cpm
+            INNER JOIN cloud_meeting_party_member cmpm ON cpm.id = cmpm.party_member_id
+        WHERE
+            cmpm.promoter_flag = 1
+            AND
+             cmpm.meeting_id = #{id}
     </select>
 
 

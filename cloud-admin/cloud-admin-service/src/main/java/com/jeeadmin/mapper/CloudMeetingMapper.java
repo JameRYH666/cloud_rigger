@@ -4,7 +4,9 @@ import com.jeeadmin.entity.CloudActivity;
 import com.jeeadmin.entity.CloudEnclosure;
 import com.jeeadmin.entity.CloudMeeting;
 import com.jeeadmin.vo.meeting.CloudMeetingDetailVo;
+import com.jeeadmin.vo.meeting.CloudMeetingPartyMemberVo;
 import com.jeeadmin.vo.meeting.CloudMeetingVo;
+import com.jeeadmin.vo.member.CloudPartyMemberVo;
 import com.jeerigger.frame.base.mapper.BaseMapper;
 
 import java.util.List;
@@ -49,7 +51,9 @@ public interface CloudMeetingMapper extends BaseMapper<CloudMeeting> {
      * @return java.util.List<java.lang.String>
      * @throws
     **/
-    List<String> selectJoinMembersByMeetingId(Long id);
+    List<CloudMeetingPartyMemberVo> selectJoinMembersByMeetingId(Long id);
+
+    List<CloudMeetingPartyMemberVo> selectMeetingPromotersByMeetingId(Long id);
 
     /**
      * @author Seven Lee
