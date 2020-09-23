@@ -56,8 +56,8 @@ public class CloudMeetingRecordServiceImpl extends BaseServiceImpl<CloudMeetingR
             if (StringUtil.isNotEmpty(cloudMeetingData.getRecordTitle())){
                 queryWrapper.lambda().like(CloudMeetingRecord::getRecordTitle,cloudMeetingData.getRecordTitle());
             }
-            queryWrapper.lambda().ne(CloudMeetingRecord::getRecordStatus,MeetingAndActivityEnum.REMOVE.getCode());
         }
+        queryWrapper.lambda().ne(CloudMeetingRecord::getRecordStatus,MeetingAndActivityEnum.REMOVE.getCode());
         queryWrapper.lambda().orderByAsc(CloudMeetingRecord::getRecordTitle);
         this.page(page,queryWrapper);
         return page;

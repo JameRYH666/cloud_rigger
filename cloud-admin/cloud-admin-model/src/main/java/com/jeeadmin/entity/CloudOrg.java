@@ -105,4 +105,17 @@ public class CloudOrg extends BaseTreeModel<CloudOrg> {
     )
     @TableField(exist = false)
     private CloudOrg  parentOrg;
+
+    /**
+     *      组织机构电话
+     */
+    private String orgTelNumber;
+
+    /**
+     *  组织机构地址
+     */
+    private String orgAddress;
+
+
+
 }

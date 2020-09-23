@@ -69,7 +69,7 @@ public class CloudOrgServiceImpl extends BaseTreeServiceImpl<CloudOrgMapper, Clo
      */
     @Override
     public List<CloudOrg> selectOrgList(CloudOrg sysOrg) {
-        QueryWrapper<CloudOrg> wrapper = new QueryWrapper<CloudOrg>();
+        QueryWrapper<CloudOrg> wrapper = new QueryWrapper<>();
         if (StringUtil.isNotEmpty(sysOrg.getOrgCode())) {
             wrapper.lambda().eq(CloudOrg::getOrgCode, sysOrg.getOrgCode());
         }

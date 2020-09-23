@@ -33,7 +33,7 @@ public class CloudPartyMemberController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ApiOperation(value = "获取党员信息列表", notes = "获取党员信息列表")
-    public ResultData selectAllPartyMembers(@RequestBody PageHelper<PartyMemberVo> pageHelper ){
+    public ResultData selectAllPartyMembers(PageHelper<PartyMemberVo> pageHelper ){
         Page<CloudPartyMember> cloudPartyMemberPage = cloudPartyMemberService.selectPage(pageHelper);
         return this.success(cloudPartyMemberPage);
     }

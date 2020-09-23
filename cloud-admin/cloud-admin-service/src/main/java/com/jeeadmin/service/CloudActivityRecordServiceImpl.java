@@ -66,15 +66,15 @@ public class CloudActivityRecordServiceImpl extends BaseServiceImpl<CloudActivit
     */
     @Override
     public Page<CloudActivityRecord> selectData(PageHelper<CloudActivityRecord> pageHelper) {
-        Page<CloudActivityRecord> page = new Page<CloudActivityRecord>(pageHelper.getCurrent(), pageHelper.getSize());
-        QueryWrapper<CloudActivityRecord> queryWrapper = new QueryWrapper<CloudActivityRecord>();
+        Page<CloudActivityRecord> page = new Page<>(pageHelper.getCurrent(), pageHelper.getSize());
+        QueryWrapper<CloudActivityRecord> queryWrapper = new QueryWrapper<>();
         if(pageHelper.getData() != null){
             CloudActivityRecord activityRecordData = pageHelper.getData();
             if (StringUtil.isNotEmpty(activityRecordData.getRecordTitle())){
                 queryWrapper.lambda().like(CloudActivityRecord::getRecordTitle,activityRecordData.getRecordTitle());
             }
-           queryWrapper.lambda().ne(CloudActivityRecord::getRecordStatus, MeetingAndActivityEnum.REMOVE.getCode());
         }
+        queryWrapper.lambda().ne(CloudActivityRecord::getRecordStatus, MeetingAndActivityEnum.REMOVE.getCode());
         queryWrapper.lambda().orderByAsc(CloudActivityRecord::getCreateDate);
         this.page(page,queryWrapper);
         return page;

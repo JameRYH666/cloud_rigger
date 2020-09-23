@@ -42,7 +42,6 @@ public class SysOrgController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/selectAll", method = RequestMethod.POST)
     @ApiOperation(value = "查询组织机构列表", notes = "查询组织机构列表")
-
     public ResultData selectAll(@RequestBody CloudOrg cloudOrg) {
         // todo  这块应该是条件查询
         return this.success(sysOrgService.selectOrgList(cloudOrg));

@@ -1,6 +1,7 @@
 package com.jeeadmin.vo.member;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
@@ -11,6 +12,7 @@ import lombok.experimental.Accessors;
  * @date: 2020-09-2020/9/12 13:57
  */
 @Data
+@EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 public class PartyMemberVo {
     /**

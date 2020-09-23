@@ -41,7 +41,7 @@ public class CloudMenuServiceImpl extends BaseTreeServiceImpl<CloudMenuMapper, C
     public List<CloudMenu> selectChildMenu(QueryMenuVo queryMenuVo) {
         QueryWrapper<CloudMenu> wrapper = new QueryWrapper<>();
         if (Objects.nonNull(queryMenuVo.getMenuId())) {
-            queryMenuVo.setMenuId(0L);
+            queryMenuVo.setMenuId(queryMenuVo.getMenuId());
         }
         wrapper.lambda().eq(CloudMenu::getParentId, queryMenuVo.getMenuId());
         if (StringUtil.isNotEmpty(queryMenuVo.getSysCode())) {
@@ -101,7 +101,7 @@ public class CloudMenuServiceImpl extends BaseTreeServiceImpl<CloudMenuMapper, C
 
     @Override
     public boolean saveMenuSort(List<SaveMenuSortVo> menuSortVoList) {
-        List<CloudMenu> menuList = new ArrayList<CloudMenu>();
+        List<CloudMenu> menuList = new ArrayList<>();
         for (SaveMenuSortVo menuSortVo : menuSortVoList) {
             CloudMenu sysMenu = new CloudMenu();
             sysMenu.setId(menuSortVo.getMenuId());

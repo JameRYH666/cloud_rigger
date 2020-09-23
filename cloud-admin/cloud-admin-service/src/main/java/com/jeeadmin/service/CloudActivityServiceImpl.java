@@ -66,7 +66,7 @@ public class CloudActivityServiceImpl extends BaseServiceImpl<CloudActivityMappe
     @Override
     public Page<CloudActivity> selectPage(PageHelper<CloudActivity> pageHelper) {
         Page<CloudActivity> page = new Page<>(pageHelper.getCurrent(), pageHelper.getSize());
-        QueryWrapper<CloudActivity> queryWrapper = new QueryWrapper<CloudActivity>();
+        QueryWrapper<CloudActivity> queryWrapper = new QueryWrapper<>();
         if (pageHelper.getData() != null) {
             CloudActivity data = pageHelper.getData();
             // 根据活动地址进行条件查询
@@ -81,8 +81,8 @@ public class CloudActivityServiceImpl extends BaseServiceImpl<CloudActivityMappe
             if (StringUtil.isNotEmpty(data.getActivityCode())) {
                 queryWrapper.lambda().eq(CloudActivity::getActivityCode, data.getActivityCode());
             }
-            queryWrapper.lambda().ne(CloudActivity::getActivityStatus,MeetingAndActivityEnum.REMOVE.getCode());
         }
+        queryWrapper.lambda().ne(CloudActivity::getActivityStatus,MeetingAndActivityEnum.REMOVE.getCode());
         queryWrapper.lambda().orderByAsc(CloudActivity::getCreateDate);
         this.page(page, queryWrapper);
         page.getRecords().forEach(cloudActivity -> {

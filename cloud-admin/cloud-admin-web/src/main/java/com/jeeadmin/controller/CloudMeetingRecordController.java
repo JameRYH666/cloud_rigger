@@ -30,7 +30,7 @@ public class CloudMeetingRecordController extends BaseController {
 
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ApiOperation(value = "会议记录信息数据列表", notes = "会议记录信息数据列表")
-    public ResultData list(@RequestBody PageHelper<CloudMeetingRecord> pageHelper){
+    public ResultData list(PageHelper<CloudMeetingRecord> pageHelper){
         return this.success(cloudMeetingRecordService.selectData(pageHelper));
     }
 

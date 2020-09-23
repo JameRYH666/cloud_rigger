@@ -32,7 +32,7 @@ public class CloudActivityRecordController extends BaseController {
 
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ApiOperation(value = "活动记录信息数据列表", notes = "活动记录信息数据列表")
-    public ResultData list(@RequestBody PageHelper<CloudActivityRecord> pageHelper){
+    public ResultData list(PageHelper<CloudActivityRecord> pageHelper){
         return this.success(cloudActivityRecordService.selectData(pageHelper));
     }
 

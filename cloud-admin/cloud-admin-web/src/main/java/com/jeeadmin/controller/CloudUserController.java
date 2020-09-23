@@ -158,8 +158,11 @@ public class CloudUserController extends BaseController {
 
     @ResponseBody
     @RequestMapping(value = "/sendEmailCode",method = RequestMethod.POST)
+    @ApiOperation(value = "发送邮箱验证码",notes = "发送邮箱验证码")
     public ResultData sendEmailCode(@RequestParam(value = "mail") String mail){
         sendEmailService.sendEmailCode(mail,"邮箱验证码");
         return this.success();
     }
+
+
 }

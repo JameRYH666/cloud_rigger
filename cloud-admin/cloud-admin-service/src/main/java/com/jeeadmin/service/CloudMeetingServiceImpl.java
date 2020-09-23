@@ -83,10 +83,8 @@ public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper,
             if (StringUtil.isNotEmpty(meetingData.getTypeCode())){
                 queryWrapper.lambda().eq(CloudMeeting::getTypeCode,meetingData.getTypeCode());
             }
-
-            queryWrapper.lambda().ne(CloudMeeting::getMeetingStatus,MeetingAndActivityEnum.REMOVE.getCode());
         }
-
+        queryWrapper.lambda().ne(CloudMeeting::getMeetingStatus,MeetingAndActivityEnum.REMOVE.getCode());
         queryWrapper.lambda().orderByAsc(CloudMeeting::getMeetingTime);
         // 查询所有符合条件的会议分页信息
         IPage<CloudMeeting> meetingPage = this.page(page, queryWrapper);
@@ -110,8 +108,7 @@ public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper,
      * @Return: com.jeeadmin.entity.CloudMeeting
      * @Throws:
      * @Description:
-     *  根据会议id查询会议的详细信息
-     *
+     *          根据会议id查询会议的详细信息
      */
     @Override
     public CloudMeetingDetailVo selectOneMeeting(Long id) {
