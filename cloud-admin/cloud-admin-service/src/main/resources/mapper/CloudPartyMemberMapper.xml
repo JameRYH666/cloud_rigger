@@ -50,6 +50,8 @@
 FROM
 	cloud_party_member
 WHERE
+    memeber_status = 1
+    AND
 	org_id = #{orgId}
     </select>
 </mapper>

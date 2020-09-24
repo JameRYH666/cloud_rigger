@@ -1,7 +1,10 @@
 package com.jeeadmin.api;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jeeadmin.entity.CloudOrg;
+import com.jeeadmin.vo.org.CloudOrgVo;
 import com.jeerigger.frame.base.service.BaseTreeService;
+import com.jeerigger.frame.page.PageHelper;
 
 import java.util.List;
 
@@ -34,7 +37,7 @@ public interface ICloudOrgService extends BaseTreeService<CloudOrg> {
      *
      * @return
      */
-    List<CloudOrg> selectAll();
+    Page<CloudOrgVo> selectAll(PageHelper<CloudOrgVo> pageHelper);
 
     /**
      * @Author: Sgz

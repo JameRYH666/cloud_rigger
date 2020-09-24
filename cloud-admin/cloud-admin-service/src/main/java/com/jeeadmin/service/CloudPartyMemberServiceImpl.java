@@ -103,7 +103,8 @@ public class CloudPartyMemberServiceImpl extends BaseServiceImpl<CloudPartyMembe
         this.page(page, queryWrapper);
         for (CloudPartyMember sysUser : page.getRecords()) {
             if (sysUser.getOrgId() != null) {
-                sysUser.setOrgName(CloudOrgUtil.getOrgName(sysUser.getOrgId()));
+                // todo 调用了core中的util所以才会报错
+               // sysUser.setOrgName(CloudOrgUtil.getOrgName(sysUser.getOrgId()));
             }
         }
         return page;

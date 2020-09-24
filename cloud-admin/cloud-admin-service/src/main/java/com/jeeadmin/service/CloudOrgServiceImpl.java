@@ -3,6 +3,8 @@ package com.jeeadmin.service;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jeeadmin.api.ICloudOrgService;
 import com.jeeadmin.api.ICloudPartyMemberService;
 import com.jeeadmin.api.ICloudUserOrgService;
@@ -10,6 +12,7 @@ import com.jeeadmin.entity.CloudOrg;
 import com.jeeadmin.entity.CloudPartyMember;
 import com.jeeadmin.entity.CloudUserOrg;
 import com.jeeadmin.mapper.CloudOrgMapper;
+import com.jeeadmin.vo.org.CloudOrgVo;
 import com.jeerigger.core.common.core.SnowFlake;
 import com.jeerigger.core.module.sys.SysConstant;
 import com.jeerigger.core.module.sys.util.SysDictUtil;
@@ -18,12 +21,15 @@ import com.jeerigger.frame.base.service.impl.BaseTreeServiceImpl;
 import com.jeerigger.frame.enums.StatusEnum;
 import com.jeerigger.frame.exception.FrameException;
 import com.jeerigger.frame.exception.ValidateException;
+import com.jeerigger.frame.page.PageHelper;
 import com.jeerigger.frame.support.validate.ValidateUtil;
 import com.jeerigger.frame.util.StringUtil;
 import com.jeerigger.security.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -89,15 +95,52 @@ public class CloudOrgServiceImpl extends BaseTreeServiceImpl<CloudOrgMapper, Clo
         return this.getListOrg(wrapper);
     }
 
+    /**
+     * 查询所有的党组织机构详情，并进行分页处理
+     * TODO 反序列化异常
+     * @param pageHelper
+     * @return
+     */
     @Override
-    public List<CloudOrg> selectAll() {
+    public Page<CloudOrgVo> selectAll(PageHelper<CloudOrgVo> pageHelper) {
+        Page<CloudOrg> page = new Page<>(pageHelper.getCurrent(),pageHelper.getSize());
+
+
         QueryWrapper<CloudOrg> wrapper = new QueryWrapper<CloudOrg>();
-        wrapper.lambda().orderByAsc(CloudOrg::getParentId, CloudOrg::getOrgSort);
-        List<CloudOrg> listOrg = this.getListOrg(wrapper);
-        if (Objects.nonNull(listOrg) && listOrg.size()>0){
-            return listOrg;
-        }
-        throw new ValidateException("没有获取到数据信息");
+        ArrayList<CloudOrgVo> cloudOrgVos = new ArrayList<>();
+
+            wrapper.lambda().ne(CloudOrg::getOrgStatus,StatusEnum.DISABLE.getCode());
+            wrapper.lambda().orderByAsc(CloudOrg::getParentId);
+        IPage<CloudOrg> cloudOrgIPage = this.page(page, wrapper);
+        List<CloudOrg> listOrg = cloudOrgIPage.getRecords();
+
+            if (Objects.isNull(listOrg)) {
+                throw new ValidateException("没有获取到数据信息");
+            }
+            for (CloudOrg cloudOrg : listOrg) {
+                Integer count = sysUserService.selectCountByOrgId(cloudOrg.getId());
+                CloudPartyMember cloudPartyMember = sysUserService.getById(cloudOrg.getOrgPartyMemberId());
+                CloudOrgVo cloudOrgVo = new CloudOrgVo();
+                if (Objects.nonNull(cloudPartyMember)){
+
+                    cloudOrgVo.setCloudOrg(cloudOrg)
+                            .setPhoneNumer(cloudPartyMember.getMemberPhoneNumber())
+                            .setOrgLeader(cloudPartyMember.getMemberName())
+                            .setCount(count);
+                }
+
+                cloudOrgVo.setCloudOrg(cloudOrg)
+                        .setCount(count);
+               cloudOrgVos.add(cloudOrgVo);
+
+
+            }
+          Page<CloudOrgVo> cloudOrgPageVo = new Page<>(pageHelper.getCurrent(),pageHelper.getSize());
+
+
+            return cloudOrgPageVo.setRecords(cloudOrgVos);
+
+
     }
 
     /**

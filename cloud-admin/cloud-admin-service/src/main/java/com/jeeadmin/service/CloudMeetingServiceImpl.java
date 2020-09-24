@@ -136,7 +136,10 @@ public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper,
         if (null != cloudMeetingPromoters && cloudMeetingPromoters.size()>0){
             meeting.setMeetingSponsor(cloudMeetingPromoters);
         }
-        // 查询该次会议的附件(所有的附件信息中会议的id是一样的)
+        // 查询该次会议的附件(所有的附件信息中会
+        //
+        //
+        // 议的id是一样的)
         List<CloudEnclosure> cloudEnclosureList = cloudMeetingMapper.selectEnclosuresByMeetingId(id);
         if(cloudEnclosureList.size() > 0) {
             meeting.setEnclosureList(cloudEnclosureList);
@@ -188,6 +191,7 @@ public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper,
             cloudExamine.setForeignId(cloudMeeting.getId());
             cloudExamine.setExamineTypeCode("3");
             cloudExamineService.saveExamine(cloudExamine);
+
             // 保存会议信息
             if (this.saveOne(cloudMeeting)) {
 
@@ -287,7 +291,7 @@ public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper,
      * @Return: boolean
      * @Throws:
      * @Description:
-     * todo  新增会议信息 同时需要增加参会人员和附件记录
+     * todo 已经完成
      */
     @Override
     public boolean saveOne(CloudMeeting cloudMeeting) {

@@ -10,7 +10,7 @@
     <result column="org_code" property="orgCode" jdbcType="VARCHAR" />
     <result column="org_name" property="orgName" jdbcType="VARCHAR" />
     <result column="org_short_name" property="orgShortName" jdbcType="VARCHAR" />
-    <result column="org_leader" property="orgLeader" jdbcType="VARCHAR" />
+    <result column="org_party_member_id" property="orgPartyMemberId" jdbcType="VARCHAR" />
     <result column="org_sort" property="orgSort" jdbcType="INTEGER" />
     <result column="org_status" property="orgStatus" jdbcType="CHAR" />
     <result column="leaf_flag" property="leafFlag" jdbcType="CHAR" />
@@ -28,7 +28,33 @@
 
   <!-- 通用查询结果列 -->
   <sql id="Base_Column_List">
-    id, parent_id, org_code, org_name, org_short_name, org_leader,  org_sort, org_status, leaf_flag, remark, top_level, create_user, create_date, update_user, update_date,org_type_code,
+    id, parent_id, org_code, org_name, org_short_name, org_party_member_id,  org_sort, org_status, leaf_flag, remark, top_level, create_user, create_date, update_user, update_date,org_type_code,
     org_tel_number,org_address
   </sql>
+  <select id="selectAllOrgDetail" resultType="com.jeeadmin.vo.org.CloudOrgVo">
+    SELECT
+		co.id,
+	co.parent_id,
+	co.org_code,
+	co.org_name,
+	co.org_short_name,
+	co.org_party_member_id,
+	co.org_sort,
+	co.org_status,
+	co.leaf_flag,
+	co.remark,
+	co.top_level,
+	co.create_user,
+	co.create_date,
+	co.update_user,
+	co.update_date,
+	co.org_type_code,
+	co.org_tel_number,
+	co.org_address
+FROM
+	cloud_org co
+	INNER JOIN cloud_party_member cpm ON co.org_party_member_id = cpm.id
+WHERE
+	org_party_member_id = 1
+  </select>
 </mapper>

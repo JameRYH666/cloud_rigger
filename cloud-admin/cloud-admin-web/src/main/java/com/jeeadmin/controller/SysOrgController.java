@@ -3,9 +3,11 @@ package com.jeeadmin.controller;
 
 import com.jeeadmin.api.ICloudOrgService;
 import com.jeeadmin.entity.CloudOrg;
+import com.jeeadmin.vo.org.CloudOrgVo;
 import com.jeerigger.frame.base.controller.BaseController;
 import com.jeerigger.frame.base.controller.ResultCodeEnum;
 import com.jeerigger.frame.base.controller.ResultData;
+import com.jeerigger.frame.page.PageHelper;
 import com.jeerigger.frame.support.resolver.annotation.SingleRequestBody;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -58,9 +60,9 @@ public class SysOrgController extends BaseController {
     @RequestMapping(value = "/selectAll", method = RequestMethod.POST)
     @ApiOperation(value = "查询组织机构列表", notes = "查询组织机构列表")
 
-    public ResultData selectAll() {
+    public ResultData selectAll( PageHelper<CloudOrgVo> cloudOrgPageHelper) {
 
-        return this.success(sysOrgService.selectAll());
+        return this.success(sysOrgService.selectAll(cloudOrgPageHelper));
     }
 
 
