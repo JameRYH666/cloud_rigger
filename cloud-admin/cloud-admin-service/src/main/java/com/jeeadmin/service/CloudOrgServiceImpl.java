@@ -12,6 +12,7 @@ import com.jeeadmin.entity.CloudOrg;
 import com.jeeadmin.entity.CloudPartyMember;
 import com.jeeadmin.entity.CloudUserOrg;
 import com.jeeadmin.mapper.CloudOrgMapper;
+import com.jeeadmin.vo.org.CloudOrgTree;
 import com.jeeadmin.vo.org.CloudOrgVo;
 import com.jeerigger.core.common.core.SnowFlake;
 import com.jeerigger.core.module.sys.SysConstant;
@@ -93,6 +94,32 @@ public class CloudOrgServiceImpl extends BaseTreeServiceImpl<CloudOrgMapper, Clo
         }
         wrapper.lambda().orderByAsc(CloudOrg::getParentId, CloudOrg::getOrgSort);
         return this.getListOrg(wrapper);
+    }
+
+    /**
+     * 查询所有的党组织结构，并且以树状菜单进行展示
+     * @return
+     */
+    @Override
+    public CloudOrgTree selectOrgTree() {
+        CloudOrgTree cloudOrgTree = new CloudOrgTree();
+        QueryWrapper<CloudOrg> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(CloudOrg::getParentId, 0L);
+        CloudOrg cloudOrg = this.getOne(queryWrapper);
+        if (Objects.isNull(cloudOrg)){
+            throw new ValidateException("父组织信息查询不到");
+        }
+        cloudOrgTree.setId(cloudOrg.getId());
+        cloudOrgTree.setOrgName(cloudOrg.getOrgName());
+        List<CloudOrg> cloudOrgs = this.selectChild(cloudOrg.getId());
+        if (Objects.nonNull(cloudOrgs) && cloudOrgs.size()>0){
+            cloudOrgTree.setOrgChilds(cloudOrgs);
+            return cloudOrgTree;
+        }
+
+        throw new ValidateException("党组织信息查询不到");
+
+
     }
 
     /**

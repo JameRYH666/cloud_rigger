@@ -25,9 +25,9 @@
   </sql>
     <insert id="saveOne">
     INSERT INTO
-        cloud_meeting ( id, meeting_tile, type_code, meeting_address, meeting_comment, form_code, remark, meeting_time, create_date,meeting_status )
+        cloud_meeting ( id, meeting_tile, type_code, meeting_address, meeting_comment, form_code, remark, meeting_time, create_user,create_date,meeting_status )
     VALUES
-	( ?, ?, ?, ?, ?, ?, ?, ?, ?,?)
+	( ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?)
     </insert>
     <update id="updateStatus">
                UPDATE cloud_meeting

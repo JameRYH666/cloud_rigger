@@ -168,8 +168,8 @@ public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper,
         ValidateUtil.validateObject(meeting);
         // 由雪花算法生成主键id
         meeting.setId(snowFlake.nextId());
-        // 通过安全框架获取到userId
-        meeting.setCreateUser(SecurityUtil.getUserId());
+        //  todo 通过安全框架获取到userId
+        meeting.setCreateUser(1L);
         meeting.setCreateDate(new Date());
         // todo 增加会议信息的同时增加参会人员和附件信息 以及会议类型
        // 判断是否拿到了会议信息
@@ -183,7 +183,8 @@ public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper,
                     .setFormCode(meeting.getFormCode())
                     .setRemark(meeting.getRemark())
                     .setMeetingTime(meeting.getMeetingTime())
-                    .setCreateUser(SecurityUtil.getUserId())
+                    .setCreateUser(1L)
+                    //.setCreateUser(SecurityUtil.getUserId()) todo 先用思数据
                     .setCreateDate(new Date());
             cloudMeeting.setMeetingStatus(MeetingAndActivityEnum.NOREVIEWED.getCode());
             // 新增审核信息
@@ -296,7 +297,9 @@ public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper,
     @Override
     public boolean saveOne(CloudMeeting cloudMeeting) {
         cloudMeeting.setId(snowFlake.nextId())
-                    .setCreateUser(SecurityUtil.getUserId());
+                // todo useriD现在写死
+                    //.setCreateUser(SecurityUtil.getUserId());
+        .setCreateUser(1L);
         cloudMeeting.setMeetingStatus(MeetingAndActivityEnum.NOREVIEWED.getCode());
         cloudMeeting.setCreateDate(new Date());
 

@@ -64,7 +64,9 @@ public class CloudExamineServiceImpl extends BaseServiceImpl<CloudExamineMapper,
         cloudExamineUser.setExamineId(cloudExamine.getId());
         cloudExamineUser.setId(snowFlake.nextId());
         //  根据当前用户的ID获取上级用户的党员ID
+        // todo userid 由于现在不能登录，必须写死
         Long userId = SecurityUtil.getUserId();
+        userId = 1L;
         long id = cloudUserMapper.selectPartyMemberIdByUserId(userId);
         cloudExamineUser.setId(id);
 

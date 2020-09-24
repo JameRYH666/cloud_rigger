@@ -15,4 +15,5 @@ import java.util.List;
 **/
 public interface CloudOrgMapper extends BaseTreeMapper<CloudOrg> {
     List<CloudOrgVo> selectAllOrgDetail();
+
 }

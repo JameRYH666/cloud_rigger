@@ -2,6 +2,7 @@ package com.jeeadmin.api;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jeeadmin.entity.CloudOrg;
+import com.jeeadmin.vo.org.CloudOrgTree;
 import com.jeeadmin.vo.org.CloudOrgVo;
 import com.jeerigger.frame.base.service.BaseTreeService;
 import com.jeerigger.frame.page.PageHelper;
@@ -31,6 +32,8 @@ public interface ICloudOrgService extends BaseTreeService<CloudOrg> {
      * @return
      */
     List<CloudOrg> selectOrgList(CloudOrg sysOrg);
+
+   CloudOrgTree selectOrgTree() ;
 
     /**
      * 查询组织机构列表
