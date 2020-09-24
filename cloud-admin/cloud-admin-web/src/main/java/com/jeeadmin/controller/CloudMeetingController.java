@@ -38,7 +38,7 @@ public class CloudMeetingController extends BaseController {
 
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     @ApiOperation(value = "新增活动会议数据",notes = "新增活动会议数据列表")
-    public ResultData add( CloudMeetingVo meeting){
+    public ResultData add( @RequestBody CloudMeetingVo meeting){
         this.getClass().getAnnotationsByType(RequestMapping.class);
         return this.success(cloudMeetingService.saveMeeting(meeting));
     }

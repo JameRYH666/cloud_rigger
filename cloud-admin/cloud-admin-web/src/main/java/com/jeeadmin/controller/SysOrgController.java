@@ -65,6 +65,15 @@ public class SysOrgController extends BaseController {
         return this.success(sysOrgService.selectAll(cloudOrgPageHelper));
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/selectOrgTrees", method = RequestMethod.POST)
+    @ApiOperation(value = "查询组织机构树状列表", notes = "查询组织机构树状列表")
+
+    public ResultData selectOrgTrees( ) {
+
+        return this.success(sysOrgService.selectOrgTree());
+    }
+
 
     @ResponseBody
     @RequestMapping(value = "/add", method = RequestMethod.POST)
