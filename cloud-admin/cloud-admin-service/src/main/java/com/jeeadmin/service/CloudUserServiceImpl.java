@@ -3,9 +3,14 @@ package com.jeeadmin.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.jeeadmin.api.ICloudOrgService;
+import com.jeeadmin.api.ICloudPartyMemberService;
+import com.jeeadmin.api.ICloudUserOrgService;
 import com.jeeadmin.api.ICloudUserService;
 import com.jeeadmin.entity.CloudMenu;
+import com.jeeadmin.entity.CloudPartyMember;
 import com.jeeadmin.entity.CloudUser;
+import com.jeeadmin.entity.CloudUserOrg;
 import com.jeeadmin.mapper.CloudUserMapper;
 import com.jeeadmin.vo.user.QueryUserVo;
 import com.jeeadmin.vo.user.UpdatePwdVo;
@@ -50,6 +55,12 @@ public class CloudUserServiceImpl extends BaseServiceImpl<CloudUserMapper, Cloud
 
     @Autowired
     private HttpSession httpSession;
+    @Autowired
+    private ICloudOrgService cloudOrgServiceImpl;
+    @Autowired
+    private ICloudUserOrgService cloudUserOrgServiceImpl;
+    @Autowired
+    private ICloudPartyMemberService cloudPartyMemberServiceImpl;
 
     @Autowired
     private SnowFlake snowFlake;
@@ -94,7 +105,9 @@ public class CloudUserServiceImpl extends BaseServiceImpl<CloudUserMapper, Cloud
         cloudUser.setPassword("123456");
         long id = snowFlake.nextId();
         cloudUser.setId(id);
-        cloudUser.setCreateUser(SecurityUtil.getUserId());
+        //todo  security暂时获取不到数据
+        // cloudUser.setCreateUser(SecurityUtil.getUserId());
+        cloudUser.setCreateUser(1L);
         return this.save(cloudUser);
     }
 
@@ -203,16 +216,36 @@ public class CloudUserServiceImpl extends BaseServiceImpl<CloudUserMapper, Cloud
      */
     @Override
     public List<CloudUser> selectNotPartyMember() {
-        //获取当前登录用户的信息
-        JeeUser jeeUser = SecurityUtil.getUserData();
+        // todo 获取当前登录用户的信息
+       //  JeeUser jeeUser = SecurityUtil.getUserData();
         //获取当前用户所在组织
-        List<String> orgIds = jeeUser.getOrgIds();
-        List<CloudUser> cloudUsers = new ArrayList<>();
-        if (null != orgIds && !orgIds.isEmpty()){
-            //查询该组织下的非党员用户
-            cloudUsers = cloudUserMapper.selectNotPartyMember(orgIds);
+        ArrayList<Long> userIds = new ArrayList<>();
+        ArrayList<CloudUser> cloudUsers = new ArrayList<>();
+        QueryWrapper<CloudUser> queryWrapper = new QueryWrapper<>();
+
+        CloudUserOrg cloudUserOrg = cloudUserOrgServiceImpl.selectOrgByUserId();
+        if (Objects.isNull(cloudUserOrg)){
+            throw new ValidateException("没有获取到该党员的党组织信息");
         }
-        return cloudUsers;
+        List<CloudUserOrg> cloudUserOrgs = cloudUserOrgServiceImpl.selectOrgByOrgId(cloudUserOrg.getOrgId());
+        for (CloudUserOrg userOrg : cloudUserOrgs) {
+            CloudPartyMember member = cloudPartyMemberServiceImpl.getPartyMemberByUserId(userOrg.getUserId());
+            if (null == member){
+                userIds.add(userOrg.getUserId());
+            }
+
+        }
+       if (Objects.nonNull(userIds)&&userIds.size()>0){
+           for (Long userId : userIds) {
+               queryWrapper.lambda().eq(CloudUser::getId,userId);
+               CloudUser cloudUser = this.getOne(queryWrapper);
+               cloudUsers.add(cloudUser);
+           }
+       }
+       if (Objects.nonNull(cloudUsers) && cloudUsers.size()>0){
+           return cloudUsers;
+       }
+        throw new ValidateException("该党支部没有不是党员的用户");
     }
 
     @Override

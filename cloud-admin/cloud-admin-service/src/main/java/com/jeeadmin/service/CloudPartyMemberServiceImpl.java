@@ -116,9 +116,9 @@ public class CloudPartyMemberServiceImpl extends BaseServiceImpl<CloudPartyMembe
             throw new ValidateException("用户ID不能为空！");
         }
         CloudPartyMember partyMember = this.getById(userId);
-        if (partyMember == null) {
+      /*  if (partyMember == null) {
             throw new ValidateException("用户不存在！");
-        }
+        }*/
         if (partyMember != null && Objects.nonNull(partyMember.getOrgId())) {
             partyMember.setOrgName(sysOrgService.getById(partyMember.getOrgId()).getOrgName());
         }
@@ -181,7 +181,10 @@ public class CloudPartyMemberServiceImpl extends BaseServiceImpl<CloudPartyMembe
     public boolean saveUser(CloudPartyMember cloudPartyMember) {
         // 利用雪花算法生成id
         cloudPartyMember.setId(snowFlake.nextId());
-        cloudPartyMember.setCreateUser(SecurityUtil.getUserId());
+        // todo 没有自动获取
+        cloudPartyMember.setCreateUser(1L);
+
+
         //验证数据
         ValidateUtil.validateObject(cloudPartyMember);
 

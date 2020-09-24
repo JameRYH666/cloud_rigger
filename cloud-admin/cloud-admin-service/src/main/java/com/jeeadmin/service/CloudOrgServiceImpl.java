@@ -353,4 +353,5 @@ public class CloudOrgServiceImpl extends BaseTreeServiceImpl<CloudOrgMapper, Clo
         return this.removeById(orgId);
     }
 
+
 }

@@ -16,6 +16,7 @@ public interface CloudUserMapper extends BaseMapper<CloudUser> {
 
     List<CloudUser> selectNotPartyMember(@Param("orgIds") List<String> orgIds);
 
+
     /**
      *  根据当前用户id查询上级党员id
      */

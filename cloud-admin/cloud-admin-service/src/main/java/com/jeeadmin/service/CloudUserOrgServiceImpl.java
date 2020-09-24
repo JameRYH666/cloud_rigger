@@ -7,6 +7,7 @@ import com.jeeadmin.entity.CloudOrg;
 import com.jeeadmin.entity.CloudUserOrg;
 import com.jeeadmin.mapper.CloudUserOrgMapper;
 import com.jeerigger.frame.base.service.impl.BaseServiceImpl;
+import com.jeerigger.frame.exception.ValidateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -56,5 +57,39 @@ public class CloudUserOrgServiceImpl extends BaseServiceImpl<CloudUserOrgMapper,
             }
         }
         return orgAdminOrgList;
+    }
+
+    @Override
+    public CloudUserOrg selectOrgByUserId() {
+
+            // todo 根据用户id获取到所在党支部的信息
+            //  Long userId = SecurityUtil.getUserId();
+            Long userId = 1L;
+            QueryWrapper<CloudUserOrg> queryWrapper = new QueryWrapper<>();
+            // 通过用户id获取到党支部的信息
+            queryWrapper.lambda().eq(CloudUserOrg::getUserId,userId);
+            // 转换为党支部用户
+             CloudUserOrg cloudUserOrg = this.getOne(queryWrapper);
+             // 判断是否获取到数据
+            if (Objects.isNull(cloudUserOrg)){
+                throw new ValidateException("没有该用户的党支部信息");
+            }
+            return cloudUserOrg;
+
+
+    }
+
+    @Override
+    public List<CloudUserOrg> selectOrgByOrgId(Long orgId) {
+        QueryWrapper<CloudUserOrg> queryWrapper = new QueryWrapper<>();
+        if (Objects.isNull(orgId)){
+            throw new ValidateException("党组织id不能为空");
+        }
+        queryWrapper.lambda().eq(CloudUserOrg::getOrgId,orgId);
+        List<CloudUserOrg> cloudUserOrgs = this.list(queryWrapper);
+        if (null != cloudUserOrgs && cloudUserOrgs.size()>0){
+            return cloudUserOrgs;
+        }
+        throw new ValidateException("查询不到党组织信息");
     }
 }

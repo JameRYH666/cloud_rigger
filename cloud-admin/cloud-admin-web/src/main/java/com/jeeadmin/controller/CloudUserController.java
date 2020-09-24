@@ -134,7 +134,7 @@ public class CloudUserController extends BaseController {
     }*/
 
     @ResponseBody
-    @RequestMapping(value = "/NotPartMemberList",method = RequestMethod.POST)
+    @RequestMapping(value = "/notPartMemberList",method = RequestMethod.POST)
     @ApiOperation(value = "获取非党员的用户",notes = "获取非党员的用户")
     public ResultData selectNotPartyMember(){
         return this.success(cloudUserService.selectNotPartyMember());
