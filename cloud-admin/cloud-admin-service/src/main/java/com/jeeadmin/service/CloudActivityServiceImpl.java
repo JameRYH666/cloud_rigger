@@ -2,7 +2,6 @@ package com.jeeadmin.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jeeadmin.api.ICloudActivityService;
 import com.jeeadmin.api.ICloudEnclosureService;
@@ -267,6 +266,7 @@ public class CloudActivityServiceImpl extends BaseServiceImpl<CloudActivityMappe
         page.setRecords(cloudActivities);
         return page;
     }
+
 
 
 }

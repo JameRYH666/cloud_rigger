@@ -94,7 +94,7 @@ public class CloudActivityController extends BaseController {
 
     @RequestMapping(value = "/selectUntreated", method = RequestMethod.POST)
     @ApiOperation(value = "查询未处理活动信息", notes = "查询未处理活动信息")
-    public ResultData selectUntreated(PageHelper<CloudActivity> pageHelper) {
+    public ResultData selectUntreated( PageHelper<CloudActivity> pageHelper) {
         return this.success(cloudActivityService.selectUntreated(pageHelper));
     }
 
