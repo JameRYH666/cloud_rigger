@@ -2,6 +2,7 @@ package com.jeeadmin.api;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jeeadmin.entity.CloudExamine;
+import com.jeeadmin.vo.examine.CloudExamineVo;
 import com.jeerigger.frame.base.service.BaseService;
 import com.jeerigger.frame.page.PageHelper;
 
@@ -22,7 +23,7 @@ public interface ICloudExamineService extends BaseService<CloudExamine> {
      *  查询所有审核信息，并进行分页处理
      *
      */
-    Page<CloudExamine> selectAll(PageHelper<CloudExamine> cloudExamine);
+    Page<CloudExamine> selectAll(PageHelper<CloudExamine> pageHelper);
 
 
     /**
@@ -35,7 +36,7 @@ public interface ICloudExamineService extends BaseService<CloudExamine> {
      *  查询单个审核的详细信息
      *
      */
-    CloudExamine getDetail(CloudExamine cloudExamine);
+    CloudExamine getDetail(Long examineId);
 
 
     /**
@@ -62,4 +63,10 @@ public interface ICloudExamineService extends BaseService<CloudExamine> {
 
     boolean updateStatus(CloudExamine cloudExamine);
 
+    /**
+     * 根据外键id逻辑删除审核数据
+     * @param foreignId
+     * @return
+     */
+    boolean deleteByForeignId(Long foreignId);
 }

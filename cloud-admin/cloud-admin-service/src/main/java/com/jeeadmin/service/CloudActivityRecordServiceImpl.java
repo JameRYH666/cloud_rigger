@@ -216,4 +216,6 @@ public class CloudActivityRecordServiceImpl extends BaseServiceImpl<CloudActivit
         updateWrapper.lambda().eq(CloudActivityRecord::getId,cloudActivityRecord.getId());
         return this.update(new CloudActivityRecord(),updateWrapper);
     }
+
+
 }

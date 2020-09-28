@@ -1,6 +1,8 @@
 package com.jeeadmin.entity;
 
 import com.jeerigger.frame.base.model.BaseModel;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -18,17 +20,18 @@ import java.util.Date;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
+@ApiModel("用户审核关系表")
 public class CloudExamineUser extends BaseModel<CloudExamineUser> {
 
     /**
-     *  审核用户ID
+     *  审核用户ID(党员id)
      */
-    private Long userId;
+    @ApiModelProperty("审核用户ID(党员id)")
+    private Long partyMemberId;
 
     /**
      *  审核ID
      */
+    @ApiModelProperty("审核ID")
     private Long examineId;
-
-    private Date createDate;
 }

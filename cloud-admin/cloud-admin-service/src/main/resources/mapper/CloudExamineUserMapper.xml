@@ -3,7 +3,7 @@
 <mapper namespace="com.jeeadmin.mapper.CloudExamineUserMapper" >
   <resultMap id="BaseResultMap" type="com.jeeadmin.entity.CloudExamineUser" >
     <result column="id" property="id" jdbcType="BIGINT" />
-    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="party_member_id" property="partyMemberId" jdbcType="BIGINT" />
     <result column="examine_id" property="examineId" jdbcType="BIGINT" />
     <result column="create_user" property="createUser" jdbcType="VARCHAR" />
     <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
@@ -11,7 +11,7 @@
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
   </resultMap>
     <sql id="Base_Column_List">
-    id,user_id,examine_id,create_user,create_date,update_user,update_date
+    id,party_member_id,examine_id,create_user,create_date,update_user,update_date
   </sql>
 
 

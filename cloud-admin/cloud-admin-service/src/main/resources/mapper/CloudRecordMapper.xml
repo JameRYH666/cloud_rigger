@@ -23,7 +23,8 @@
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
     <result column="record_status" property="recordStatus" jdbcType="CHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
-    <result column="record_reason" property="recordReason" jdbcType="LONGVARCHAR" />
+    <result column="record_reason" property="recordReason" jdbcType="LONGVARCHAR" /><!--
+    <result column="examine_reject_reason" property="examineRejectReason" jdbcType="VARCHAR"/>-->
   </resultMap>
 
     <sql id="Base_Column_List">
@@ -32,5 +33,46 @@
     create_user,create_date,update_user,update_date,record_status,remark,record_reason
     </sql>
 
+  <select id="selectAll" parameterType="long" resultType="com.jeeadmin.vo.record.CloudRecordVo">
+      SELECT
+          a.*,b.examine_reject_reason
+      FROM
+          cloud_record a
+      INNER JOIN cloud_examine b ON a.id = b.foreign_id
+      WHERE
+          a.party_member_id = #{partyMemberId}
+      AND a.record_status != '2'
+      AND a.record_status = b.examine_status;
+  </select>
 
+  <select id="selectNotReview" parameterType="long" resultType="com.jeeadmin.vo.record.CloudRecordVo">
+      SELECT
+          a.*,b.examine_reject_reason
+      FROM
+          cloud_record a
+      INNER JOIN cloud_examine b ON a.id = b.foreign_id
+      WHERE a.party_member_id = #{partyMemberId}
+      AND a.record_status = '4'
+      AND a.record_status = b.examine_status;
+  </select>
+
+  <select id="selectProcessed" parameterType="long" resultType="com.jeeadmin.vo.record.CloudRecordVo">
+      SELECT
+        a.*,b.examine_reject_reason
+      FROM
+        cloud_record a
+      INNER JOIN cloud_examine b ON a.id = b.foreign_id
+      WHERE a.party_member_id = #{partyMemberId}
+      AND a.record_status in('1','3')
+      AND a.record_status = b.examine_status;
+  </select>
+
+    <select id="getDetail" parameterType="long" resultType="com.jeeadmin.vo.record.CloudRecordVo">
+        SELECT
+        a.*,b.examine_reject_reason
+        FROM
+        cloud_record a
+        INNER JOIN cloud_examine b ON a.id = b.foreign_id
+        WHERE a.id = #{recordId};
+    </select>
 </mapper>
