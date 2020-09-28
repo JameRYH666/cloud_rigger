@@ -26,7 +26,10 @@ public class CloudMeetingVo extends CloudMeeting {
     private String typeName;
     private String memberName;
     private Date oneCreateDate;
+    //参会人员
     private List<CloudMeetingPartyMember> cloudMeetingPartyMembers;
+    //会议附件信息
     private List<CloudEnclosure> cloudEnclosures;
+    // 会议活动类型
     private CloudMeetingActiveType cloudMeetingActiveType;
 }

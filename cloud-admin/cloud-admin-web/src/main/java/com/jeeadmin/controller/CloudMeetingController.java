@@ -5,6 +5,8 @@ import com.jeeadmin.api.ICloudMeetingService;
 
 import com.jeeadmin.entity.CloudActivity;
 import com.jeeadmin.entity.CloudMeeting;
+import com.jeeadmin.vo.meeting.CloudMeetingDetailVo;
+import com.jeeadmin.vo.meeting.CloudMeetingSaveVo;
 import com.jeeadmin.vo.meeting.CloudMeetingVo;
 import com.jeerigger.frame.base.controller.BaseController;
 import com.jeerigger.frame.base.controller.ResultCodeEnum;
@@ -38,8 +40,8 @@ public class CloudMeetingController extends BaseController {
 
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     @ApiOperation(value = "新增活动会议数据",notes = "新增活动会议数据列表")
-    public ResultData add( @RequestBody CloudMeetingVo meeting){
-        this.getClass().getAnnotationsByType(RequestMapping.class);
+    public ResultData add( @RequestBody CloudMeetingSaveVo meeting){
+        /*this.getClass().getAnnotationsByType(RequestMapping.class);*/
         return this.success(cloudMeetingService.saveMeeting(meeting));
     }
 

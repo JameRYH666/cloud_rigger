@@ -33,5 +33,5 @@ public class CloudMeetingPartyMember extends BaseModel<CloudMeetingPartyMember> 
      */
     private String promoterFlag;
 
-    private Date createDate;
+
 }

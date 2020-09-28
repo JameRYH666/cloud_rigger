@@ -27,7 +27,7 @@ public interface ICloudMeetingPartyMemberService extends BaseService<CloudMeetin
      * @param cloudMeetingPartyMembers
      * @return
      */
-    boolean saveMeetingMember(List<CloudMeetingPartyMember> cloudMeetingPartyMembers);
+    boolean saveMeetingMember(CloudMeetingPartyMember cloudMeetingPartyMember);
 
     /**
      * 根据会议id删除参会人员，也就是当删除会议的时候，同时删除参会人员

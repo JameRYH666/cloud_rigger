@@ -82,14 +82,14 @@ public class CloudMeetingEnclosureServiceImpl extends BaseServiceImpl<CloudMeeti
      * @Description: 新增会议附件
      */
     @Override
-    public CloudMeetingEnclosure saveMeetingEnclosure(CloudMeetingEnclosure cloudMeetingEnclosure) {
+    public boolean saveMeetingEnclosure(CloudMeetingEnclosure cloudMeetingEnclosure) {
         if (Objects.isNull(cloudMeetingEnclosure)){
             throw new ValidateException("会议附件信息不能为空");
 
         }
         ValidateUtil.validateObject(cloudMeetingEnclosure);
 
-        return null;
+       return this.save(cloudMeetingEnclosure);
     }
 
     /**

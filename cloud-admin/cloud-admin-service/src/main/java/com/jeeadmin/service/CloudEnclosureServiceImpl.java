@@ -55,7 +55,7 @@ public class CloudEnclosureServiceImpl extends BaseServiceImpl<CloudEnclosureMap
      */
     @Override
     public boolean saveEnclosure(CloudEnclosure cloudEnclosure) {
-        cloudEnclosure.setId(snowFlake.nextId());
+      //  cloudEnclosure.setId(snowFlake.nextId());
         if (Objects.nonNull(cloudEnclosure)){
            return this.save(cloudEnclosure);
         }

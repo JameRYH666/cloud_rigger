@@ -11,10 +11,12 @@ import com.jeeadmin.entity.*;
 import com.jeeadmin.mapper.CloudMeetingMapper;
 import com.jeeadmin.vo.meeting.CloudMeetingDetailVo;
 import com.jeeadmin.vo.meeting.CloudMeetingPartyMemberVo;
+import com.jeeadmin.vo.meeting.CloudMeetingSaveVo;
 import com.jeeadmin.vo.meeting.CloudMeetingVo;
 import com.jeerigger.core.common.core.SnowFlake;
 import com.jeerigger.frame.base.service.impl.BaseServiceImpl;
 import com.jeerigger.frame.enums.MeetingAndActivityEnum;
+import com.jeerigger.frame.enums.StatusEnum;
 import com.jeerigger.frame.exception.FrameException;
 import com.jeerigger.frame.exception.ValidateException;
 import com.jeerigger.frame.page.PageHelper;
@@ -102,6 +104,9 @@ public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper,
         return meetingVoPage;
     }
 
+
+
+
     /**
      * @Author: Sgz
      * @Time:  2020/9/11
@@ -111,6 +116,7 @@ public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper,
      * @Description:
      *          根据会议id查询会议的详细信息
      */
+
     @Override
     public CloudMeetingDetailVo selectOneMeeting(Long id) {
         QueryWrapper<CloudMeeting> queryWrapper = new QueryWrapper<>();
@@ -150,7 +156,21 @@ public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper,
         return meeting;
     }
 
-   /**
+    /**
+     * 只是保存会议
+     * @param cloudMeeting
+     * @return
+     */
+
+    @Override
+    public boolean savaMeeting(CloudMeeting cloudMeeting) {
+        if (Objects.isNull(cloudMeeting)){
+            throw new ValidateException("会议信息不能为空");
+        }
+        return this.save(cloudMeeting);
+    }
+
+    /**
     * @Author: Sgz
     * @Time: 17:38 2020/9/11
     * @Params: [meeting]
@@ -158,65 +178,120 @@ public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper,
     * @Throws:
     * @Description:
     *   增加会议信息
+    *       第一步，新增会议信息
+    *       第二部，新增会议负责人信息
+    *       第三步，新增会议参会人员信息
+    *       第四步，新增会议附件信息
     *
     */
     @Override
-    public boolean saveMeeting(CloudMeetingVo meeting) {
+    @Transactional(rollbackFor = ValidateException.class)
+    public boolean saveMeeting(CloudMeetingSaveVo cloudMeetingDetailVo ){
+        //获取创建时间
+        Date date = new Date();
+        // 获取创建人
+        Long userId = SecurityUtil.getUserId();
+        userId = 1L;
+
+        // 获取到meetingVo首先是新增会议信息
+        if (Objects.isNull(cloudMeetingDetailVo)){
+            throw new ValidateException("会议信息不能为空");
+        }
+        ValidateUtil.validateObject(cloudMeetingDetailVo);
+        // 获取到会议信息
         CloudMeeting cloudMeeting = new CloudMeeting();
-        CloudMeetingPartyMember cloudMeetingPartyMember = new CloudMeetingPartyMember();
-        // 检验会议数据是否存在
-        ValidateUtil.validateObject(meeting);
-        // 由雪花算法生成主键id
-        meeting.setId(snowFlake.nextId());
-        //  todo 通过安全框架获取到userId
-        meeting.setCreateUser(1L);
-        meeting.setCreateDate(new Date());
-        // todo 增加会议信息的同时增加参会人员和附件信息 以及会议类型
-       // 判断是否拿到了会议信息
-        if (Objects.nonNull(meeting)) {
-            // 新增会议信息
-            cloudMeeting.setId(snowFlake.nextId());
-            cloudMeeting.setMeetingTile(meeting.getMeetingTile())
-                    .setTypeCode(meeting.getTypeCode())
-                    .setMeetingAddress(meeting.getMeetingAddress())
-                    .setMeetingComment(meeting.getMeetingComment())
-                    .setFormCode(meeting.getFormCode())
-                    .setRemark(meeting.getRemark())
-                    .setMeetingTime(meeting.getMeetingTime())
-                    .setCreateUser(1L)
-                    //.setCreateUser(SecurityUtil.getUserId()) todo 先用思数据
-                    .setCreateDate(new Date());
-            cloudMeeting.setMeetingStatus(MeetingAndActivityEnum.NOREVIEWED.getCode());
-            // 新增审核信息
-            CloudExamine cloudExamine = new CloudExamine();
-            cloudExamine.setForeignId(cloudMeeting.getId());
-            cloudExamine.setExamineTypeCode("3");
-            cloudExamineService.saveExamine(cloudExamine);
+        long meetingId = snowFlake.nextId();
+        cloudMeeting.setCreateDate(date)
+                .setFormCode(cloudMeetingDetailVo.getFormCode())
+                .setMaId(cloudMeetingDetailVo.getMaId())
+                .setMeetingAddress(cloudMeetingDetailVo.getMeetingAddress())
+                .setMeetingComment(cloudMeetingDetailVo.getMeetingComment())
+                .setMeetingStatus(MeetingAndActivityEnum.NORMAL.getCode())
+                .setMeetingTile(cloudMeetingDetailVo.getMeetingTile())
+                .setTypeCode(cloudMeetingDetailVo.getTypeCode())
+                .setMeetingTime(cloudMeetingDetailVo.getMeetingTime())
+                .setCreateUser(userId)
+                .setId(meetingId);
+        boolean b = this.savaMeeting(cloudMeeting);
+        if (!b){
+            throw new ValidateException("新增会议失败");
+        }
+        // 第二步 新增负责人信息
+        List<CloudMeetingPartyMember> meetingSponsors = cloudMeetingDetailVo.getMeetingSponsor();
+        if (Objects.isNull(meetingSponsors)){
+            throw new ValidateException("请添加负责人信息");
+        }
+        for (CloudMeetingPartyMember cloudMeetingPartyMember : meetingSponsors) {
 
-            // 保存会议信息
-            if (this.saveOne(cloudMeeting)) {
-
-                    // 如果保存成功，就增加人员信息
-                    List<CloudMeetingPartyMember> cloudMeetingPartyMembers = meeting.getCloudMeetingPartyMembers();
-                    // 判断新增参会人员信息
-                    boolean b = cloudMeetingPartyMemberServiceImpl.saveMeetingMember(cloudMeetingPartyMembers);
-                    if (!b) {
-                        throw new ValidateException("新增参会人员信息失败");
-                    }
-
-                    // 新增参会人员信息成功，增加附件信息
-                    List<CloudEnclosure> cloudEnclosures = meeting.getCloudEnclosures();
-                    // 判断是否拿到附件信息
-                    if (cloudEnclosures.size() > 0) {
-                        // 如果拿到附件信息 ，遍历循环拿取数据
-                        for (CloudEnclosure cloudEnclosure : cloudEnclosures) {
-                            // 新增附件信息
-                            return cloudEnclosureServiceImpl.saveEnclosure(cloudEnclosure);
-                        }
-                    }
+            if (Objects.isNull(cloudMeetingPartyMember)){
+                throw new ValidateException("没有负责人信息");
+            }
+            cloudMeetingPartyMember.setMeetingId(meetingId)
+                    .setCreateDate(date);
+            cloudMeetingPartyMember
+                    .setPartyMemberId(cloudMeetingPartyMember.getPartyMemberId())
+                    .setPromoterFlag("1")
+                    .setCreateUser(userId);
+            b  = cloudMeetingPartyMemberServiceImpl.save(cloudMeetingPartyMember);
+            if (!b){
+                throw new ValidateException("新增负责人信息失败");
             }
         }
-            throw new FrameException("新增会议信息数据失败");
+        // 第三步 新增参会人员信息
+        List<CloudMeetingPartyMember> joinMembers= cloudMeetingDetailVo.getJoinMember();
+        if (Objects.isNull(joinMembers)){
+            throw new ValidateException("请添加参会人员信息");
+        }
+        for (CloudMeetingPartyMember cloudMeetingPartyMember : joinMembers) {
+
+            if (Objects.isNull(cloudMeetingPartyMember)){
+                throw new ValidateException("请添加参会人员信息");
+            }
+
+            cloudMeetingPartyMember.setPartyMemberId(cloudMeetingPartyMember.getPartyMemberId())
+                    .setMeetingId(meetingId)
+                    .setCreateDate(date)
+                    .setCreateUser(userId)
+            .setCreateDate(date);
+            cloudMeetingPartyMember.setId(snowFlake.nextId());
+            cloudMeetingPartyMember.setPromoterFlag("2");
+            b = cloudMeetingPartyMemberServiceImpl.saveMeetingMember(cloudMeetingPartyMember);
+            if (!b){
+                throw new ValidateException("新增参会人员信息失败");
+            }
+
+        }
+        // 第四步 新增附件信息
+        List<CloudEnclosure> enclosureList = cloudMeetingDetailVo.getEnclosureList();
+        if (Objects.isNull(enclosureList)){
+            throw new ValidateException("请添加会议附件信息");
+        }
+        for (CloudEnclosure cloudEnclosure : enclosureList) {
+            long enclosureId = snowFlake.nextId();
+            cloudEnclosure.setCreateDate(date)
+                    .setCreateUser(userId)
+                    .setId(enclosureId);
+            cloudEnclosure.setEnclosureStatus(StatusEnum.NORMAL.getCode());
+            b = cloudEnclosureServiceImpl.saveEnclosure(cloudEnclosure);
+            if (!b){
+                throw new ValidateException("新增附件信息失败");
+            }
+            // 第五步 新增会议附件信息
+            CloudMeetingEnclosure cloudMeetingEnclosure = new CloudMeetingEnclosure();
+            cloudMeetingEnclosure.setCreateDate(date)
+                    .setEnclosureId(enclosureId)
+                    .setMeetingId(meetingId)
+                    .setCreateUser(userId)
+                    .setId(snowFlake.nextId());
+            b = cloudMeetingEnclosureServiceImpl.saveMeetingEnclosure(cloudMeetingEnclosure);
+            if (!b){
+                throw new ValidateException("新增会议附件信息失败");
+            }
+
+        }
+
+        return true;
+
 
     }
 

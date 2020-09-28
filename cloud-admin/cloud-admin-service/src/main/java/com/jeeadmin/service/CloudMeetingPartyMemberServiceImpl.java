@@ -58,23 +58,24 @@ public class CloudMeetingPartyMemberServiceImpl extends BaseServiceImpl<CloudMee
      * 添加参会人员信息
      *
      */
-    @Transactional(rollbackFor = ValidateException.class)
+
     @Override
-    public boolean saveMeetingMember(List<CloudMeetingPartyMember> cloudMeetingPartyMembers) {
+    public boolean saveMeetingMember(CloudMeetingPartyMember cloudMeetingPartyMember) {
+
+                if (Objects.isNull(cloudMeetingPartyMember)) {
+                    throw new ValidateException("获取参会人员信息失败");
+                }
 
 
-        if (cloudMeetingPartyMembers.size()>0){
-            for (CloudMeetingPartyMember cloudMeetingPartyMember : cloudMeetingPartyMembers) {
-                cloudMeetingPartyMember.setId(snowFlake.nextId());
-                boolean b = cloudMeetingPartyMemberMapper.savaMeetingMember(cloudMeetingPartyMember);
+                boolean b = this.save(cloudMeetingPartyMember);
                 if (!b){
                     throw new ValidateException("参会人员添加失败");
                 }
                 return true;
 
-            }
-        }
-        throw new ValidateException("没有获取到参会人员信息");
+
+
+
     }
 
     /**

@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jeeadmin.entity.CloudActivity;
 import com.jeeadmin.entity.CloudMeeting;
 import com.jeeadmin.vo.meeting.CloudMeetingDetailVo;
+import com.jeeadmin.vo.meeting.CloudMeetingSaveVo;
 import com.jeeadmin.vo.meeting.CloudMeetingVo;
 import com.jeerigger.frame.base.service.BaseService;
 import com.jeerigger.frame.page.PageHelper;
@@ -44,6 +45,8 @@ public interface ICloudMeetingService extends BaseService<CloudMeeting> {
      */
     CloudMeetingDetailVo selectOneMeeting(Long id);
 
+    boolean savaMeeting(CloudMeeting cloudMeeting);
+
     /**
      * @Author: Sgz
      * @Time: 17:04 2020/9/11
@@ -54,7 +57,7 @@ public interface ICloudMeetingService extends BaseService<CloudMeeting> {
      *  新增会议信息
      *
      */
-    boolean  saveMeeting(CloudMeetingVo cloudMeeting);
+    boolean  saveMeeting(CloudMeetingSaveVo cloudMeeting);
 
     /**
      * @Author: Sgz

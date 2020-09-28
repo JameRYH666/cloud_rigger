@@ -47,7 +47,7 @@ public interface ICloudMeetingEnclosureService extends BaseService<CloudMeetingE
      *  新增会议附件
      */
 
-    CloudMeetingEnclosure saveMeetingEnclosure(CloudMeetingEnclosure cloudMeetingEnclosure);
+    boolean saveMeetingEnclosure(CloudMeetingEnclosure cloudMeetingEnclosure);
     /**
      * @Author: Sgz
      * @Time: 10:23 2020/9/12

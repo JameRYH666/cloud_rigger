@@ -5,6 +5,7 @@ import com.jeeadmin.api.ICloudMeetingActiveTypeService;
 
 import com.jeeadmin.entity.CloudMeetingActiveType;
 
+import com.jeeadmin.entity.CloudPartyMember;
 import com.jeeadmin.mapper.CloudMeetingActiveTypeMapper;
 import com.jeerigger.core.common.core.SnowFlake;
 import com.jeerigger.frame.base.service.impl.BaseServiceImpl;
@@ -86,6 +87,8 @@ public class CloudMeetingActiveTypeServiceImpl extends BaseServiceImpl<CloudMeet
         }
         // 验证数据的完整性
         ValidateUtil.validateObject(cloudMeetingActiveType);
+        // 验证新增会议类型是否已经存在
+        validateTypeName(cloudMeetingActiveType);
         cloudMeetingActiveType.setId(snowFlake.nextId())
                 .setCreateUser(SecurityUtil.getUserId())
                 .setCreateDate(new Date());
@@ -94,6 +97,21 @@ public class CloudMeetingActiveTypeServiceImpl extends BaseServiceImpl<CloudMeet
             return true;
         }
         throw new ValidateException("会议活动类型信息新增失败");
+    }
+    /**
+     * 验证会议类型名称是否存在
+     *
+     *
+     */
+    private void validateTypeName(CloudMeetingActiveType  cloudMeetingActiveType) {
+        QueryWrapper<CloudMeetingActiveType> queryWrapper = new QueryWrapper<>();
+        queryWrapper.lambda().eq(CloudMeetingActiveType::getMaTypeName, cloudMeetingActiveType.getMaTypeName());
+        if (Objects.nonNull(cloudMeetingActiveType.getId())) {
+            queryWrapper.lambda().ne(CloudMeetingActiveType::getId, cloudMeetingActiveType.getId());
+        }
+        if (this.count(queryWrapper) > 0) {
+            throw new ValidateException("会议活动类型已经存在！");
+        }
     }
 
     /**

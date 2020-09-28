@@ -53,6 +53,12 @@ public interface CloudMeetingMapper extends BaseMapper<CloudMeeting> {
     **/
     List<CloudMeetingPartyMemberVo> selectJoinMembersByMeetingId(Long id);
 
+    /**
+     * 查询会议发起人信息
+     * @param id
+     * @return
+     */
+
     List<CloudMeetingPartyMemberVo> selectMeetingPromotersByMeetingId(Long id);
 
     /**
