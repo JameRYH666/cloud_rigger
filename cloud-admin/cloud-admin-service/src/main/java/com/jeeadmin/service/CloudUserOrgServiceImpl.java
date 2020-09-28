@@ -6,12 +6,14 @@ import com.jeeadmin.api.ICloudOrgService;
 import com.jeeadmin.entity.CloudOrg;
 import com.jeeadmin.entity.CloudUserOrg;
 import com.jeeadmin.mapper.CloudUserOrgMapper;
+import com.jeerigger.core.common.core.SnowFlake;
 import com.jeerigger.frame.base.service.impl.BaseServiceImpl;
 import com.jeerigger.frame.exception.ValidateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,10 +28,34 @@ public class CloudUserOrgServiceImpl extends BaseServiceImpl<CloudUserOrgMapper,
 
     @Autowired
     private ICloudOrgService sysOrgService;
+    @Autowired
+    private SnowFlake snowFlake;
 
     @Override
     public boolean saveOrgAdminOrg(List<CloudUserOrg> sysOrgAdminOrgList) {
         return this.saveBatch(sysOrgAdminOrgList);
+    }
+
+    /**
+     * 新增用户党组织信息
+     * 在新增用户之后，同时新增党员信息
+     * @param cloudUserOrg
+     * @return
+     */
+    @Override
+    public boolean saveOrgUser(CloudUserOrg cloudUserOrg) {
+        if (Objects.isNull(cloudUserOrg)){
+            throw new ValidateException("用户党组织信息不能为空");
+        }
+        if (Objects.isNull(cloudUserOrg.getOrgId())){
+            throw new ValidateException("党组织id不能为空" );
+        }
+        cloudUserOrg.setCreateDate(new Date())
+                // TODO 这里创建用户先写死，其实应从security中获取
+                .setCreateUser(1L)
+                .setId(snowFlake.nextId());
+       return this.save(cloudUserOrg);
+
     }
 
     @Override

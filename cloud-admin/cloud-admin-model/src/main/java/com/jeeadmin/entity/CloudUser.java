@@ -1,5 +1,6 @@
 package com.jeeadmin.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jeerigger.frame.base.model.BaseModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -140,6 +141,8 @@ public class CloudUser extends BaseModel<CloudUser> {
      */
     private String realName;
 
+    @TableField(exist = false)
+    private Long orgId;
 
 
 

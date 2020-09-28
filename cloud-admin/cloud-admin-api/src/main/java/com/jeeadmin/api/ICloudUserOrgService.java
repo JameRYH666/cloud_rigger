@@ -21,6 +21,14 @@ public interface ICloudUserOrgService extends BaseService<CloudUserOrg> {
     boolean saveOrgAdminOrg(List<CloudUserOrg> sysOrgAdminOrgList);
 
     /**
+     * 新增用户党组织信息
+     * 在新增用户的时候，同时增加党组织信息
+     * @param cloudUserOrg
+     * @return
+     */
+    boolean saveOrgUser(CloudUserOrg cloudUserOrg);
+
+    /**
      * 删除机构管理员已分配的可管理机构
      *
      * @param userId

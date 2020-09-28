@@ -101,4 +101,5 @@ public interface ICloudUserService extends BaseService<CloudUser> {
      * @return
      */
     boolean updateUserPassword(UpdatePwdVo updatePwdVo);
+    CloudUser selectCloudUser(Long userId);
 }

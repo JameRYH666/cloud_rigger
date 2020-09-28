@@ -25,7 +25,9 @@ public class PersonController extends BaseController {
     @RequestMapping(value = "/info", method = RequestMethod.POST)
     @ApiOperation(value = "查看个人信息", notes = "查看个人信息")
     public ResultData userInfo() {
-        return this.success(sysAdminUserService.getById(SecurityUtil.getUserId()));
+        // todo SecurityUtil.getUserId
+        Long userId = 1L;
+        return this.success(sysAdminUserService.getById(userId));
     }
 
     @RequestMapping(value = "/changePwd", method = RequestMethod.POST)
