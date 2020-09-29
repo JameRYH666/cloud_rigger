@@ -11,8 +11,8 @@ import lombok.experimental.Accessors;
 @Data
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = false)
-public class CloudOrgVo {
-    private CloudOrg cloudOrg;
+public class CloudOrgVo extends CloudOrg {
+
     private Integer count;
     private String orgLeader;
     private Long phoneNumer;

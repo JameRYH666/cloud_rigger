@@ -1,6 +1,5 @@
 package com.jeeadmin.service;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -28,7 +27,6 @@ import com.jeerigger.frame.util.StringUtil;
 import com.jeerigger.security.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -129,7 +127,7 @@ public class CloudOrgServiceImpl extends BaseTreeServiceImpl<CloudOrgMapper, Clo
      * @return
      */
     @Override
-    public Page<CloudOrgVo> selectAll(PageHelper<CloudOrgVo> pageHelper) {
+    public Page<CloudOrgVo> selectAll(PageHelper<CloudOrg> pageHelper) {
         Page<CloudOrg> page = new Page<>(pageHelper.getCurrent(),pageHelper.getSize());
 
 
@@ -145,18 +143,35 @@ public class CloudOrgServiceImpl extends BaseTreeServiceImpl<CloudOrgMapper, Clo
                 throw new ValidateException("没有获取到数据信息");
             }
             for (CloudOrg cloudOrg : listOrg) {
+                // 通过党支部id获取到党员数量
                 Integer count = sysUserService.selectCountByOrgId(cloudOrg.getId());
+                // 通过党支部党员的id获取党员的详细信息
                 CloudPartyMember cloudPartyMember = sysUserService.getById(cloudOrg.getOrgPartyMemberId());
                 CloudOrgVo cloudOrgVo = new CloudOrgVo();
+                cloudOrgVo.setOrgAddress(cloudOrg.getOrgAddress())
+                        .setLeafFlag(cloudOrg.getLeafFlag())
+                        .setOrgCode(cloudOrg.getOrgCode())
+                        .setOrgName(cloudOrg.getOrgName())
+                        .setOrgShortName(cloudOrg.getOrgShortName())
+                        .setOrgSort(cloudOrg.getOrgSort())
+                        .setOrgTypeCode(cloudOrg.getOrgTypeCode())
+                        .setOrgStatus(cloudOrg.getOrgStatus())
+                        .setParentId(cloudOrg.getParentId())
+                        .setOrgTypeName(cloudOrg.getOrgTypeName())
+                        .setParentOrg(cloudOrg.getParentOrg())
+                        .setTopLevel(cloudOrg.getTopLevel())
+                        .setOrgTelNumber(cloudOrg.getOrgTelNumber())
+                        .setId(cloudOrg.getId())
+                        .setCreateDate(cloudOrg.getCreateDate())
+                        .setCreateUser(cloudOrg.getCreateUser());
                 if (Objects.nonNull(cloudPartyMember)){
 
-                    cloudOrgVo.setCloudOrg(cloudOrg)
-                            .setPhoneNumer(cloudPartyMember.getMemberPhoneNumber())
+                            cloudOrgVo.setPhoneNumer(cloudPartyMember.getMemberPhoneNumber())
                             .setOrgLeader(cloudPartyMember.getMemberName())
                             .setCount(count);
                 }
 
-                cloudOrgVo.setCloudOrg(cloudOrg)
+                cloudOrgVo
                         .setCount(count);
                cloudOrgVos.add(cloudOrgVo);
 

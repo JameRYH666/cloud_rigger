@@ -3,11 +3,8 @@ package com.jeeadmin.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-
 import com.jeeadmin.api.*;
-
 import com.jeeadmin.entity.*;
-
 import com.jeeadmin.mapper.CloudMeetingMapper;
 import com.jeeadmin.vo.meeting.CloudMeetingDetailVo;
 import com.jeeadmin.vo.meeting.CloudMeetingPartyMemberVo;
@@ -17,7 +14,6 @@ import com.jeerigger.core.common.core.SnowFlake;
 import com.jeerigger.frame.base.service.impl.BaseServiceImpl;
 import com.jeerigger.frame.enums.MeetingAndActivityEnum;
 import com.jeerigger.frame.enums.StatusEnum;
-import com.jeerigger.frame.exception.FrameException;
 import com.jeerigger.frame.exception.ValidateException;
 import com.jeerigger.frame.page.PageHelper;
 import com.jeerigger.frame.support.validate.ValidateUtil;
@@ -69,7 +65,7 @@ public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper,
      */
 
     @Override
-    public Page<CloudMeetingVo> selectPage(PageHelper<CloudMeetingVo> pageHelper) {
+    public Page<CloudMeetingVo> selectPage(PageHelper<CloudMeeting> pageHelper) {
         Page<CloudMeeting> page = new Page<>(pageHelper.getCurrent(), pageHelper.getSize());
         QueryWrapper<CloudMeeting> queryWrapper = new QueryWrapper<CloudMeeting>();
         if(pageHelper.getData() != null){
@@ -87,11 +83,13 @@ public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper,
                 queryWrapper.lambda().eq(CloudMeeting::getTypeCode,meetingData.getTypeCode());
             }
         }
+        //NORMAL("1", "正常"),REMOVE("2", "删除"),TURN("3", "驳回"),NOREVIEWED("4", "未审核");
         queryWrapper.lambda().ne(CloudMeeting::getMeetingStatus,MeetingAndActivityEnum.REMOVE.getCode());
         queryWrapper.lambda().orderByAsc(CloudMeeting::getMeetingTime);
         // 查询所有符合条件的会议分页信息
         IPage<CloudMeeting> meetingPage = this.page(page, queryWrapper);
-        // 获取所有会议信息
+
+       // 获取所有会议信息
         List<CloudMeeting> cloudMeetingList = meetingPage.getRecords();
         // 获取所有的会议id信息存入新的集合中
         List<Long> ids = new ArrayList<Long>();
@@ -100,6 +98,7 @@ public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper,
         }
         // 查询复合信息
         Page<CloudMeetingVo> meetingVoPage = new Page<>(pageHelper.getCurrent(), pageHelper.getSize());
+        // 讲获取到的数据存放到meetingVo数据中
         meetingVoPage.setRecords(cloudMeetingMapper.selectAllMeetings(ids));
         return meetingVoPage;
     }
@@ -181,7 +180,9 @@ public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper,
     *       第一步，新增会议信息
     *       第二部，新增会议负责人信息
     *       第三步，新增会议参会人员信息
-    *       第四步，新增会议附件信息
+    *       第四步，新增附件信息
+     *      第五步，新增会议附件信息
+     *      第六步，新增审批信息
     *
     */
     @Override
@@ -189,7 +190,7 @@ public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper,
     public boolean saveMeeting(CloudMeetingSaveVo cloudMeetingDetailVo ){
         //获取创建时间
         Date date = new Date();
-        // 获取创建人
+        // 获取创建人 TODO 本来应该是从security中获取到，由于现在没有登录，数据现在暂时写死
         Long userId = SecurityUtil.getUserId();
         userId = 1L;
 
@@ -197,6 +198,7 @@ public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper,
         if (Objects.isNull(cloudMeetingDetailVo)){
             throw new ValidateException("会议信息不能为空");
         }
+        // 验证数据的完整性
         ValidateUtil.validateObject(cloudMeetingDetailVo);
         // 获取到会议信息
         CloudMeeting cloudMeeting = new CloudMeeting();
@@ -288,7 +290,16 @@ public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper,
                 throw new ValidateException("新增会议附件信息失败");
             }
 
+
         }
+
+        // 新增审核类型
+        CloudExamine cloudExamine = new CloudExamine();
+        cloudExamine.setForeignId(meetingId);
+        // 3代表的事会议类型
+        cloudExamine.setExamineTypeCode("3");
+        cloudExamineService.saveExamine(cloudExamine);
+
 
         return true;
 

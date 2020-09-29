@@ -2,7 +2,6 @@ package com.jeeadmin.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.jeerigger.frame.base.model.BaseModel;
 import com.jeerigger.frame.base.model.BaseTreeModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -12,7 +11,6 @@ import lombok.experimental.Accessors;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.util.Date;
 
 /**
  * @author Seven Lee
@@ -116,6 +114,7 @@ public class CloudOrg extends BaseTreeModel<CloudOrg> {
      *  组织机构地址
      */
     private String orgAddress;
+
 
 
 

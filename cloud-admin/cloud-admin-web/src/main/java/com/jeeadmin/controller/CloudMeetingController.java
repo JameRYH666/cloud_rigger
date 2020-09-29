@@ -2,22 +2,21 @@ package com.jeeadmin.controller;
 
 
 import com.jeeadmin.api.ICloudMeetingService;
-
-import com.jeeadmin.entity.CloudActivity;
 import com.jeeadmin.entity.CloudMeeting;
-import com.jeeadmin.vo.meeting.CloudMeetingDetailVo;
 import com.jeeadmin.vo.meeting.CloudMeetingSaveVo;
 import com.jeeadmin.vo.meeting.CloudMeetingVo;
 import com.jeerigger.frame.base.controller.BaseController;
 import com.jeerigger.frame.base.controller.ResultCodeEnum;
 import com.jeerigger.frame.base.controller.ResultData;
 import com.jeerigger.frame.page.PageHelper;
-
 import com.jeerigger.frame.support.resolver.annotation.SingleRequestBody;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 
 /**
@@ -34,14 +33,14 @@ public class CloudMeetingController extends BaseController {
 
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ApiOperation(value = "获取活动会议数据列表", notes = "获取活动会议数据列表")
-    public ResultData list(PageHelper<CloudMeetingVo> pageHelper){
+    public ResultData list( PageHelper<CloudMeeting> pageHelper){
         return this.success(cloudMeetingService.selectPage(pageHelper));
     }
 
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     @ApiOperation(value = "新增活动会议数据",notes = "新增活动会议数据列表")
     public ResultData add( @RequestBody CloudMeetingSaveVo meeting){
-        /*this.getClass().getAnnotationsByType(RequestMapping.class);*/
+
         return this.success(cloudMeetingService.saveMeeting(meeting));
     }
 
