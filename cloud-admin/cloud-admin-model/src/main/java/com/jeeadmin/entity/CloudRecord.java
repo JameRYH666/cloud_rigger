@@ -3,6 +3,7 @@ package com.jeeadmin.entity;
 import com.jeerigger.frame.base.model.BaseModel;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiOperation;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -88,6 +89,54 @@ public class CloudRecord extends BaseModel<CloudRecord> {
      */
     @ApiModelProperty("外出发起人id")
     private Long partyMemberId;
+
+    @ApiModelProperty("承诺时间")
+    private Date recordCommittedTime;
+
+    @ApiModelProperty("证件类型")
+    private String recordCertificateCode;
+
+    @ApiModelProperty("证件号码")
+    private String recordCertificateNumber;
+
+    @ApiModelProperty("有效开始时间")
+    private Date recordValidityBegins;
+
+    @ApiModelProperty("有效结束时间")
+    private Date recordValidityEnds;
+
+    @ApiModelProperty("婚事/丧事时间")
+    private Date recordDate;
+
+    @ApiModelProperty("关系类型")
+    private String recordRelationshipCode;
+
+    @ApiModelProperty("操办方式")
+    private String recordOperationMethod;
+
+    @ApiModelProperty("操办规模")
+    private String recordOperationalScale;
+
+    @ApiModelProperty("邀请人数")
+    private Integer recordGuestsNumber;
+
+    @ApiModelProperty("参加人数")
+    private Integer recordParticipateNumber;
+
+    @ApiModelProperty("使用车辆数量")
+    private Integer recordCarNumber;
+
+    @ApiModelProperty("设席数量")
+    private Integer recordSeatNumber;
+
+    @ApiModelProperty("花费")
+    private Long recordSpend;
+
+    @ApiModelProperty("接受礼金")
+    private Long recordAcceptMoney;
+
+    @ApiModelProperty("接受礼品")
+    private Integer recordAcceptGifts;
 
     /**
      *  报备状态

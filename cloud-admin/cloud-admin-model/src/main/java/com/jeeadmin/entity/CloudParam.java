@@ -1,6 +1,7 @@
 package com.jeeadmin.entity;
 
 import com.jeerigger.frame.base.model.BaseModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -29,6 +30,7 @@ public class CloudParam extends BaseModel<CloudParam> {
      */
     @NotNull(message = "参数名称不能为空！")
     @Size(max = 64,message = "参数名称长度最大值为64！")
+    @ApiModelProperty(value = "参数配置名称")
     private String paramName;
 
     /**
@@ -36,6 +38,7 @@ public class CloudParam extends BaseModel<CloudParam> {
      */
     @NotNull(message = "参数键名不能为空！")
     @Size(max = 64,message = "参数键名长度最大值为64！")
+    @ApiModelProperty(value = "参数配置键名")
     private String paramKey;
 
     /**
@@ -43,17 +46,20 @@ public class CloudParam extends BaseModel<CloudParam> {
      */
     @NotNull(message = "参数键值不能为空！")
     @Size(max = 200,message = "参数键值长度最大值为200！")
+    @ApiModelProperty(value = "参数配置键值")
     private String paramValue;
 
     /**
      * 系统参数标识(0:否 1:是)
      */
     @Pattern(regexp = "[01]",message = "系统内置标识值必须为0或1（0:否 1:是）！")
+    @ApiModelProperty(value = "系统参数标识(0:否 1:是)")
     private String sysFlag;
 
     /**
      * 备注信息(冗余字段)
      */
+    @ApiModelProperty(value = "备注信息(冗余字段)")
     private String remark;
 
     private Date createDate;

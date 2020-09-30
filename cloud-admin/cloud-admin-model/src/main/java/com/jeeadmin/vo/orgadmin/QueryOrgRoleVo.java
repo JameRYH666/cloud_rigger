@@ -2,6 +2,7 @@ package com.jeeadmin.vo.orgadmin;
 
 import com.jeeadmin.entity.CloudUserOrg;
 import com.jeeadmin.entity.CloudUserRole;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -18,13 +19,16 @@ public class QueryOrgRoleVo {
     /**
      * 用户uuid
      */
+    @ApiModelProperty(value = "用户id")
     private Long userId;
     /**
      * 组织机构管理员已分配角色
      */
+    @ApiModelProperty(value = "组织机构管理员已分配角色")
     private List<CloudUserRole>  OrgAdminRoleList;
     /**
      * 组织机构管理员已分配组织机构
      */
+    @ApiModelProperty(value = "组织机构管理员已分配组织机构")
     private List<CloudUserOrg>  OrgAdminOrgList;
 }

@@ -2,6 +2,7 @@ package com.jeeadmin.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.jeerigger.frame.base.model.BaseModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -21,11 +22,13 @@ public class CloudRoleMenu extends BaseModel<CloudRoleMenu> {
     /**
      * 角色id
      */
+    @ApiModelProperty(value = "角色id")
     private Long roleId;
 
     /**
      * 菜单id
      */
+    @ApiModelProperty(value = "菜单id")
     private Long menuId;
 
   /*  *//**

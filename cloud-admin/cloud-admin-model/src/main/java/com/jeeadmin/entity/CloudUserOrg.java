@@ -2,6 +2,7 @@ package com.jeeadmin.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.jeerigger.frame.base.model.BaseModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -25,16 +26,19 @@ public class CloudUserOrg extends BaseModel<CloudUserOrg> {
     /**
      * 用户id
      */
+    @ApiModelProperty(value = "用户id")
     private Long userId;
 
     /**
      * 组织机构id
      */
+    @ApiModelProperty(value = "组织机构id")
     private Long orgId;
 
     /**
      * 创建用户
      */
+    @ApiModelProperty(value = "创建用户")
     private Long createUser;
 
     /**

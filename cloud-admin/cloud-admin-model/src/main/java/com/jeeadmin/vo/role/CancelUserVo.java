@@ -1,5 +1,6 @@
 package com.jeeadmin.vo.role;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -16,9 +17,11 @@ public class CancelUserVo {
     /**
      * 角色id
      */
+    @ApiModelProperty(value = "角色id")
     Long roleId;
     /**
      * 用户id
      */
+    @ApiModelProperty(value = "用户id")
     List<Long> userIdList;
 }

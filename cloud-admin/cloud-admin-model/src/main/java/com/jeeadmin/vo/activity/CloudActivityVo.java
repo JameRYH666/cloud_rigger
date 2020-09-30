@@ -2,6 +2,7 @@ package com.jeeadmin.vo.activity;
 
 import com.jeeadmin.entity.CloudActivity;
 import com.jeeadmin.entity.CloudEnclosure;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -23,16 +24,19 @@ public class CloudActivityVo extends CloudActivity {
     /**
      *  活动组织人
      */
+    @ApiModelProperty(value = "活动组织人")
     private String createName;
 
     /**
      *  附件信息
      */
+    @ApiModelProperty(value = "附件信息")
     private List<CloudEnclosure> enclosureList;
 
     /**
      *  活动附件id
      */
+    @ApiModelProperty(value = "活动附件id")
     private Long cloudEnclosureId;
 
     private Date createDate;
