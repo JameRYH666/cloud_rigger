@@ -1,8 +1,10 @@
 package com.jeerigger.frame.page;
 
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 @Data
+@Accessors(chain = true)
 public class PageHelper<T> {
     /**
      * 当前页数
@@ -16,9 +18,6 @@ public class PageHelper<T> {
      * 查询条件
      */
     private T data;
-
-    public PageHelper(T current, T size) {
-    }
 
     /**
      * 设置每页记录数默认值
