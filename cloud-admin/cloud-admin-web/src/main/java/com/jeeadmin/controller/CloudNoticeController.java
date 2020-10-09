@@ -12,10 +12,7 @@ import com.jeerigger.frame.support.resolver.annotation.SingleRequestBody;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 /**
@@ -27,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/notice")
 @Api(value = "通知公告信息", tags = "通知公告信息")
+@CrossOrigin(origins = "*",methods = {RequestMethod.GET,RequestMethod.POST},allowCredentials = "true")
 public class CloudNoticeController extends BaseController {
 
     @Autowired
@@ -34,7 +32,7 @@ public class CloudNoticeController extends BaseController {
 
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ApiOperation(value = "获取通知公告数据列表", notes = "获取通知公告数据列表")
-    public ResultData list(PageHelper<CloudNoticeVo> pageHelper){
+    public ResultData list(@RequestBody PageHelper<CloudNoticeVo> pageHelper){
         return this.success(cloudNoticeService.selectPage(pageHelper));
     }
 

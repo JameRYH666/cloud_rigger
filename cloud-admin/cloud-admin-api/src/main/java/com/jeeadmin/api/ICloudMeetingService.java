@@ -32,7 +32,7 @@ public interface ICloudMeetingService extends BaseService<CloudMeeting> {
      *  查询所有的会议信息，并进行分页处理
      *
      */
-    Page<CloudMeetingVo> selectPage(PageHelper<CloudMeetingVo> pageHelper);
+    Page<CloudMeetingVo> selectPage(PageHelper<CloudMeeting> pageHelper);
     /**
      * @Author: Sgz
      * @Time: 17:04 2020/9/11

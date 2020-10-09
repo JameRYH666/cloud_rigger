@@ -1,5 +1,6 @@
 package com.jeeadmin.vo.member;
 
+import com.jeeadmin.entity.CloudPartyMember;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -15,7 +16,7 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-public class PartyMemberVo {
+public class PartyMemberVo extends CloudPartyMember {
     /**
      * 党员姓名
      */

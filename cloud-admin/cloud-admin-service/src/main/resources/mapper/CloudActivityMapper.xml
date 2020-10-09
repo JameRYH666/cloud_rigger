@@ -25,12 +25,25 @@
 
     <select id="selectByUserId" parameterType="long" resultType="com.jeeadmin.entity.CloudActivity">
         SELECT
-            ca.*
+            ca.id,
+            ca.activity_tile,
+            ca.activity_address,
+            ca.activity_comment,
+            ca.remark,
+            ca.create_user,
+            ca.create_date,
+            ca.update_user,
+            ca.update_date,
+            ca.ma_id,
+            cdd.dict_value codeName,
+            cdd2.dict_value fromName
         FROM
             cloud_activity ca
             INNER JOIN cloud_activity_party_member capm ON capm.activity_id = ca.id
             INNER JOIN cloud_party_member cpm ON cpm.id = capm.party_member_id
             INNER JOIN cloud_user cu ON cu.id = cpm.user_id
+            INNER JOIN cloud_dict_data cdd ON ca.activity_code = cdd.data_code
+	        INNER JOIN cloud_dict_data cdd2 ON ca.form_code = cdd2.data_code
         WHERE
             cu.id = #{id}
             AND ca.activity_status != 2
@@ -38,12 +51,25 @@
 
     <select id="selectProcessed" parameterType="long" resultType="com.jeeadmin.entity.CloudActivity">
         SELECT
-            ca.*
+            ca.id,
+            ca.activity_tile,
+            ca.activity_address,
+            ca.activity_comment,
+            ca.remark,
+            ca.create_user,
+            ca.create_date,
+            ca.update_user,
+            ca.update_date,
+            ca.ma_id,
+            cdd.dict_value codeName,
+            cdd2.dict_value fromName
         FROM
             cloud_activity ca
             INNER JOIN cloud_activity_party_member capm ON capm.activity_id = ca.id
             INNER JOIN cloud_party_member cpm ON cpm.id = capm.party_member_id
             INNER JOIN cloud_user cu ON cu.id = cpm.user_id
+            INNER JOIN cloud_dict_data cdd ON ca.activity_code = cdd.data_code
+	        INNER JOIN cloud_dict_data cdd2 ON ca.form_code = cdd2.data_code
         WHERE
             cu.id = #{id}
             AND ca.activity_status in (1,3)
@@ -51,16 +77,53 @@
 
     <select id="selectUntreated" parameterType="long" resultType="com.jeeadmin.entity.CloudActivity">
         SELECT
-            ca.*
+            ca.id,
+            ca.activity_tile,
+            ca.activity_address,
+            ca.activity_comment,
+            ca.remark,
+            ca.create_user,
+            ca.create_date,
+            ca.update_user,
+            ca.update_date,
+            ca.ma_id,
+            cdd.dict_value codeName,
+            cdd2.dict_value fromName
         FROM
             cloud_activity ca
             INNER JOIN cloud_activity_party_member capm ON capm.activity_id = ca.id
             INNER JOIN cloud_party_member cpm ON cpm.id = capm.party_member_id
             INNER JOIN cloud_user cu ON cu.id = cpm.user_id
+            INNER JOIN cloud_dict_data cdd ON ca.activity_code = cdd.data_code
+	        INNER JOIN cloud_dict_data cdd2 ON ca.form_code = cdd2.data_code
         WHERE
             cu.id = #{id}
             AND ca.activity_status = 4
     </select>
 
+    <select id="selectPartyMemberByUserId" parameterType="long" resultType="com.jeeadmin.entity.CloudActivity">
+        SELECT
+            ca.id,
+            ca.activity_tile,
+            ca.activity_address,
+            ca.activity_comment,
+            ca.remark,
+            ca.create_user,
+            ca.create_date,
+            ca.update_user,
+            ca.update_date,
+            ca.ma_id,
+            cdd.dict_value codeName,
+            cdd2.dict_value fromName
+        FROM
+            cloud_activity ca
+            INNER JOIN cloud_examine ce ON ca.id = ce.foreign_id
+            INNER JOIN cloud_examine_user ceu ON ceu.examine_id = ce.id
+            INNER JOIN cloud_dict_data cdd ON ca.activity_code = cdd.data_code
+            INNER JOIN cloud_dict_data cdd2 ON ca.form_code = cdd2.data_code
+        WHERE
+            ceu.party_member_id = ?
+            AND ca.activity_status = 4
+    </select>
 
 </mapper>

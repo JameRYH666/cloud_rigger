@@ -13,10 +13,7 @@ import com.jeerigger.frame.support.resolver.annotation.SingleRequestBody;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 /**
@@ -26,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/meeting")
 @Api(value = "会议信息", tags = "会议信息")
+@CrossOrigin(origins = "*",methods = {RequestMethod.GET,RequestMethod.POST},allowCredentials = "true")
 public class CloudMeetingController extends BaseController {
 
     @Autowired

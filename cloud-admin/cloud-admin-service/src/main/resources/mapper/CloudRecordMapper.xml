@@ -17,19 +17,41 @@
     <result column="record_job_contact_phone_number" property="recordJobContactPhoneNumber" jdbcType="VARCHAR" />
     <result column="type_code" property="typeCode" jdbcType="VARCHAR" />
     <result column="party_member_id" property="partyMemberId" jdbcType="BIGINT" />
+    <result column="record_committed_time" property="recordCommittedTime" jdbcType="TIMESTAMP"/>
+    <result column="record_certificate_code" property="recordCertificateCode" jdbcType="VARCHAR"/>
+    <result column="record_certificate_number" property="recordCertificateNumber" jdbcType="VARCHAR"/>
+    <result column="record_validity_begins" property="recordValidityBegins" jdbcType="TIMESTAMP"/>
+    <result column="record_validity_ends" property="recordValidityEnds" jdbcType="TIMESTAMP"/>
+    <result column="record_date" property="recordDate" jdbcType="TIMESTAMP"/>
+    <result column="record_party_name" property="recordPartyName" jdbcType="VARCHAR"/>
+    <result column="record_relationship_code" property="recordRelationshipCode" jdbcType="VARCHAR"/>
+    <result column="record_operation_method" property="recordOperationMethod" jdbcType="VARCHAR"/>
+    <result column="record_operational_scale" property="recordOperationalScale" jdbcType="VARCHAR"/>
+    <result column="record_guests_number" property="recordGuestsNumber" jdbcType="INTEGER"/>
+    <result column="record_participate_number" property="recordParticipateNumber" jdbcType="INTEGER"/>
+    <result column="record_car_number" property="recordCarNumber" jdbcType="INTEGER"/>
+    <result column="record_seat_number" property="recordSeatNumber" jdbcType="INTEGER"/>
+    <result column="record_spend" property="recordSpend" jdbcType="BIGINT"/>
+    <result column="record_accept_money" property="recordAcceptMoney" jdbcType="BIGINT"/>
+    <result column="record_accept_gifts" property="recordAcceptGifts" jdbcType="INTEGER"/>
+
     <result column="create_user" property="createUser" jdbcType="VARCHAR" />
     <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
     <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
     <result column="record_status" property="recordStatus" jdbcType="CHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
-    <result column="record_reason" property="recordReason" jdbcType="LONGVARCHAR" /><!--
+    <result column="record_reason" property="recordReason" jdbcType="VARCHAR" /><!--
     <result column="examine_reject_reason" property="examineRejectReason" jdbcType="VARCHAR"/>-->
   </resultMap>
 
     <sql id="Base_Column_List">
     id,record_start_time,record_end_time,record_day,record_address,record_with_person,record_contact,
-    record_contact_phone_number,record_job_contact,record_job_contact_phone_number,type_code,party_member_id
+    record_contact_phone_number,record_job_contact,record_job_contact_phone_number,type_code,party_member_id,
+    record_party_name,record_committed_time,record_certificate_code,record_certificate_number,record_validity_begins,
+    record_validity_ends,record_date,record_relationship_code,record_operation_method,
+    record_operational_scale,record_guests_number,record_participate_number,record_car_number,
+    record_seat_number,record_spend,record_accept_money,record_accept_gifts,
     create_user,create_date,update_user,update_date,record_status,remark,record_reason
     </sql>
 

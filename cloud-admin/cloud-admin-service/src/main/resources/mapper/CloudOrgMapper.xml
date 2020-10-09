@@ -16,6 +16,13 @@
     <result column="leaf_flag" property="leafFlag" jdbcType="CHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="top_level" property="topLevel" jdbcType="VARCHAR" />
+      <result column="vice_secretary_party_id" property="viceSecretaryPartyId" jdbcType="VARCHAR" />
+      <result column="contact_person_party_id" property="contactPersonPartyId" jdbcType="VARCHAR" />
+      <result column="organizing_ommittee_party_id" property="organizingOmmitteePartyId" jdbcType="VARCHAR" />
+      <result column="promoter_party_id" property="promoterPartyId" jdbcType="VARCHAR" />
+      <result column="discipline_inspection_party_id" property="disciplineInspectionPartyId" jdbcType="VARCHAR" />
+      <result column="youth_committee_party_id" property="youthCommitteePartyId" jdbcType="VARCHAR" />
+      <result column="party_number" property="partyNumber" jdbcType="INTEGER" />
     <result column="create_user" property="createUser" jdbcType="VARCHAR" />
     <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
     <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
@@ -28,8 +35,10 @@
 
   <!-- 通用查询结果列 -->
   <sql id="Base_Column_List">
-    id, parent_id, org_code, org_name, org_short_name, org_party_member_id,  org_sort, org_status, leaf_flag, remark, top_level, create_user, create_date, update_user, update_date,org_type_code,
-    org_tel_number,org_address
+    id, parent_id, org_code, org_name, org_short_name, org_party_member_id,  org_sort, org_status, leaf_flag,
+     remark, top_level, create_user, create_date, update_user, update_date,org_type_code,vice_secretary_party_id,
+     contact_person_party_id,organizing_ommittee_party_id,promoter_party_id,discipline_inspection_party_id,
+     youth_committee_party_id,party_number,org_tel_number,org_address
   </sql>
   <select id="selectAllOrgDetail" resultType="com.jeeadmin.vo.org.CloudOrgVo">
     SELECT

@@ -23,6 +23,8 @@ public interface ICloudActivityRecordService extends BaseService<CloudActivityRe
      */
     Page<CloudActivityRecord> selectData(PageHelper<CloudActivityRecord> pageHelper);
 
+    Page<CloudActivityRecord> selectByActivityId(PageHelper<CloudActivityRecord> pageHelper);
+
     /**
      *      新增活动记录信息
      */

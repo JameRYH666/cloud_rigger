@@ -36,7 +36,7 @@ public class SysDictTypeController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ApiOperation(value = "获取字典类型列表", notes = "获取字典类型列表")
-    public ResultData list(@RequestBody PageHelper<CloudDictType> pageHelper) {
+    public ResultData list( PageHelper<CloudDictType> pageHelper) {
         return this.success(sysDictTypeService.selectPage(pageHelper));
     }
 

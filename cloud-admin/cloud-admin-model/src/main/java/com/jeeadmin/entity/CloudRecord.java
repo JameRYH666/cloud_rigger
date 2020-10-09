@@ -3,7 +3,6 @@ package com.jeeadmin.entity;
 import com.jeerigger.frame.base.model.BaseModel;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiOperation;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -90,6 +89,12 @@ public class CloudRecord extends BaseModel<CloudRecord> {
     @ApiModelProperty("外出发起人id")
     private Long partyMemberId;
 
+    /**
+     *  报备状态
+     */
+    @ApiModelProperty("报备状态")
+    private String recordStatus;
+
     @ApiModelProperty("承诺时间")
     private Date recordCommittedTime;
 
@@ -107,6 +112,9 @@ public class CloudRecord extends BaseModel<CloudRecord> {
 
     @ApiModelProperty("婚事/丧事时间")
     private Date recordDate;
+
+    @ApiModelProperty("当事人姓名")
+    private String recordPartyName;
 
     @ApiModelProperty("关系类型")
     private String recordRelationshipCode;
@@ -137,12 +145,6 @@ public class CloudRecord extends BaseModel<CloudRecord> {
 
     @ApiModelProperty("接受礼品")
     private Integer recordAcceptGifts;
-
-    /**
-     *  报备状态
-     */
-    @ApiModelProperty("报备状态")
-    private String recordStatus;
 
     /**
      *      备注信息

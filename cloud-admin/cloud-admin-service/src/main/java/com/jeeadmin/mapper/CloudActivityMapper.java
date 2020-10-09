@@ -1,10 +1,7 @@
 package com.jeeadmin.mapper;
 
 import com.jeeadmin.entity.CloudActivity;
-import com.jeeadmin.vo.activity.CloudActivityVo;
 import com.jeerigger.frame.base.mapper.BaseMapper;
-import com.sun.jna.platform.win32.WinDef;
-
 import java.util.List;
 
 /**
@@ -29,4 +26,9 @@ public interface CloudActivityMapper extends BaseMapper<CloudActivity> {
      *      根据用户id查询未处理的活动
      */
     List<CloudActivity> selectUntreated(Long id);
+
+    /**
+     *      根据党员ID查询需要处理的活动
+     */
+    List<CloudActivity> selectPartyMemberByUserId(Long id);
 }

@@ -10,11 +10,9 @@ import com.jeerigger.frame.page.PageHelper;
 import com.jeerigger.frame.support.resolver.annotation.SingleRequestBody;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import javafx.scene.chart.ValueAxis;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @Company YXH
@@ -25,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/activity/record")
 @Api(value = "活动记录信息", tags = "活动记录信息")
+@CrossOrigin(origins = "*",methods = {RequestMethod.GET,RequestMethod.POST},allowCredentials = "true")
 public class CloudActivityRecordController extends BaseController {
 
     @Autowired
@@ -32,8 +31,14 @@ public class CloudActivityRecordController extends BaseController {
 
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ApiOperation(value = "活动记录信息数据列表", notes = "活动记录信息数据列表")
-    public ResultData list(PageHelper<CloudActivityRecord> pageHelper){
+    public ResultData list(@RequestBody PageHelper<CloudActivityRecord> pageHelper){
         return this.success(cloudActivityRecordService.selectData(pageHelper));
+    }
+
+    @RequestMapping(value = "/selectByActivityId",method = RequestMethod.POST)
+    @ApiOperation(value = "根据活动ID查询对应的活动记录",notes = "根据活动ID查询对应的活动记录")
+    public ResultData selectByActivityId(PageHelper<CloudActivityRecord> pageHelper){
+        return this.success(cloudActivityRecordService.selectByActivityId(pageHelper));
     }
 
     @RequestMapping(value = "/add",method = RequestMethod.POST)

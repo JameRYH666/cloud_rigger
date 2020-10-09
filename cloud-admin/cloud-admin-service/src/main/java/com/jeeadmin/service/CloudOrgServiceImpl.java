@@ -120,6 +120,8 @@ public class CloudOrgServiceImpl extends BaseTreeServiceImpl<CloudOrgMapper, Clo
 
     }
 
+
+
     /**
      * 查询所有的党组织机构详情，并进行分页处理
      * TODO 反序列化异常

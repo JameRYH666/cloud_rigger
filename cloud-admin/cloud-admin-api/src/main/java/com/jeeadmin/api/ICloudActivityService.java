@@ -56,5 +56,9 @@ public interface ICloudActivityService extends BaseService<CloudActivity> {
      */
     Page<CloudActivity> selectUntreated(PageHelper<CloudActivity> pageHelper);
 
+    /**
+     *  根据党员ID查询需要处理的活动
+     */
+    Page<CloudActivity> selectUntreatedByPartyMemberId(PageHelper<CloudActivity> pageHelper);
 
 }

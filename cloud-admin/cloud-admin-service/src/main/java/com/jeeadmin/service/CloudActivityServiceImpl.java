@@ -6,11 +6,13 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jeeadmin.api.ICloudActivityService;
 import com.jeeadmin.api.ICloudEnclosureService;
 import com.jeeadmin.api.ICloudExamineService;
+import com.jeeadmin.api.ICloudPartyMemberService;
 import com.jeeadmin.entity.*;
 import com.jeeadmin.mapper.CloudActivityEnclosureMapper;
 import com.jeeadmin.mapper.CloudActivityMapper;
 import com.jeeadmin.mapper.CloudEnclosureMapper;
 import com.jeeadmin.vo.activity.CloudActivityVo;
+import com.jeeadmin.vo.member.CloudPartyMemberVo;
 import com.jeerigger.core.common.core.SnowFlake;
 import com.jeerigger.core.module.sys.util.SysDictUtil;
 import com.jeerigger.frame.base.service.impl.BaseServiceImpl;
@@ -21,6 +23,7 @@ import com.jeerigger.frame.page.PageHelper;
 import com.jeerigger.frame.support.validate.ValidateUtil;
 import com.jeerigger.frame.util.StringUtil;
 import com.jeerigger.security.SecurityUtil;
+import io.swagger.annotations.ApiModelProperty;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -55,6 +58,8 @@ public class CloudActivityServiceImpl extends BaseServiceImpl<CloudActivityMappe
     private CloudActivityMapper cloudActivityMapper;
     @Autowired
     private ICloudExamineService cloudExamineService;
+    @Autowired
+    private ICloudPartyMemberService cloudPartyMemberService;
 
     /**
      * 获取活动信息
@@ -208,8 +213,10 @@ public class CloudActivityServiceImpl extends BaseServiceImpl<CloudActivityMappe
             throw new ValidateException("该活动数据不存在,不能进行");
         }
         // 执行更新操作
-        UpdateWrapper<CloudActivity> updateWrapper = new UpdateWrapper<CloudActivity>();
+        UpdateWrapper<CloudActivity> updateWrapper = new UpdateWrapper<>();
         updateWrapper.lambda().set(CloudActivity::getActivityStatus, cloudActivity.getActivityStatus());
+        updateWrapper.lambda().set(CloudActivity::getUpdateDate,new Date());
+        updateWrapper.lambda().set(CloudActivity::getUpdateUser,SecurityUtil.getUserId());
         updateWrapper.lambda().eq(CloudActivity::getId,cloudActivity.getId());
         boolean update = this.update(new CloudActivity(), updateWrapper);
         return update;
@@ -255,6 +262,14 @@ public class CloudActivityServiceImpl extends BaseServiceImpl<CloudActivityMappe
         return page;
     }
 
+    /**
+    * @Author: Ryh
+    * @Description:         根据当前用户查询未处理的活动
+    * @Param: [pageHelper]
+    * @Date: Create in 2020/10/9
+    * @Return: com.baomidou.mybatisplus.extension.plugins.pagination.Page<com.jeeadmin.entity.CloudActivity>
+    * @Throws:
+    */
     @Override
     public Page<CloudActivity> selectUntreated(PageHelper<CloudActivity> pageHelper) {
         Page<CloudActivity> page = new Page<>(pageHelper.getCurrent(), pageHelper.getSize());
@@ -267,6 +282,33 @@ public class CloudActivityServiceImpl extends BaseServiceImpl<CloudActivityMappe
         return page;
     }
 
+    /**
+    * @Author: Ryh
+    * @Description:         根据党员ID查询需要处理的活动
+    * @Param: [pageHelper]
+    * @Date: Create in 2020/10/9
+    * @Return: com.baomidou.mybatisplus.extension.plugins.pagination.Page<com.jeeadmin.entity.CloudActivity>
+    * @Throws:
+    */
+    @Override
+    public Page<CloudActivity> selectUntreatedByPartyMemberId(PageHelper<CloudActivity> pageHelper) {
+        Page<CloudActivity> page = new Page<>(pageHelper.getCurrent(), pageHelper.getSize());
+        Long userId = SecurityUtil.getUserId();
+        CloudPartyMember cloudPartyMember = cloudPartyMemberService.getPartyMemberByUserId(userId);
+        if (null == cloudPartyMember){
+            throw new ValidateException("当前的党员信息为空");
+        }
+        Long id = cloudPartyMember.getId();
+        if (null == id){
+            throw new ValidateException("当前的党员id为空");
+        }
+        List<CloudActivity> cloudActivities = cloudActivityMapper.selectPartyMemberByUserId(id);
+        if (null == cloudActivities || "".equals(cloudActivities)){
+            throw new ValidateException("当前已处理的数据为空");
+        }
+        page.setRecords(cloudActivities);
+        return page;
+    }
 
 
 }

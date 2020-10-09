@@ -40,7 +40,7 @@ public interface ICloudOrgService extends BaseTreeService<CloudOrg> {
      *
      * @return
      */
-    Page<CloudOrgVo> selectAll(PageHelper<CloudOrgVo> pageHelper);
+    Page<CloudOrgVo> selectAll(PageHelper<CloudOrg> pageHelper);
 
     /**
      * @Author: Sgz

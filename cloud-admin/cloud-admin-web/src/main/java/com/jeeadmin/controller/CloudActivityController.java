@@ -10,6 +10,7 @@ import com.jeerigger.frame.base.controller.ResultData;
 import com.jeerigger.frame.page.PageHelper;
 import com.jeerigger.frame.support.resolver.annotation.SingleRequestBody;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -97,6 +98,13 @@ public class CloudActivityController extends BaseController {
     public ResultData selectUntreated( PageHelper<CloudActivity> pageHelper) {
         return this.success(cloudActivityService.selectUntreated(pageHelper));
     }
+
+    @RequestMapping(value = "/selectUntreatedByPartyMemberId", method = RequestMethod.POST)
+    @ApiOperation(value = "根据党员id查询需要处理活动信息", notes = "根据党员id查询需要处理活动信息")
+    public ResultData selectUntreatedByPartyMemberId(PageHelper<CloudActivity> pageHelper){
+        return this.success(cloudActivityService.selectUntreatedByPartyMemberId(pageHelper));
+    }
+
 
 
 }

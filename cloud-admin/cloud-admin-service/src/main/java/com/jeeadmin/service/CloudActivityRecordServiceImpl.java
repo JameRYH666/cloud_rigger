@@ -2,6 +2,7 @@ package com.jeeadmin.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jeeadmin.api.ICloudActivityRecordEnclosureService;
 import com.jeeadmin.api.ICloudActivityRecordService;
@@ -73,11 +74,36 @@ public class CloudActivityRecordServiceImpl extends BaseServiceImpl<CloudActivit
             if (StringUtil.isNotEmpty(activityRecordData.getRecordTitle())){
                 queryWrapper.lambda().like(CloudActivityRecord::getRecordTitle,activityRecordData.getRecordTitle());
             }
+            if (Objects.nonNull(activityRecordData.getActivityId())){
+                queryWrapper.lambda().eq(CloudActivityRecord::getActivityId,activityRecordData.getActivityId());
+            }
         }
         queryWrapper.lambda().ne(CloudActivityRecord::getRecordStatus, MeetingAndActivityEnum.REMOVE.getCode());
         queryWrapper.lambda().orderByAsc(CloudActivityRecord::getCreateDate);
         this.page(page,queryWrapper);
         return page;
+    }
+
+    /**
+     *  springboot实现前后端分离:最主要就是在响应头中添加三个属性，
+     *  一个是放行所有的请求路径，一个是否允许客户端获取用户的凭证，一个是跨域请求的方式(get,post)
+     */
+
+    /**
+     *          根据活动id查询对应的活动记录信息
+     * @param
+     * @return
+     */
+    @Override
+    public Page<CloudActivityRecord> selectByActivityId(PageHelper<CloudActivityRecord> pageHelper) {
+        Page<CloudActivityRecord> cloudActivityRecordPage = new Page<>(pageHelper.getCurrent(), pageHelper.getSize());
+        QueryWrapper<CloudActivityRecord> queryWrapper = new QueryWrapper<>();
+        CloudActivityRecord data = pageHelper.getData();
+        queryWrapper.lambda().ne(CloudActivityRecord::getRecordStatus, MeetingAndActivityEnum.REMOVE.getCode());
+        queryWrapper.lambda().eq(CloudActivityRecord::getActivityId,data.getActivityId());
+        queryWrapper.lambda().orderByAsc(CloudActivityRecord::getCreateDate);
+        IPage<CloudActivityRecord> page = this.page(cloudActivityRecordPage, queryWrapper);
+        return (Page<CloudActivityRecord>)page;
     }
 
     /**
