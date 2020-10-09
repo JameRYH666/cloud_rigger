@@ -123,9 +123,9 @@ public class CloudUserServiceImpl extends BaseServiceImpl<CloudUserMapper, Cloud
         cloudUser.setUserStatus(StatusEnum.NORMAL.getCode());
         long id = snowFlake.nextId();
         cloudUser.setId(id);
-        //todo  security暂时获取不到数据
-        // cloudUser.setCreateUser(SecurityUtil.getUserId());
-        cloudUser.setCreateUser(1L);
+
+         cloudUser.setCreateUser(SecurityUtil.getUserId());
+
         if (this.save(cloudUser)){
             CloudUserOrg cloudUserOrg = new CloudUserOrg();
             cloudUserOrg.setOrgId(orgId)
@@ -240,8 +240,9 @@ public class CloudUserServiceImpl extends BaseServiceImpl<CloudUserMapper, Cloud
 
 
 
-        //todo SecurityUtil.getUserId()
-        CloudUser sysAdminUser = this.getById(1L);
+
+
+        CloudUser sysAdminUser = this.getById(SecurityUtil.getUserId());
         if (sysAdminUser != null) {
             if (sysAdminUser.getPassword().equals(StringUtil.md5(updatePwdVo.getOldPassword()))) {
                 sysAdminUser = new CloudUser();
@@ -291,8 +292,7 @@ public class CloudUserServiceImpl extends BaseServiceImpl<CloudUserMapper, Cloud
      */
     @Override
     public List<CloudUser> selectNotPartyMember() {
-        // todo 获取当前登录用户的信息
-       //  JeeUser jeeUser = SecurityUtil.getUserData();
+        JeeUser jeeUser = SecurityUtil.getUserData();
         //获取当前用户所在组织
         ArrayList<Long> userIds = new ArrayList<>();
         ArrayList<CloudUser> cloudUsers = new ArrayList<>();

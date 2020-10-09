@@ -12,6 +12,8 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import static com.jeerigger.frame.enums.UserParamEnum.*;
 import static com.jeerigger.security.StringUtil.splitclearSpace;
@@ -56,7 +58,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors();
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        //修改为添加而不是设置，* 最好改为实际的需要，我这是非生产配置，所以粗暴了一点
+        corsConfiguration.addAllowedOrigin("*");
+        //修改为添加而不是设置
+        corsConfiguration.addAllowedMethod("*");
+        //这里很重要，起码需要允许 Access-Control-Allow-Origin
+        corsConfiguration.addAllowedHeader("*");
+        corsConfiguration.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource corsConfigurationSource = new
+                UrlBasedCorsConfigurationSource();
+        corsConfigurationSource.registerCorsConfiguration("/**",
+                corsConfiguration);
+
+        http.cors().configurationSource(corsConfigurationSource);
+        // 以上是跨域问题
+
         http.csrf().disable()
                 .exceptionHandling()
                 .authenticationEntryPoint(jeeAuthenticationEntryPoint)

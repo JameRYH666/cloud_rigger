@@ -9,6 +9,7 @@ import com.jeeadmin.mapper.CloudUserOrgMapper;
 import com.jeerigger.core.common.core.SnowFlake;
 import com.jeerigger.frame.base.service.impl.BaseServiceImpl;
 import com.jeerigger.frame.exception.ValidateException;
+import com.jeerigger.security.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -52,7 +53,7 @@ public class CloudUserOrgServiceImpl extends BaseServiceImpl<CloudUserOrgMapper,
         }
         cloudUserOrg.setCreateDate(new Date())
                 // TODO 这里创建用户先写死，其实应从security中获取
-                .setCreateUser(1L)
+                .setCreateUser(SecurityUtil.getUserId())
                 .setId(snowFlake.nextId());
        return this.save(cloudUserOrg);
 
@@ -89,8 +90,8 @@ public class CloudUserOrgServiceImpl extends BaseServiceImpl<CloudUserOrgMapper,
     public CloudUserOrg selectOrgByUserId() {
 
             // todo 根据用户id获取到所在党支部的信息
-            //  Long userId = SecurityUtil.getUserId();
-            Long userId = 1L;
+            Long userId = SecurityUtil.getUserId();
+
             QueryWrapper<CloudUserOrg> queryWrapper = new QueryWrapper<>();
             // 通过用户id获取到党支部的信息
             queryWrapper.lambda().eq(CloudUserOrg::getUserId,userId);

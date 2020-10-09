@@ -192,7 +192,7 @@ public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper,
         Date date = new Date();
         // 获取创建人 TODO 本来应该是从security中获取到，由于现在没有登录，数据现在暂时写死
         Long userId = SecurityUtil.getUserId();
-        userId = 1L;
+
 
         // 获取到meetingVo首先是新增会议信息
         if (Objects.isNull(cloudMeetingDetailVo)){
@@ -383,9 +383,8 @@ public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper,
     @Override
     public boolean saveOne(CloudMeeting cloudMeeting) {
         cloudMeeting.setId(snowFlake.nextId())
-                // todo useriD现在写死
-                    //.setCreateUser(SecurityUtil.getUserId());
-        .setCreateUser(1L);
+                .setCreateUser(SecurityUtil.getUserId());
+
         cloudMeeting.setMeetingStatus(MeetingAndActivityEnum.NOREVIEWED.getCode());
         cloudMeeting.setCreateDate(new Date());
 

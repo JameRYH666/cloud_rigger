@@ -44,6 +44,16 @@ public interface ICloudMeetingService extends BaseService<CloudMeeting> {
      *
      */
     CloudMeetingDetailVo selectOneMeeting(Long id);
+    /**
+     * @Author: Sgz
+     * @Time: 9:34 2020/10/9
+     * @Params: [cloudMeeting]
+     * @Return: boolean
+     * @Throws:
+     * @Description:
+     *  保存会议信息
+     *
+     */
 
     boolean savaMeeting(CloudMeeting cloudMeeting);
 

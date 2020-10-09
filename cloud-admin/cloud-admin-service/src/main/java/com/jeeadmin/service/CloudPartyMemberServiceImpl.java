@@ -182,7 +182,7 @@ public class CloudPartyMemberServiceImpl extends BaseServiceImpl<CloudPartyMembe
         // 利用雪花算法生成id
         cloudPartyMember.setId(snowFlake.nextId());
         // todo 没有自动获取
-        cloudPartyMember.setCreateUser(1L);
+        cloudPartyMember.setCreateUser(SecurityUtil.getUserId());
 
 
         //验证数据
@@ -221,10 +221,10 @@ public class CloudPartyMemberServiceImpl extends BaseServiceImpl<CloudPartyMembe
 
             throw new ValidateException("创建用户不允许修改");
         }
-        if (!oldData.getCreateDate().equals(cloudPartyMember.getCreateDate())){
+       /* if (!oldData.getCreateDate().equals(cloudPartyMember.getCreateDate())){
 
             throw new ValidateException("创建时间不允许修改");
-        }
+        }*/
         //验证数据
         ValidateUtil.validateObject(cloudPartyMember);
         cloudPartyMember.setUpdateUser(SecurityUtil.getUserId())
