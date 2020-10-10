@@ -4,8 +4,6 @@ package com.jeerigger.core.common.core;
  * @projectName: java-basics-demo
  * @packageName: com.baihy.shop.common.utils
  * @description: 基于雪花算法生成主键id
- * @author: huayang.bai
- * @date: 2020-08-2020/8/20 21:27
  */
 public class SnowFlake {
     /**

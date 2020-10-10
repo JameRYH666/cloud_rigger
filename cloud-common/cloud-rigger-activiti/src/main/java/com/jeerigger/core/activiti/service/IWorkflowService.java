@@ -14,9 +14,7 @@ import org.activiti.engine.repository.Model;
 /**
  * @ClassName: IWorkflowService
  * @Description: TODO
- * @author: libaojian
- * @date: 2019/3/4 0004 下午 4:16
- * @version: V1.0
+ * @author: ryh
  */
 public interface IWorkflowService {
 

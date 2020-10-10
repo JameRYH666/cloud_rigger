@@ -10,9 +10,6 @@ import lombok.experimental.Accessors;
  * <p>
  * 字典数据表
  * </p>
- *
- * @author wangcy
- * @since 2018-11-16
  */
 @Data
 @EqualsAndHashCode(callSuper = false)

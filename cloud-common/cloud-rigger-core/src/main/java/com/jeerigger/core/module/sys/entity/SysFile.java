@@ -13,9 +13,6 @@ import java.io.InputStream;
  * <p>
  * 文件上传
  * </p>
- *
- * @author wangcy
- * @since 2019-04-02
  */
 @Data
 @EqualsAndHashCode(callSuper = false)

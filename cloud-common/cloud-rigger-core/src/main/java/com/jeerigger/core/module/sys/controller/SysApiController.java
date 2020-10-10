@@ -17,9 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
  * 公共API 前端控制器
  * 获取系统参数字典数据等等
  * </p>
- *
- * @author wangcy
- * @since 2018-11-12
  */
 @RestController
 @RequestMapping("/api")

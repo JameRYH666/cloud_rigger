@@ -13,9 +13,6 @@ import lombok.Data;
 /**
  * @ClassName: OutgoingVo
  * @Description: TODO
- * @author: libaojian
- * @date: 2019/3/7 0007 下午 1:59
- * @version: V1.0
  */
 @Data
 public class OutgoingVo {

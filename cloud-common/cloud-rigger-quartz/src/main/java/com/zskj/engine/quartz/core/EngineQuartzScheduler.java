@@ -8,13 +8,7 @@ import org.quartz.Trigger;
 import java.util.List;
 import java.util.Map;
 
-/**
- * @projectName: dap
- * @packageName: com.zskj.engine.quartz.core
- * @description:
- * @author: huayang.bai
- * @date: 2020/8/21 9:18
- */
+
 public interface EngineQuartzScheduler {
 
     /**

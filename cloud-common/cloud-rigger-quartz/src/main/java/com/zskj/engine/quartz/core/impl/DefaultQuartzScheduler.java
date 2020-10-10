@@ -3,16 +3,10 @@ package com.zskj.engine.quartz.core.impl;
 import org.quartz.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
+import com.zskj.engine.quartz.core.impl.EngineQuartzScheduler;
 import java.util.*;
 
-/**
- * @projectName: java-basics-demo
- * @packageName: com.baihy.quartz.demo.core
- * @description: 任务调度的核心
- * @author: huayang.bai
- * @date: 2020/7/22 17:08
- */
+
 @Component
 public class DefaultQuartzScheduler implements EngineQuartzScheduler {
 

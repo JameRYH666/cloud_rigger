@@ -10,9 +10,6 @@ import lombok.Data;
 /**
  * @ClassName: CandidateVo
  * @Description: 审批节点待选择用户
- * @author: libaojian
- * @date: 2019/3/18 0018 上午 9:01
- * @version: V1.0
  */
 @Data
 public class CandidateVo {
