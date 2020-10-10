@@ -18,14 +18,11 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import static com.jeerigger.frame.enums.UserParamEnum.*;
 import static com.jeerigger.security.StringUtil.splitclearSpace;
 
-/**
- * Created by sang on 2017/12/28.
- */
+
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
     @Autowired
     @Lazy
     private JeeUserDetailsService userDetailsService;
@@ -47,7 +44,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService).passwordEncoder(NoOpPasswordEncoder.getInstance());
     }
 
-
     @Override
     public void configure(WebSecurity webSecurity) {
         if (StringUtil.isNotEmpty(securityConfig.getIgnoring())) {
@@ -58,22 +54,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        CorsConfiguration corsConfiguration = new CorsConfiguration();
-        //修改为添加而不是设置，* 最好改为实际的需要，我这是非生产配置，所以粗暴了一点
-        corsConfiguration.addAllowedOrigin("*");
-        //修改为添加而不是设置
-        corsConfiguration.addAllowedMethod("*");
-        //这里很重要，起码需要允许 Access-Control-Allow-Origin
-        corsConfiguration.addAllowedHeader("*");
-        corsConfiguration.setAllowCredentials(true);
-        UrlBasedCorsConfigurationSource corsConfigurationSource = new
-                UrlBasedCorsConfigurationSource();
-        corsConfigurationSource.registerCorsConfiguration("/**",
-                corsConfiguration);
-
-        http.cors().configurationSource(corsConfigurationSource);
-        // 以上是跨域问题
-
         http.csrf().disable()
                 .exceptionHandling()
                 .authenticationEntryPoint(jeeAuthenticationEntryPoint)
@@ -90,6 +70,27 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .successHandler(successHandler)
                 .permitAll().and()
                 .logout().logoutSuccessHandler(logoutSuccessHandler).permitAll();
+        // 解决跨域问题
+        http.cors().configurationSource(corsConfiguration());
+    }
+
+    /**
+     * 跨域配置
+     *
+     * @return
+     */
+    private UrlBasedCorsConfigurationSource corsConfiguration() {
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        //修改为添加而不是设置，* 最好改为实际的需要，我这是非生产配置，所以粗暴了一点
+        corsConfiguration.addAllowedOrigin("*");
+        //修改为添加而不是设置
+        corsConfiguration.addAllowedMethod("*");
+        //这里很重要，起码需要允许 Access-Control-Allow-Origin
+        corsConfiguration.addAllowedHeader("*");
+        corsConfiguration.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource corsConfigurationSource = new UrlBasedCorsConfigurationSource();
+        corsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
+        return corsConfigurationSource;
     }
 
 }

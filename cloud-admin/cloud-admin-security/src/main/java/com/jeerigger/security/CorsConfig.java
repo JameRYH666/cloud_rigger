@@ -1,14 +1,12 @@
 package com.jeerigger.security;
 
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 
-@Configuration
+// @Configuration
 public class CorsConfig {
 
     private CorsConfiguration build(){
@@ -20,7 +18,7 @@ public class CorsConfig {
         return corsConfiguration;
     }
 
-    @Bean
+   //  @Bean
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         //配置 可以访问的地址
