@@ -15,5 +15,10 @@ import java.util.List;
 **/
 public interface CloudOrgMapper extends BaseTreeMapper<CloudOrg> {
     List<CloudOrgVo> selectAllOrgDetail();
+    /**
+     * 查询所有的党组织数量
+     * @return
+     */
+    Long selectOrgsCount(CloudOrg cloudOrg);
 
 }

@@ -28,10 +28,13 @@ public interface ICloudOrgService extends BaseTreeService<CloudOrg> {
     /**
      * 查询组织机构列表
      *
-     * @param sysOrg
+     * @param pageHelper
      * @return
      */
-    List<CloudOrg> selectOrgList(CloudOrg sysOrg);
+    Page<CloudOrgVo> selectOrgList(PageHelper<CloudOrg> pageHelper);
+
+
+
 
    CloudOrgTree selectOrgTree() ;
 

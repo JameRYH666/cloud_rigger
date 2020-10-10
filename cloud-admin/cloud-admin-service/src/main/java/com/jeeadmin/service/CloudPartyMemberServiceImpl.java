@@ -74,7 +74,6 @@ public class CloudPartyMemberServiceImpl extends BaseServiceImpl<CloudPartyMembe
      * @Return: com.baomidou.mybatisplus.extension.plugins.pagination.Page<com.jeeadmin.entity.CloudPartyMember>
      * @Throws:
      * @Description:
-     * TODO 这块有bug
      *
      */
     @Override
@@ -181,7 +180,7 @@ public class CloudPartyMemberServiceImpl extends BaseServiceImpl<CloudPartyMembe
     public boolean saveUser(CloudPartyMember cloudPartyMember) {
         // 利用雪花算法生成id
         cloudPartyMember.setId(snowFlake.nextId());
-        // todo 没有自动获取
+
         cloudPartyMember.setCreateUser(SecurityUtil.getUserId());
 
 
@@ -294,7 +293,7 @@ public class CloudPartyMemberServiceImpl extends BaseServiceImpl<CloudPartyMembe
     public CloudPartyMemberVo selectPartyMemberByUserId(Long userId) {
         QueryWrapper<CloudPartyMember> queryWrapper = new QueryWrapper<>();
         CloudPartyMemberVo cloudPartyMemberVo = new CloudPartyMemberVo();
-        //  todo 从security中查询userId
+
 
 
         if (Objects.isNull(userId)){

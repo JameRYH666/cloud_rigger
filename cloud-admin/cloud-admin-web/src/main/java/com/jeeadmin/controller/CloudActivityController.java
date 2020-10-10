@@ -34,7 +34,7 @@ public class CloudActivityController extends BaseController {
 
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ApiOperation(value = "获取活动信息数据列表", notes = "获取活动信息数据列表")
-    public ResultData list(PageHelper<CloudActivity> pageHelper) {
+    public ResultData list(@RequestBody PageHelper<CloudActivity> pageHelper) {
         Page<CloudActivity> pageData = cloudActivityService.selectPage(pageHelper);
         return this.success(pageData);
     }
@@ -83,7 +83,7 @@ public class CloudActivityController extends BaseController {
 
     @RequestMapping(value = "/selectInitiated", method = RequestMethod.POST)
     @ApiOperation(value = "查询已经发起活动信息", notes = "查询已经发起活动信息")
-    public ResultData selectOldActivity(PageHelper<CloudActivity> pageHelper) {
+    public ResultData selectOldActivity(@RequestBody PageHelper<CloudActivity> pageHelper) {
         return this.success(cloudActivityService.selectByUserId(pageHelper));
     }
 
@@ -95,13 +95,13 @@ public class CloudActivityController extends BaseController {
 
     @RequestMapping(value = "/selectUntreated", method = RequestMethod.POST)
     @ApiOperation(value = "查询未处理活动信息", notes = "查询未处理活动信息")
-    public ResultData selectUntreated( PageHelper<CloudActivity> pageHelper) {
+    public ResultData selectUntreated( @RequestBody PageHelper<CloudActivity> pageHelper) {
         return this.success(cloudActivityService.selectUntreated(pageHelper));
     }
 
     @RequestMapping(value = "/selectUntreatedByPartyMemberId", method = RequestMethod.POST)
     @ApiOperation(value = "根据党员id查询需要处理活动信息", notes = "根据党员id查询需要处理活动信息")
-    public ResultData selectUntreatedByPartyMemberId(PageHelper<CloudActivity> pageHelper){
+    public ResultData selectUntreatedByPartyMemberId(@RequestBody PageHelper<CloudActivity> pageHelper){
         return this.success(cloudActivityService.selectUntreatedByPartyMemberId(pageHelper));
     }
 

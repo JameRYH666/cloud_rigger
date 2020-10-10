@@ -43,8 +43,8 @@ public class SysOrgController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/select", method = RequestMethod.POST)
     @ApiOperation(value = "查询组织机构列表", notes = "查询组织机构列表")
-    public ResultData select(@RequestBody CloudOrg cloudOrg) {
-        // todo  这块应该是条件查询
+    public ResultData select(@RequestBody PageHelper<CloudOrg>  cloudOrg) {
+
         return this.success(sysOrgService.selectOrgList(cloudOrg));
     }
 
@@ -60,7 +60,7 @@ public class SysOrgController extends BaseController {
     @ApiOperation(value = "查询组织机构列表", notes = "查询组织机构列表")
     public ResultData selectAll(@RequestBody PageHelper<CloudOrg> cloudOrgPageHelper) {
 
-        return this.success(sysOrgService.selectAll(cloudOrgPageHelper));
+        return this.success(sysOrgService.selectOrgList(cloudOrgPageHelper));
     }
 
     @ResponseBody

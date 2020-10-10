@@ -313,8 +313,8 @@ public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper,
      * @Return: boolean
      * @Throws:
      * @Description:
-     * 更新会议信息
-     * TODO 更新会议不需要
+     * 更新会议信息 暂时不需要
+     *
      *
      */
     @Override
@@ -360,7 +360,7 @@ public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper,
         if (oldData == null){
            throw new ValidateException("该会议不存在");
         }
-        // TODO 如果删除会议成功，就同步删除参会人员和附件信息
+        //  如果删除会议成功，就同步删除参会人员和附件信息
         if (this.removeById(meetingId)){
             // 删除参会人员信息
            if (cloudMeetingPartyMemberServiceImpl.deleteMeetingMember(meetingId)){
@@ -378,7 +378,7 @@ public class CloudMeetingServiceImpl extends BaseServiceImpl<CloudMeetingMapper,
      * @Return: boolean
      * @Throws:
      * @Description:
-     * todo 已经完成
+     *
      */
     @Override
     public boolean saveOne(CloudMeeting cloudMeeting) {

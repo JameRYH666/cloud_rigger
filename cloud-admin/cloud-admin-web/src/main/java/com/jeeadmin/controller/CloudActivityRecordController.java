@@ -37,7 +37,7 @@ public class CloudActivityRecordController extends BaseController {
 
     @RequestMapping(value = "/selectByActivityId",method = RequestMethod.POST)
     @ApiOperation(value = "根据活动ID查询对应的活动记录",notes = "根据活动ID查询对应的活动记录")
-    public ResultData selectByActivityId(PageHelper<CloudActivityRecord> pageHelper){
+    public ResultData selectByActivityId(@RequestBody PageHelper<CloudActivityRecord> pageHelper){
         return this.success(cloudActivityRecordService.selectByActivityId(pageHelper));
     }
 

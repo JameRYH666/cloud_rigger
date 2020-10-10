@@ -43,27 +43,43 @@
   <select id="selectAllOrgDetail" resultType="com.jeeadmin.vo.org.CloudOrgVo">
     SELECT
 		co.id,
-	co.parent_id,
-	co.org_code,
-	co.org_name,
-	co.org_short_name,
-	co.org_party_member_id,
-	co.org_sort,
-	co.org_status,
-	co.leaf_flag,
-	co.remark,
-	co.top_level,
-	co.create_user,
-	co.create_date,
-	co.update_user,
-	co.update_date,
-	co.org_type_code,
-	co.org_tel_number,
-	co.org_address
+        co.parent_id,
+        co.org_code,
+        co.org_name,
+        co.org_short_name,
+        co.org_party_member_id,
+        co.org_sort,
+        co.org_status,
+        co.leaf_flag,
+        co.remark,
+        co.top_level,
+        co.create_user,
+        co.create_date,
+        co.update_user,
+        co.update_date,
+        co.org_type_code,
+        co.org_tel_number,
+        co.org_address
+        co.vice_secretary_party_id,
+        co.contact_person_party_id,
+        co.organizing_ommittee_party_id,
+        co.promoter_party_id,
+        co.discipline_inspection_party_id,
+        co.youth_committee_party_id
 FROM
 	cloud_org co
 	INNER JOIN cloud_party_member cpm ON co.org_party_member_id = cpm.id
 WHERE
 	org_party_member_id = 1
   </select>
+    <select id="selectOrgsCount" resultType="java.lang.Long">
+        SELECT
+	count( id )
+FROM
+	cloud_org
+	WHERE
+	    1 = 1
+
+
+    </select>
 </mapper>

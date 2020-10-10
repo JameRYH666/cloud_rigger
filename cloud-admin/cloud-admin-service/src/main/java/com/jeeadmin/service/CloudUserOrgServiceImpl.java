@@ -52,7 +52,7 @@ public class CloudUserOrgServiceImpl extends BaseServiceImpl<CloudUserOrgMapper,
             throw new ValidateException("党组织id不能为空" );
         }
         cloudUserOrg.setCreateDate(new Date())
-                // TODO 这里创建用户先写死，其实应从security中获取
+
                 .setCreateUser(SecurityUtil.getUserId())
                 .setId(snowFlake.nextId());
        return this.save(cloudUserOrg);
@@ -89,7 +89,7 @@ public class CloudUserOrgServiceImpl extends BaseServiceImpl<CloudUserOrgMapper,
     @Override
     public CloudUserOrg selectOrgByUserId() {
 
-            // todo 根据用户id获取到所在党支部的信息
+
             Long userId = SecurityUtil.getUserId();
 
             QueryWrapper<CloudUserOrg> queryWrapper = new QueryWrapper<>();

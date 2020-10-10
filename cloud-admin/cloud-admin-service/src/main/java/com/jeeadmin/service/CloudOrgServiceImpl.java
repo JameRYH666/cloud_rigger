@@ -15,6 +15,7 @@ import com.jeeadmin.vo.org.CloudOrgTree;
 import com.jeeadmin.vo.org.CloudOrgVo;
 import com.jeerigger.core.common.core.SnowFlake;
 import com.jeerigger.core.module.sys.SysConstant;
+import com.jeerigger.core.module.sys.mapper.OrgMapper;
 import com.jeerigger.core.module.sys.util.SysDictUtil;
 import com.jeerigger.frame.base.controller.ResultCodeEnum;
 import com.jeerigger.frame.base.service.impl.BaseTreeServiceImpl;
@@ -47,6 +48,9 @@ public class CloudOrgServiceImpl extends BaseTreeServiceImpl<CloudOrgMapper, Clo
     @Autowired
     private SnowFlake snowFlake;
 
+    @Autowired
+    private CloudOrgMapper cloudOrgMapper;
+
     @Override
     public List<CloudOrg> selectChildOrg(Long orgId) {
         QueryWrapper<CloudOrg> wrapper = new QueryWrapper<>();
@@ -73,26 +77,84 @@ public class CloudOrgServiceImpl extends BaseTreeServiceImpl<CloudOrgMapper, Clo
      *
      */
     @Override
-    public List<CloudOrg> selectOrgList(CloudOrg sysOrg) {
+    public Page<CloudOrgVo> selectOrgList(PageHelper<CloudOrg> pageHelper) {
+
+        Page page = new Page(pageHelper.getCurrent(), pageHelper.getSize());
+        ArrayList<CloudOrgVo> cloudOrgVos = new ArrayList<>();
         QueryWrapper<CloudOrg> wrapper = new QueryWrapper<>();
-        if (StringUtil.isNotEmpty(sysOrg.getOrgCode())) {
-            wrapper.lambda().eq(CloudOrg::getOrgCode, sysOrg.getOrgCode());
-        }
-        if (StringUtil.isNotEmpty(sysOrg.getOrgName())) {
-            wrapper.lambda().like(CloudOrg::getOrgName, sysOrg.getOrgName());
-        }
-        if (StringUtil.isNotEmpty(sysOrg.getOrgShortName())) {
-            wrapper.lambda().like(CloudOrg::getOrgShortName, sysOrg.getOrgShortName());
-        }
-        if (StringUtil.isNotEmpty(sysOrg.getOrgTypeCode())) {
-            wrapper.lambda().like(CloudOrg::getOrgTypeCode, sysOrg.getOrgTypeCode());
-        }
-        if (StringUtil.isNotEmpty(sysOrg.getOrgStatus())) {
-            wrapper.lambda().eq(CloudOrg::getOrgStatus, sysOrg.getOrgStatus());
+        CloudOrg sysOrg = pageHelper.getData();
+
+        if (pageHelper.getData() != null) {
+
+            if (StringUtil.isNotEmpty(sysOrg.getOrgCode())) {
+                wrapper.lambda().eq(CloudOrg::getOrgCode, sysOrg.getOrgCode());
+            }
+            if (StringUtil.isNotEmpty(sysOrg.getOrgName())) {
+                wrapper.lambda().like(CloudOrg::getOrgName, sysOrg.getOrgName());
+            }
+            if (StringUtil.isNotEmpty(sysOrg.getOrgShortName())) {
+                wrapper.lambda().like(CloudOrg::getOrgShortName, sysOrg.getOrgShortName());
+            }
+            if (StringUtil.isNotEmpty(sysOrg.getOrgTypeCode())) {
+                wrapper.lambda().like(CloudOrg::getOrgTypeCode, sysOrg.getOrgTypeCode());
+            }
+            if (StringUtil.isNotEmpty(sysOrg.getOrgStatus())) {
+                wrapper.lambda().eq(CloudOrg::getOrgStatus, sysOrg.getOrgStatus());
+            }
         }
         wrapper.lambda().orderByAsc(CloudOrg::getParentId, CloudOrg::getOrgSort);
-        return this.getListOrg(wrapper);
+        IPage<CloudOrg> cloudOrgIPage = this.page(page, wrapper);
+        List<CloudOrg> listOrg = cloudOrgIPage.getRecords();
+        List<CloudOrg> orgList = this.getListOrg(wrapper);
+
+        if (Objects.isNull(listOrg)) {
+            throw new ValidateException("没有获取到数据信息");
+        }
+        Long orgsCount = (long) orgList.size();
+        for (CloudOrg cloudOrg : listOrg) {
+            // 通过党支部id获取到党员数量
+            Integer count = sysUserService.selectCountByOrgId(cloudOrg.getId());
+            // 通过党支部党员的id获取党员的详细信息
+            CloudPartyMember cloudPartyMember = sysUserService.getById(cloudOrg.getOrgPartyMemberId());
+            CloudOrgVo cloudOrgVo = new CloudOrgVo();
+            cloudOrgVo.setOrgAddress(cloudOrg.getOrgAddress())
+                    .setLeafFlag(cloudOrg.getLeafFlag())
+                    .setOrgCode(cloudOrg.getOrgCode())
+                    .setOrgName(cloudOrg.getOrgName())
+                    .setOrgShortName(cloudOrg.getOrgShortName())
+                    .setOrgSort(cloudOrg.getOrgSort())
+                    .setOrgTypeCode(cloudOrg.getOrgTypeCode())
+                    .setOrgStatus(cloudOrg.getOrgStatus())
+                    .setParentId(cloudOrg.getParentId())
+                    .setOrgTypeName(cloudOrg.getOrgTypeName())
+                    .setParentOrg(cloudOrg.getParentOrg())
+                    .setTopLevel(cloudOrg.getTopLevel())
+                    .setOrgTelNumber(cloudOrg.getOrgTelNumber())
+                    .setId(cloudOrg.getId())
+                    .setCreateDate(cloudOrg.getCreateDate())
+                    .setCreateUser(cloudOrg.getCreateUser());
+            if (Objects.nonNull(cloudPartyMember)){
+
+                cloudOrgVo.setPhoneNumer(cloudPartyMember.getMemberPhoneNumber())
+                        .setOrgLeader(cloudPartyMember.getMemberName())
+                        .setCount(count);
+            }
+
+            cloudOrgVo
+                    .setCount(count);
+            cloudOrgVos.add(cloudOrgVo);
+
+
+        }
+        Page<CloudOrgVo> cloudOrgPageVo = new Page<>(pageHelper.getCurrent(),pageHelper.getSize());
+
+        cloudOrgPageVo.setRecords(cloudOrgVos)
+                .setTotal(orgsCount);
+        return cloudOrgPageVo;
+
     }
+
+
 
     /**
      * 查询所有的党组织结构，并且以树状菜单进行展示
@@ -121,10 +183,9 @@ public class CloudOrgServiceImpl extends BaseTreeServiceImpl<CloudOrgMapper, Clo
     }
 
 
-
-    /**
+/*
+    *//**
      * 查询所有的党组织机构详情，并进行分页处理
-     * TODO 反序列化异常
      * @param pageHelper
      * @return
      */

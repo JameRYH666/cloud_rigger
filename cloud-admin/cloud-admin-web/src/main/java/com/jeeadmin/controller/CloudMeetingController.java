@@ -31,7 +31,7 @@ public class CloudMeetingController extends BaseController {
 
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ApiOperation(value = "获取活动会议数据列表", notes = "获取活动会议数据列表")
-    public ResultData list( PageHelper<CloudMeeting> pageHelper){
+    public ResultData list( @RequestBody PageHelper<CloudMeeting> pageHelper){
         return this.success(cloudMeetingService.selectPage(pageHelper));
     }
 
@@ -70,19 +70,19 @@ public class CloudMeetingController extends BaseController {
 
     @RequestMapping(value = "/selectInitiated", method = RequestMethod.POST)
     @ApiOperation(value = "查询已经发起会议信息", notes = "查询已经发起会议信息")
-    public ResultData selectOldMeeting(  PageHelper<CloudMeeting> pageHelper) {
+    public ResultData selectOldMeeting(@RequestBody  PageHelper<CloudMeeting> pageHelper) {
         return this.success(cloudMeetingService.selectByUserId(pageHelper));
     }
 
     @RequestMapping(value = "/selectProcessed", method = RequestMethod.POST)
     @ApiOperation(value = "查询已经处理过的会议信息", notes = "查询已经处理过的会议信息")
-    public ResultData selectMeetingProcessed(  PageHelper<CloudMeeting> pageHelper) {
+    public ResultData selectMeetingProcessed(@RequestBody  PageHelper<CloudMeeting> pageHelper) {
         return this.success(cloudMeetingService.selectMeetingProcessed(pageHelper));
     }
 
     @RequestMapping(value = "/selectUntreated", method = RequestMethod.POST)
     @ApiOperation(value = "查询未处理的会议信息", notes = "查询未处理的会议信息")
-    public ResultData selectMeetingUntreated(  PageHelper<CloudMeeting> pageHelper) {
+    public ResultData selectMeetingUntreated(@RequestBody  PageHelper<CloudMeeting> pageHelper) {
         return this.success(cloudMeetingService.selectMeetingUntreated(pageHelper));
     }
 }

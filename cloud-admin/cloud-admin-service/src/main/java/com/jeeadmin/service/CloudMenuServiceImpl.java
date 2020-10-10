@@ -205,6 +205,12 @@ public class CloudMenuServiceImpl extends BaseTreeServiceImpl<CloudMenuMapper, C
         return this.list(wrapper);
     }
 
+    /**
+     * todo 缺少getAdminUserSysMenu
+     * @param userId
+     * @param userType
+     * @return
+     */
     @Override
     public List<CloudMenu> findAdminUserSysMenu(Long userId, String userType) {
         if (UserTypeEnum.SYSTEM_ADMIN_USER.getCode().equals(userType)) {
@@ -214,8 +220,8 @@ public class CloudMenuServiceImpl extends BaseTreeServiceImpl<CloudMenuMapper, C
             // 超级管理员
             return this.list(wrapper);
         } else {
-            // 系统管理员
-            return null;// this.getAdminUserSysMenu(userId);
+            // 系统管理员 todo
+            return  this.getMenuList();
         }
     }
 
