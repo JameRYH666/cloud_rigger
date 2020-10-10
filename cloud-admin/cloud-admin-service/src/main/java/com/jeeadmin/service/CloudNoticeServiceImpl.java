@@ -10,6 +10,7 @@ import com.jeeadmin.api.ICloudPartyMemberService;
 import com.jeeadmin.entity.CloudEnclosure;
 import com.jeeadmin.entity.CloudNotice;
 import com.jeeadmin.entity.CloudNoticeEnclosure;
+import com.jeeadmin.entity.CloudPartyMember;
 import com.jeeadmin.mapper.CloudNoticeEnclosureMapper;
 import com.jeeadmin.mapper.CloudNoticeMapper;
 import com.jeeadmin.vo.notice.CloudNoticeVo;
@@ -51,6 +52,8 @@ public class CloudNoticeServiceImpl extends BaseServiceImpl<CloudNoticeMapper, C
     private ICloudNoticeEnclosureService cloudNoticeEnclosureService;
     @Autowired
     private CloudNoticeEnclosureMapper cloudNoticeEnclosureMapper;
+    @Autowired
+    private ICloudPartyMemberService cloudPartyMemberService;
 
     /**
      *      查询所有正常的通知公告
@@ -158,8 +161,13 @@ public class CloudNoticeServiceImpl extends BaseServiceImpl<CloudNoticeMapper, C
         cloudNoticeEnclosure.setNoticeId(id);
         cloudNoticeEnclosure.setEnclosureId(cloudNotice.getCloudEnclosureId());
         cloudNoticeEnclosureService.saveNoticeEnclosure(cloudNoticeEnclosure);
-        cloudNotice.setCreateUser(SecurityUtil.getUserId());
-        cloudNotice.setUpdateDate(new Date());
+        Long userId = SecurityUtil.getUserId();
+        CloudPartyMember member = cloudPartyMemberService.getPartyMemberByUserId(userId);
+        Long id1 = member.getId();
+        cloudNotice.setPartyMemberId(id1);
+
+        cloudNotice.setCreateUser(userId);
+        cloudNotice.setCreateDate(new Date());
         cloudNotice.setNoticeStatus(MeetingAndActivityEnum.NORMAL.getCode());
         if (this.save(cloudNotice)){
             return cloudNotice;
