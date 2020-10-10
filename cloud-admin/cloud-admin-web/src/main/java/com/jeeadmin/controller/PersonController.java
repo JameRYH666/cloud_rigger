@@ -25,7 +25,6 @@ public class PersonController extends BaseController {
     @RequestMapping(value = "/info", method = RequestMethod.POST)
     @ApiOperation(value = "查看个人信息", notes = "查看个人信息")
     public ResultData userInfo() {
-
         return this.success(sysAdminUserService.getById(SecurityUtil.getUserId()));
     }
 
