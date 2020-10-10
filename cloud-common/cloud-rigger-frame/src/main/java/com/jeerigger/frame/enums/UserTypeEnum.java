@@ -3,7 +3,6 @@ package com.jeerigger.frame.enums;
 
 public enum UserTypeEnum {
 
-    SUPER_ADMIN_USER("0", "超级管理员"),
     SYSTEM_ADMIN_USER("1", "系统管理员"),
     ORG_ADMIN_USER("2", "机构管理员"),
     NORMAL_USER("3", "普通用户");
@@ -20,9 +19,11 @@ public enum UserTypeEnum {
         this.code = code;
         this.desc = desc;
     }
+
     public String getCode() {
         return this.code;
     }
+
     public String getDesc() {
         return this.desc;
     }

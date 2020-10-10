@@ -8,6 +8,7 @@ import com.jeerigger.core.module.sys.entity.UserRole;
 import java.util.List;
 
 public interface IUserService {
+
     /**
      * 获取系统管理员信息
      *
@@ -24,7 +25,6 @@ public interface IUserService {
      */
     SysUser getSysUser(String loginName);
 
-
     /**
      * 获取系统管理员菜单
      *
@@ -34,26 +34,17 @@ public interface IUserService {
     List<UserMenu> getAdminUserMenu(String role_code);
 
     /**
-     * 获取超级管理员菜单
-     *
-     * @return
-     */
-    List<UserMenu> getSuperAdminMenu();
-
-
-    /**
      * 获取用户菜单
      *
      * @return
      */
-    List<UserMenu> getUserMenu(String id);
-
+    List<UserMenu> getUserMenu(Long userId);
 
     /**
      * 获取用户角色
      *
-     * @param id
+     * @param userId
      * @return
      */
-    List<UserRole> getUserRole(String id);
+    List<UserRole> getUserRole(Long userId);
 }

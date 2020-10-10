@@ -14,10 +14,9 @@ import java.util.List;
 
 /**
  * @author Seven Lee
- * @description
- *      系统管理员信息表 服务类
+ * @description 系统管理员信息表 服务类
  * @date 2020/9/8
-**/
+ **/
 public interface ICloudUserService extends BaseService<CloudUser> {
     /**
      * 根据登录名获取登录用户信息
@@ -88,7 +87,15 @@ public interface ICloudUserService extends BaseService<CloudUser> {
      *
      * @return
      */
-    List<CloudMenu> getSysAdminMenu();
+    List<CloudMenu> getLoginUserMenu();
+
+    /**
+     * 获取子菜单
+     *
+     * @param parentMenuId
+     * @return
+     */
+    List<CloudMenu> getLoginUserMenu(Long parentMenuId);
 
     /**
      * 获取非党员的用户
@@ -97,9 +104,11 @@ public interface ICloudUserService extends BaseService<CloudUser> {
 
     /**
      * app端,用户忘记密码时，通过邮箱和验证码设置新的密码
+     *
      * @param updatePwdVo
      * @return
      */
     boolean updateUserPassword(UpdatePwdVo updatePwdVo);
+
     CloudUser selectCloudUser(Long userId);
 }

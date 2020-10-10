@@ -23,6 +23,7 @@ public class JeeUser extends User {
      */
     @Getter
     private String loginName;
+
     @Getter
     private String userName;
     /**

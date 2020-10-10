@@ -71,7 +71,7 @@ public class CloudDictDataServiceImpl extends BaseServiceImpl<CloudDictDataMappe
             throw new ValidateException("更新的字典数据不存在！");
         }
         if (oldDictData.getSysFlag().equals(FlagEnum.YES.getCode())) {
-            if (!SecurityUtil.getUserData().getUserType().equals(UserTypeEnum.SUPER_ADMIN_USER)) {
+            if (!SecurityUtil.getUserData().getUserType().equals(UserTypeEnum.SYSTEM_ADMIN_USER)) {
                 throw new ValidateException("系统内置字典不能进行状态更新！");
             }
         }
@@ -118,7 +118,7 @@ public class CloudDictDataServiceImpl extends BaseServiceImpl<CloudDictDataMappe
         }
 
         if (oldDictData.getSysFlag().equals(FlagEnum.YES.getCode())) {
-            if (!SecurityUtil.getUserData().getUserType().equals(UserTypeEnum.SUPER_ADMIN_USER)) {
+            if (!SecurityUtil.getUserData().getUserType().equals(UserTypeEnum.SYSTEM_ADMIN_USER)) {
                 throw new ValidateException("系统内置字典不能进行更新！");
             }
         }
@@ -172,7 +172,7 @@ public class CloudDictDataServiceImpl extends BaseServiceImpl<CloudDictDataMappe
             return true;
         } else {
             if (sysDictData.getSysFlag().equals(FlagEnum.YES.getCode())) {
-                if (!SecurityUtil.getUserData().getUserType().equals(UserTypeEnum.SUPER_ADMIN_USER)) {
+                if (!SecurityUtil.getUserData().getUserType().equals(UserTypeEnum.SYSTEM_ADMIN_USER)) {
                     throw new ValidateException("系统内置字典不能进行更新！");
                 }
             }

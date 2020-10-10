@@ -3,7 +3,6 @@ package com.jeeadmin.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.jeeadmin.api.ICloudOrgService;
 import com.jeeadmin.api.ICloudPartyMemberService;
 import com.jeeadmin.api.ICloudUserOrgService;
 import com.jeeadmin.api.ICloudUserService;
@@ -35,12 +34,12 @@ import com.jeerigger.security.user.JeeUser;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import sun.text.resources.FormatData;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * @author Seven Lee
@@ -53,12 +52,8 @@ public class CloudUserServiceImpl extends BaseServiceImpl<CloudUserMapper, Cloud
     private IUserService userService;
 
     @Autowired
-    private CloudUserMapper cloudUserMapper;
-
-    @Autowired
     private HttpSession httpSession;
-    @Autowired
-    private ICloudOrgService cloudOrgServiceImpl;
+
     @Autowired
     private ICloudUserOrgService cloudUserOrgServiceImpl;
     @Autowired
@@ -97,7 +92,7 @@ public class CloudUserServiceImpl extends BaseServiceImpl<CloudUserMapper, Cloud
 
     @Override
     public boolean saveAdminUser(CloudUser cloudUser) {
-        if (Objects.isNull(cloudUser)){
+        if (Objects.isNull(cloudUser)) {
             throw new ValidateException("没有获取到新增用户信息");
         }
 
@@ -112,7 +107,7 @@ public class CloudUserServiceImpl extends BaseServiceImpl<CloudUserMapper, Cloud
         validateUserNumber(cloudUser);
         validateUserCertificateNumber(cloudUser);
         //cloudUser.setPassword(StringUtil.md5(SysParamUtil.getInitPassword()));
-        if (Objects.isNull(cloudUser.getOrgId())){
+        if (Objects.isNull(cloudUser.getOrgId())) {
             throw new ValidateException("党组织id不能为空");
         }
         Long orgId = cloudUser.getOrgId();
@@ -124,13 +119,13 @@ public class CloudUserServiceImpl extends BaseServiceImpl<CloudUserMapper, Cloud
         long id = snowFlake.nextId();
         cloudUser.setId(id);
 
-         cloudUser.setCreateUser(SecurityUtil.getUserId());
+        cloudUser.setCreateUser(SecurityUtil.getUserId());
 
-        if (this.save(cloudUser)){
+        if (this.save(cloudUser)) {
             CloudUserOrg cloudUserOrg = new CloudUserOrg();
             cloudUserOrg.setOrgId(orgId)
-            .setUserId(id);
-          return   cloudUserOrgServiceImpl.saveOrgUser(cloudUserOrg);
+                    .setUserId(id);
+            return cloudUserOrgServiceImpl.saveOrgUser(cloudUserOrg);
         }
         throw new ValidateException("新增用户信息失败");
     }
@@ -181,6 +176,7 @@ public class CloudUserServiceImpl extends BaseServiceImpl<CloudUserMapper, Cloud
             throw new ValidateException("该登录名（" + sysAdminUser.getLoginName() + "）已存在！");
         }
     }
+
     /**
      * 验证用户手机号
      *
@@ -196,6 +192,7 @@ public class CloudUserServiceImpl extends BaseServiceImpl<CloudUserMapper, Cloud
             throw new ValidateException("用户手机号已存在！");
         }
     }
+
     /**
      * 验证用户身份证号
      *
@@ -227,6 +224,7 @@ public class CloudUserServiceImpl extends BaseServiceImpl<CloudUserMapper, Cloud
             throw new ValidateException("用户邮箱已存在！");
         }
     }
+
     @Override
     public boolean resetPwd(Long userId) {
         CloudUser sysAdminUser = new CloudUser();
@@ -237,11 +235,6 @@ public class CloudUserServiceImpl extends BaseServiceImpl<CloudUserMapper, Cloud
 
     @Override
     public boolean changePassword(UpdatePwdVo updatePwdVo) {
-
-
-
-
-
         CloudUser sysAdminUser = this.getById(SecurityUtil.getUserId());
         if (sysAdminUser != null) {
             if (sysAdminUser.getPassword().equals(StringUtil.md5(updatePwdVo.getOldPassword()))) {
@@ -262,19 +255,22 @@ public class CloudUserServiceImpl extends BaseServiceImpl<CloudUserMapper, Cloud
         CloudUser sysAdminUser = new CloudUser();
         BeanUtils.copyProperties(updateUserVo, sysAdminUser);
         sysAdminUser.setId(SecurityUtil.getUserId());
-        if (SecurityUtil.getUserData().getUserType().equals(UserTypeEnum.SUPER_ADMIN_USER)) {
-            sysAdminUser.setMgrType(UserTypeEnum.SUPER_ADMIN_USER.getCode());
+        if (SecurityUtil.getUserData().getUserType().equals(UserTypeEnum.SYSTEM_ADMIN_USER)) {
+            sysAdminUser.setMgrType(UserTypeEnum.SYSTEM_ADMIN_USER.getCode());
         }
         return this.updateById(sysAdminUser);
     }
 
     @Override
-    public List<CloudMenu> getSysAdminMenu() {
+    public List<CloudMenu> getLoginUserMenu() {
         List<UserMenu> userMenuList = null;
-        if (SecurityUtil.getUserData().getUserType().equals(UserTypeEnum.SUPER_ADMIN_USER)) {
-            userMenuList = userService.getSuperAdminMenu();
-        } else if (SecurityUtil.getUserData().getUserType().equals(UserTypeEnum.SYSTEM_ADMIN_USER)) {
+        // 获取登录用户信息
+        JeeUser userData = SecurityUtil.getUserData();
+        if (userData.getUserType().equals(UserTypeEnum.SYSTEM_ADMIN_USER)) {
             userMenuList = userService.getAdminUserMenu(SysConstant.SYS_ADMIN_ROLE);
+        } else {
+            // 获取用户菜单
+            userMenuList = userService.getUserMenu(userData.getUserId());
         }
         List<CloudMenu> sysMenuList = new ArrayList<CloudMenu>();
         if (userMenuList != null && userMenuList.size() > 0) {
@@ -287,6 +283,31 @@ public class CloudUserServiceImpl extends BaseServiceImpl<CloudUserMapper, Cloud
         return sysMenuList;
     }
 
+    @Override
+    public List<CloudMenu> getLoginUserMenu(Long parentMenuId) {
+        List<CloudMenu> list = new ArrayList<>();
+        List<CloudMenu> loginUserMenu = getLoginUserMenu();
+        if (Objects.isNull(parentMenuId)) {
+            List<CloudMenu> collect = loginUserMenu.parallelStream().filter(cloudMenu -> Objects.isNull(cloudMenu.getParentId())).collect(Collectors.toList());
+            list.addAll(collect);
+        } else {
+            // 递归操作
+            this.getMenusByParentId(loginUserMenu, parentMenuId, list);
+        }
+        return list;
+    }
+
+    private void getMenusByParentId(List<CloudMenu> sourceData, Long parentId, List<CloudMenu> resultList) {
+        if (sourceData != null && sourceData.size() > 0) {
+            List<CloudMenu> parentList = sourceData.parallelStream().filter(cloudMenu -> Objects.equals(parentId, cloudMenu.getParentId())).collect(Collectors.toList());
+            if (parentList != null && parentList.size() > 0) {
+                resultList.addAll(parentList);
+                parentList.forEach(cloudMenu -> getMenusByParentId(sourceData, cloudMenu.getId(), resultList));
+            }
+        }
+    }
+
+
     /**
      * 获取非党员的用户
      */
@@ -297,32 +318,28 @@ public class CloudUserServiceImpl extends BaseServiceImpl<CloudUserMapper, Cloud
         ArrayList<Long> userIds = new ArrayList<>();
         ArrayList<CloudUser> cloudUsers = new ArrayList<>();
         QueryWrapper<CloudUser> queryWrapper = new QueryWrapper<>();
-
         CloudUserOrg cloudUserOrg = cloudUserOrgServiceImpl.selectOrgByUserId();
-        if (Objects.isNull(cloudUserOrg)){
+        if (Objects.isNull(cloudUserOrg)) {
             throw new ValidateException("没有获取到该党员的党组织信息");
         }
-
-
-
         List<CloudUserOrg> cloudUserOrgs = cloudUserOrgServiceImpl.selectOrgByOrgId(cloudUserOrg.getOrgId());
         for (CloudUserOrg userOrg : cloudUserOrgs) {
             CloudPartyMember member = cloudPartyMemberServiceImpl.getPartyMemberByUserId(userOrg.getUserId());
-            if (Objects.isNull(member) ){
+            if (Objects.isNull(member)) {
                 userIds.add(userOrg.getUserId());
             }
 
         }
-       if (Objects.nonNull(userIds)&&userIds.size()>0){
-           for (Long userId : userIds) {
-               CloudUser cloudUser  =    this.selectCloudUser(userId);
+        if (Objects.nonNull(userIds) && userIds.size() > 0) {
+            for (Long userId : userIds) {
+                CloudUser cloudUser = this.selectCloudUser(userId);
 
-               cloudUsers.add(cloudUser);
-           }
-       }
-       if (Objects.nonNull(cloudUsers) && cloudUsers.size()>0){
-           return cloudUsers;
-       }
+                cloudUsers.add(cloudUser);
+            }
+        }
+        if (Objects.nonNull(cloudUsers) && cloudUsers.size() > 0) {
+            return cloudUsers;
+        }
         throw new ValidateException("该党支部没有不是党员的用户");
     }
 
@@ -330,27 +347,27 @@ public class CloudUserServiceImpl extends BaseServiceImpl<CloudUserMapper, Cloud
     public boolean updateUserPassword(UpdatePwdVo updatePwdVo) {
 
         QueryWrapper<CloudUser> wrapper = new QueryWrapper<>();
-        wrapper.lambda().eq(CloudUser::getEmail,updatePwdVo.getEmail());
+        wrapper.lambda().eq(CloudUser::getEmail, updatePwdVo.getEmail());
         //通过邮箱查询用户
         CloudUser cloudUser = this.getOne(wrapper);
         //查不到说明用户不存在
-        if (null != cloudUser){
+        if (null != cloudUser) {
             //从session中取出用户的邮箱验证码
             String key = String.format(KeysUtil.MAIL_CODE_KEY, updatePwdVo.getEmail());
             Object codeKey = httpSession.getAttribute(key);
-            if (null != codeKey){
-                if (null != updatePwdVo.getImgCode() && updatePwdVo.getImgCode().equals(codeKey)){
+            if (null != codeKey) {
+                if (null != updatePwdVo.getImgCode() && updatePwdVo.getImgCode().equals(codeKey)) {
                     UpdateWrapper<CloudUser> updateWrapper = new UpdateWrapper<>();
-                    updateWrapper.lambda().set(CloudUser::getPassword,updatePwdVo.getNewPassword()).eq(CloudUser::getEmail,updatePwdVo.getEmail());
-                    this.update(new CloudUser(),updateWrapper);
-                }else {
+                    updateWrapper.lambda().set(CloudUser::getPassword, updatePwdVo.getNewPassword()).eq(CloudUser::getEmail, updatePwdVo.getEmail());
+                    this.update(new CloudUser(), updateWrapper);
+                } else {
                     throw new FrameException(ResultCodeEnum.ERROR_KAPTCHA_WRONG);
                 }
                 return true;
-            }else {
+            } else {
                 throw new FrameException(ResultCodeEnum.ERROR_KAPTCHA_FAILURE);
             }
-        }else {
+        } else {
             throw new FrameException(ResultCodeEnum.ERROR_NO_EMAIL);
         }
     }
@@ -358,12 +375,12 @@ public class CloudUserServiceImpl extends BaseServiceImpl<CloudUserMapper, Cloud
     @Override
     public CloudUser selectCloudUser(Long userId) {
         QueryWrapper<CloudUser> queryWrapper = new QueryWrapper<>();
-        if (Objects.isNull(userId)){
-            throw  new ValidateException("用户id不能为空");
+        if (Objects.isNull(userId)) {
+            throw new ValidateException("用户id不能为空");
         }
-        queryWrapper.lambda().eq(CloudUser::getId,userId);
+        queryWrapper.lambda().eq(CloudUser::getId, userId);
         CloudUser cloudUser = this.getOne(queryWrapper);
-        if (Objects.isNull(cloudUser)){
+        if (Objects.isNull(cloudUser)) {
             throw new ValidateException("用户的信息为空");
         }
         return cloudUser;

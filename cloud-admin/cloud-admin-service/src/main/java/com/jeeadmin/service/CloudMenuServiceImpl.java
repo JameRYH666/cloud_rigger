@@ -207,10 +207,9 @@ public class CloudMenuServiceImpl extends BaseTreeServiceImpl<CloudMenuMapper, C
 
     @Override
     public List<CloudMenu> findAdminUserSysMenu(Long userId, String userType) {
-        if (UserTypeEnum.SUPER_ADMIN_USER.getCode().equals(userType)) {
+        if (UserTypeEnum.SYSTEM_ADMIN_USER.getCode().equals(userType)) {
+            // 如果是超级管理员
             QueryWrapper<CloudMenu> wrapper = new QueryWrapper<CloudMenu>();
-            //获取超级管理员权重以外的菜单
-            wrapper.lambda().eq(CloudMenu::getSysCode, SysCodeEnum.JEE_ADMIN_SYSTEM);
             wrapper.orderByAsc("parent_id", "menu_sort");
             // 超级管理员
             return this.list(wrapper);
@@ -222,8 +221,8 @@ public class CloudMenuServiceImpl extends BaseTreeServiceImpl<CloudMenuMapper, C
 
     @Override
     public boolean isAdminUserWithHasPermission(Long userId, String userType, String permission) {
-        if (UserTypeEnum.SUPER_ADMIN_USER.getCode().equals(userType)) {
-            // 超级管理员
+        if (UserTypeEnum.SYSTEM_ADMIN_USER.getCode().equals(userType)) {
+            // 超级管理员，拥有所有权限
             return true;
         }
         return false; // ListTools.isNotEmpty(getAdminUserPermission(userId, permission));

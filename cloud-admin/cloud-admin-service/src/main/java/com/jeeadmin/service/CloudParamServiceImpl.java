@@ -104,7 +104,7 @@ public class CloudParamServiceImpl extends BaseServiceImpl<CloudParamMapper, Clo
             return true;
         } else {
             if (sysParam.getSysFlag().equals(FlagEnum.YES.getCode())) {
-                if (!SecurityUtil.getUserData().getUserType().equals(UserTypeEnum.SUPER_ADMIN_USER)) {
+                if (!SecurityUtil.getUserData().getUserType().equals(UserTypeEnum.SYSTEM_ADMIN_USER)) {
                     throw new ValidateException("系统默认参数不能进行删除！");
                 }
             }

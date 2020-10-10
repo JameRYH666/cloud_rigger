@@ -27,10 +27,9 @@ import java.util.List;
 
 /**
  * @author Seven Lee
- * @description
- *      管理员详情服务类实现
+ * @description 管理员详情服务类实现
  * @date 2020/9/9
-**/
+ **/
 @Service
 public class CloudUserDetailsServiceImpl implements JeeUserDetailsService {
 
@@ -64,13 +63,9 @@ public class CloudUserDetailsServiceImpl implements JeeUserDetailsService {
         List<CloudMenu> sysMenuList = new ArrayList<CloudMenu>();
         // 判断是否是超级管理员
         UserTypeEnum userTypeEnum = null;
-        if (baseUser.getMgrType().equals(UserTypeEnum.SUPER_ADMIN_USER.getCode())) {
+        if (baseUser.getMgrType().equals(UserTypeEnum.SYSTEM_ADMIN_USER.getCode())) {
             // 超级管理员
-            sysMenuList = sysMenuService.findAdminUserSysMenu(baseUser.getId(),UserTypeEnum.SUPER_ADMIN_USER.getCode());
-            userTypeEnum = UserTypeEnum.SUPER_ADMIN_USER;
-        } else if (baseUser.getMgrType().equals(UserTypeEnum.SYSTEM_ADMIN_USER.getCode())) {
-            // 系统管理员
-            sysMenuList = sysMenuService.findAdminUserSysMenu(baseUser.getId(),UserTypeEnum.SYSTEM_ADMIN_USER.getCode());
+            sysMenuList = sysMenuService.findAdminUserSysMenu(baseUser.getId(), UserTypeEnum.SYSTEM_ADMIN_USER.getCode());
             userTypeEnum = UserTypeEnum.SYSTEM_ADMIN_USER;
         }
         //设置组织id
@@ -82,11 +77,10 @@ public class CloudUserDetailsServiceImpl implements JeeUserDetailsService {
         //设置角色名称
         for (CloudMenu sysMenu : sysMenuList) {
             String permission = StringUtil.isEmpty(sysMenu.getPermission()) ? sysMenu.getMenuName() : sysMenu.getPermission();
-            SimpleGrantedAuthority authority = new SimpleGrantedAuthority(permission);
-            auths.add(authority);
+            auths.add(new SimpleGrantedAuthority(permission));
         }
         return new JeeUser(baseUser.getId(), baseUser.getLoginName(), baseUser.getLoginName(), baseUser.getPassword(),
-                /*new ArrayList<>()*/ordIds,new ArrayList<>(),userTypeEnum, "0".equals(baseUser.getUserStatus()), true,
+                ordIds, new ArrayList<>(), userTypeEnum, "0".equals(baseUser.getUserStatus()), true,
                 true, !"3".equals(baseUser.getUserStatus()), auths);
     }
 }

@@ -69,7 +69,7 @@ public class CloudRoleServiceImpl extends BaseServiceImpl<CloudRoleMapper, Cloud
             if (StringUtil.isNotEmpty(sysRole.getSysFlag())) {
                 queryWrapper.lambda().eq(CloudRole::getSysFlag, sysRole.getSysFlag());
             }
-            if (!SecurityUtil.getUserData().getUserType().equals(UserTypeEnum.SUPER_ADMIN_USER)) {
+            if (!SecurityUtil.getUserData().getUserType().equals(UserTypeEnum.SYSTEM_ADMIN_USER)) {
                 queryWrapper.lambda().ne(CloudRole::getRoleCode, SysConstant.SYS_ADMIN_ROLE);
             }
         }
@@ -95,7 +95,7 @@ public class CloudRoleServiceImpl extends BaseServiceImpl<CloudRoleMapper, Cloud
             throw new ValidateException("系统管理员默认角色不能进行更新状态！");
         }
         if (oldRole.getSysFlag().equals(FlagEnum.YES.getCode())) {
-            if (!SecurityUtil.getUserData().getUserType().equals(UserTypeEnum.SUPER_ADMIN_USER)) {
+            if (!SecurityUtil.getUserData().getUserType().equals(UserTypeEnum.SYSTEM_ADMIN_USER)) {
                 throw new ValidateException("系统内置角色不能修改状态！");
             }
         }
@@ -169,7 +169,7 @@ public class CloudRoleServiceImpl extends BaseServiceImpl<CloudRoleMapper, Cloud
             throw new ValidateException("系统管理员默认角色不能进行更新！");
         }
         if (oldRole.getSysFlag().equals(FlagEnum.YES.getCode())) {
-            if (!SecurityUtil.getUserData().getUserType().equals(UserTypeEnum.SUPER_ADMIN_USER)) {
+            if (!SecurityUtil.getUserData().getUserType().equals(UserTypeEnum.SYSTEM_ADMIN_USER)) {
                 throw new ValidateException("系统内置角色不能进行编辑！");
             }
         }
@@ -190,7 +190,7 @@ public class CloudRoleServiceImpl extends BaseServiceImpl<CloudRoleMapper, Cloud
                 throw new ValidateException("系统管理员默认角色不能进行删除！");
             }
             if (sysRole.getSysFlag().equals(FlagEnum.YES.getCode())) {
-                if (!SecurityUtil.getUserData().getUserType().equals(UserTypeEnum.SUPER_ADMIN_USER)) {
+                if (!SecurityUtil.getUserData().getUserType().equals(UserTypeEnum.SYSTEM_ADMIN_USER)) {
                     throw new ValidateException("系统内置角色不能进行删除！");
                 }
             }
@@ -296,7 +296,7 @@ public class CloudRoleServiceImpl extends BaseServiceImpl<CloudRoleMapper, Cloud
             throw new ValidateException("当前操作角色已不存在！");
         } else {
             if (sysRole.getRoleCode().equals(SysConstant.SYS_ADMIN_ROLE)) {
-                if (!SecurityUtil.getUserData().getUserType().equals(UserTypeEnum.SUPER_ADMIN_USER)) {
+                if (!SecurityUtil.getUserData().getUserType().equals(UserTypeEnum.SYSTEM_ADMIN_USER)) {
                     throw new ValidateException("该角色只有超级管理员才能分配菜单！");
                 }
             }
