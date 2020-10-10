@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/cloud/partyMember")
 @Api(value = "党员管理",tags = "党员管理")
-@CrossOrigin
 public class CloudPartyMemberController extends BaseController {
     @Autowired
     private ICloudPartyMemberService cloudPartyMemberService;
