@@ -95,7 +95,6 @@ public class CloudUserServiceImpl extends BaseServiceImpl<CloudUserMapper, Cloud
         if (Objects.isNull(cloudUser)) {
             throw new ValidateException("没有获取到新增用户信息");
         }
-
         // cloudUser.setMgrType(UserTypeEnum.SYSTEM_ADMIN_USER.getCode());
         //校验数据准确性
         ValidateUtil.validateObject(cloudUser);
@@ -111,16 +110,12 @@ public class CloudUserServiceImpl extends BaseServiceImpl<CloudUserMapper, Cloud
             throw new ValidateException("党组织id不能为空");
         }
         Long orgId = cloudUser.getOrgId();
-
-
         // todo 暂时默认密码写死
         cloudUser.setPassword("123456");
         cloudUser.setUserStatus(StatusEnum.NORMAL.getCode());
         long id = snowFlake.nextId();
         cloudUser.setId(id);
-
         cloudUser.setCreateUser(SecurityUtil.getUserId());
-
         if (this.save(cloudUser)) {
             CloudUserOrg cloudUserOrg = new CloudUserOrg();
             cloudUserOrg.setOrgId(orgId)
@@ -237,13 +232,13 @@ public class CloudUserServiceImpl extends BaseServiceImpl<CloudUserMapper, Cloud
     public boolean changePassword(UpdatePwdVo updatePwdVo) {
         CloudUser sysAdminUser = this.getById(SecurityUtil.getUserId());
         if (sysAdminUser != null) {
-            if (sysAdminUser.getPassword().equals(StringUtil.md5(updatePwdVo.getOldPassword()))) {
+            if (Objects.equals(sysAdminUser.getPassword(),StringUtil.md5(updatePwdVo.getOldPassword()))) {
                 sysAdminUser = new CloudUser();
                 sysAdminUser.setId(SecurityUtil.getUserId());
                 sysAdminUser.setPassword(StringUtil.md5(updatePwdVo.getNewPassword()));
                 return this.updateById(sysAdminUser);
             } else {
-                throw new ValidateException("输入的老密码不正确！");
+                throw new ValidateException("输入的旧密码不正确！");
             }
         } else {
             throw new FrameException(ResultCodeEnum.ERROR_NO_USER_INFO);
