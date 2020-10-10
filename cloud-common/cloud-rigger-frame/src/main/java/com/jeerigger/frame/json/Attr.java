@@ -10,8 +10,6 @@ import java.util.function.Function;
 
 /**
  * @Func : 分析 lambda 方法
- * @Autor: leeton
- * @Date : 2018-03-27 6:36 PM
  */
 public class Attr<T> {
 

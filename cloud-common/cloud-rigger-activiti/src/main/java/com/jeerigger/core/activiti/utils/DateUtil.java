@@ -8,8 +8,6 @@ import java.util.Date;
 
 /**
  * 说明：日期处理
- * 作者：FH Admin Q313 59 6790
- * 官网：www. fhadmin. org
  */
 public class DateUtil {
 

@@ -6,13 +6,7 @@ import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.scheduling.quartz.AdaptableJobFactory;
 import org.springframework.stereotype.Component;
 
-/**
- * @projectName: dap
- * @packageName: com.zskj.engine.quartz.factory
- * @description:
- * @author: huayang.bai
- * @date: 2020/7/22 17:03
- */
+
 @Component
 public class DapJobFactory extends AdaptableJobFactory {
 

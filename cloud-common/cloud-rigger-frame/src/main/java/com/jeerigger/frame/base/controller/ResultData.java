@@ -5,9 +5,7 @@ import com.jeerigger.frame.json.FastJsonSerializeFilter;
 import com.jeerigger.frame.json.JSON;
 
 
-/**
- * @author Ian
- */
+
 public class ResultData implements FastJsonSerializeFilter {
 
     private JSON value;

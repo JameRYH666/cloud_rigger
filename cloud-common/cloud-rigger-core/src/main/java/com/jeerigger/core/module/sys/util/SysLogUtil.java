@@ -18,9 +18,6 @@ import java.util.Objects;
 
 /**
  * 日志工具类
- *
- * @author ThinkGem
- * @version 2017-11-7
  */
 public class SysLogUtil {
 

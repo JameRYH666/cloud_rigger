@@ -36,9 +36,6 @@ import static java.util.stream.Collectors.joining;
  * <p>
  * 分页拦截器
  * </p>
- *
- * @author hubin
- * @since 2016-01-23
  */
 @Setter
 @Accessors(chain = true)

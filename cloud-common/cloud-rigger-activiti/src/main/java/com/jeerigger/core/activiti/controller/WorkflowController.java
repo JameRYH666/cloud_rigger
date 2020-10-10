@@ -30,9 +30,7 @@ import java.util.Map;
 /**
  * @ClassName: WorkflowController
  * @Description: TODO
- * @author: libaojian
- * @date: 2019/3/26 0026 下午 2:09
- * @version: V1.0
+ * @author: ryh
  */
 @Controller
 @RequestMapping("/workflow")

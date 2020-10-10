@@ -18,10 +18,6 @@ import java.util.List;
 import org.activiti.engine.impl.history.HistoryLevel;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-/**
- * @author Josh Long
- * @author Joram Barrez
- */
 @ConfigurationProperties("spring.activiti")
 public class ActivitiProperties {
 
