@@ -12,10 +12,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author: Sgz
@@ -26,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("/cloud/partyMember")
 @Api(value = "党员管理",tags = "党员管理")
+@CrossOrigin
 public class CloudPartyMemberController extends BaseController {
     @Autowired
     private ICloudPartyMemberService cloudPartyMemberService;
@@ -72,6 +70,7 @@ public class CloudPartyMemberController extends BaseController {
     public ResultData getPartyMemberByUserId(@SingleRequestBody(value = "id") Long id){
         return this.success(cloudPartyMemberService.selectPartyMemberByUserId(id));
     }
+
     @ResponseBody
     @RequestMapping(value = "/selectCount", method = RequestMethod.POST)
     @ApiOperation(value = "根据党支部id获取党员数量", notes = "根据党支部id获取党员数量")
