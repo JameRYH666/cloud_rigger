@@ -6,7 +6,6 @@ import com.jeeadmin.vo.user.UpdateUserVo;
 import com.jeerigger.frame.base.controller.BaseController;
 import com.jeerigger.frame.base.controller.ResultCodeEnum;
 import com.jeerigger.frame.base.controller.ResultData;
-import com.jeerigger.frame.support.resolver.annotation.SingleRequestBody;
 import com.jeerigger.security.SecurityUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -46,7 +45,7 @@ public class PersonController extends BaseController {
         return this.success(sysAdminUserService.updateUserInfo(updateUserVo));
     }
 
-    @RequestMapping(value = "/menu", method = RequestMethod.POST)
+    /*@RequestMapping(value = "/menu", method = RequestMethod.POST)
     @ApiOperation(value = "获取个人一级菜单", notes = "获取个人一级菜单")
     public ResultData userMenu() {
         return this.success(sysAdminUserService.getLoginUserMenu(null));
@@ -56,7 +55,7 @@ public class PersonController extends BaseController {
     @ApiOperation(value = "获取个人一级菜单的子菜单", notes = "获取个人一级菜单的子菜单")
     public ResultData userChildMenu(@SingleRequestBody Long parentId) {
         return this.success(sysAdminUserService.getLoginUserMenu(parentId));
-    }
+    }*/
 
     @RequestMapping(value = "/allMenu", method = RequestMethod.POST)
     @ApiOperation(value = "获取个人所有菜单", notes = "获取个人所有菜单")
